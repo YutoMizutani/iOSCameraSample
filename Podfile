@@ -6,15 +6,20 @@ target 'iOSCameraSample' do
   use_frameworks!
 
   # Pods for iOSCameraSample
+  pod 'RxSwift'
+  pod 'RxCocoa'
 
   target 'iOSCameraSampleTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RxSwift'
   end
 
   target 'iOSCameraSampleUITests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RxSwift'
+    pod 'RxCocoa'
   end
 
 end
