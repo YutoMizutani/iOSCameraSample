@@ -45,6 +45,8 @@ extension MenuView {
                 button.setTitleColor(UIColor(red: 0, green: 0, blue: 1, alpha: 0.2), for: .highlighted)
                 // フォント
                 button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+                // テスト用の識別子
+                button.accessibilityIdentifier = "launchCameraButton"
                 return button
             }()
             self.addSubview(self.launchCameraButton)

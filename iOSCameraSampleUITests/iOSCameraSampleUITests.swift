@@ -35,8 +35,25 @@ class iOSCameraSampleUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
-    func testMenuTitle() {
-        // MenuViewControllerのNavigationItemのTitleを判定する。
+    // MARK:- Menu
+
+    // MenuViewControllerのNavigationItemを判定する。
+    func testMenuNavigationItem() {
+        // 存在するか
         XCTAssert(self.app.navigationBars["iOSCameraSample"].exists)
+    }
+
+    // カメラ起動ボタンを判定する。
+    func testMenuLaunchCameraButton() {
+        let button = self.app.buttons["launchCameraButton"]
+
+        // 存在するか
+        XCTAssert(button.exists)
+
+        // 有効か
+        XCTAssertTrue(button.isEnabled)
+
+        // タイトルが一致するか
+        XCTAssertEqual(button.label, "Launch camera")
     }
 }
