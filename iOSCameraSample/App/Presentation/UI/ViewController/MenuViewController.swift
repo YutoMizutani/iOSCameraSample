@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol MenuViewInput: class {
-
+    func showAlert(error: Error)
 }
 
 
@@ -67,10 +67,17 @@ extension MenuViewController {
 
 extension MenuViewController {
     private func binding() {
-
+        if let subview = self.subview {
+            self.presenter?.launch(subview.launchCameraButton.rx.tap, delegate: self)
+                .disposed(by: disposeBag)
+        }
     }
 }
 
-extension MenuViewController: MenuViewInput {
-
+// MARK:- Public methods accessed from other classes
+extension MenuViewController: MenuViewInput, ErrorShowable {
+    /// アラートを表示する。
+    public func showAlert(error: Error) {
+        self.showAlert(error: error)
+    }
 }

@@ -27,6 +27,11 @@
 		99D9B74020CE8D3D00992A98 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B73320CE8D3D00992A98 /* MenuView.swift */; };
 		99D9B74120CE8D3D00992A98 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B73520CE8D3D00992A98 /* MenuViewController.swift */; };
 		99D9B74220CE8D3D00992A98 /* MenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B73720CE8D3D00992A98 /* MenuPresenter.swift */; };
+		99D9B74720CEA3EF00992A98 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B74620CEA3EF00992A98 /* Error.swift */; };
+		99D9B75B20CEA86300992A98 /* UIImagePickerController+RxCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B75A20CEA86300992A98 /* UIImagePickerController+RxCreate.swift */; };
+		99D9B75D20CEA98500992A98 /* RxImagePickerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B75C20CEA98500992A98 /* RxImagePickerDelegateProxy.swift */; };
+		99D9B76120CEAAC800992A98 /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B76020CEAAC800992A98 /* UIImagePickerController+Rx.swift */; };
+		99D9B76620CEB08E00992A98 /* ErrorHandring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B76520CEB08E00992A98 /* ErrorHandring.swift */; };
 		C5721E4FE7DE7F0F8AAAE7D6 /* Pods_iOSCameraSampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319BF9CB889CEC06B3E13396 /* Pods_iOSCameraSampleTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +82,11 @@
 		99D9B73320CE8D3D00992A98 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		99D9B73520CE8D3D00992A98 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		99D9B73720CE8D3D00992A98 /* MenuPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuPresenter.swift; sourceTree = "<group>"; };
+		99D9B74620CEA3EF00992A98 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		99D9B75A20CEA86300992A98 /* UIImagePickerController+RxCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+RxCreate.swift"; sourceTree = "<group>"; };
+		99D9B75C20CEA98500992A98 /* RxImagePickerDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxImagePickerDelegateProxy.swift; sourceTree = "<group>"; };
+		99D9B76020CEAAC800992A98 /* UIImagePickerController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Rx.swift"; sourceTree = "<group>"; };
+		99D9B76520CEB08E00992A98 /* ErrorHandring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandring.swift; sourceTree = "<group>"; };
 		E1C30D6C9E54A046FDBC9650 /* Pods-iOSCameraSampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSampleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSampleUITests/Pods-iOSCameraSampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E56D8E486DA0B9414A2A57A5 /* Pods-iOSCameraSampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSampleTests/Pods-iOSCameraSampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		E9D9B2F443E91D6D9D0E2C7B /* Pods-iOSCameraSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSample/Pods-iOSCameraSample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -192,6 +202,8 @@
 		99D9B71D20CE8D3D00992A98 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				99D9B75920CEA84F00992A98 /* Extensions */,
+				99D9B74520CEA3DE00992A98 /* Error */,
 				99D9B71E20CE8D3D00992A98 /* Wireframe */,
 				99D9B72020CE8D3D00992A98 /* Builder */,
 			);
@@ -285,8 +297,8 @@
 		99D9B73020CE8D3D00992A98 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				99D9B73120CE8D3D00992A98 /* UI */,
 				99D9B73620CE8D3D00992A98 /* Presenter */,
+				99D9B73120CE8D3D00992A98 /* UI */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -322,6 +334,33 @@
 				99D9B73720CE8D3D00992A98 /* MenuPresenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		99D9B74520CEA3DE00992A98 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				99D9B74620CEA3EF00992A98 /* Error.swift */,
+				99D9B76520CEB08E00992A98 /* ErrorHandring.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		99D9B75920CEA84F00992A98 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				99D9B76220CEAEF700992A98 /* RxSwift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		99D9B76220CEAEF700992A98 /* RxSwift */ = {
+			isa = PBXGroup;
+			children = (
+				99D9B75C20CEA98500992A98 /* RxImagePickerDelegateProxy.swift */,
+				99D9B75A20CEA86300992A98 /* UIImagePickerController+RxCreate.swift */,
+				99D9B76020CEAAC800992A98 /* UIImagePickerController+Rx.swift */,
+			);
+			path = RxSwift;
 			sourceTree = "<group>";
 		};
 		F8EB1AA0663FFCCBD82B210A /* Frameworks */ = {
@@ -586,17 +625,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99D9B75D20CEA98500992A98 /* RxImagePickerDelegateProxy.swift in Sources */,
 				99D9B73920CE8D3D00992A98 /* MenuBuilder.swift in Sources */,
 				99D9B73C20CE8D3D00992A98 /* MenuDataStore.swift in Sources */,
 				99D9B73E20CE8D3D00992A98 /* MenuModel.swift in Sources */,
 				99D9B6F120CE867200992A98 /* ViewController.swift in Sources */,
 				99D9B73F20CE8D3D00992A98 /* MenuUseCase.swift in Sources */,
+				99D9B76120CEAAC800992A98 /* UIImagePickerController+Rx.swift in Sources */,
 				99D9B73A20CE8D3D00992A98 /* MenuRepository.swift in Sources */,
 				99D9B73820CE8D3D00992A98 /* MenuWireframe.swift in Sources */,
+				99D9B76620CEB08E00992A98 /* ErrorHandring.swift in Sources */,
 				99D9B74120CE8D3D00992A98 /* MenuViewController.swift in Sources */,
 				99D9B74020CE8D3D00992A98 /* MenuView.swift in Sources */,
 				99D9B6EF20CE867200992A98 /* AppDelegate.swift in Sources */,
 				99D9B73D20CE8D3D00992A98 /* MenuTranslator.swift in Sources */,
+				99D9B74720CEA3EF00992A98 /* Error.swift in Sources */,
+				99D9B75B20CEA86300992A98 /* UIImagePickerController+RxCreate.swift in Sources */,
 				99D9B74220CE8D3D00992A98 /* MenuPresenter.swift in Sources */,
 				99D9B73B20CE8D3D00992A98 /* MenuEntity.swift in Sources */,
 			);

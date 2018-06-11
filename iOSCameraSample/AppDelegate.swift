@@ -35,6 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.makeKeyAndVisible()
         }
 
+        do {
+            // ImagePickerのDelegateProxyを登録する。
+            RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
+        }
+
         return true
     }
 

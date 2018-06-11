@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 protocol MenuPresenter: class {
+    func launch(_ action: ControlEvent<Void>, delegate: UIViewController?) -> Disposable
 }
 
 class MenuPresenterImpl {
@@ -32,4 +35,31 @@ class MenuPresenterImpl {
 }
 
 extension MenuPresenterImpl: MenuPresenter {
+    func launch(_ action: ControlEvent<Void>, delegate: UIViewController?) -> Disposable {
+        return action
+            .flatMapLatest { _ in
+                return UIImagePickerController.rx.createWithParent(delegate) { picker in
+                    picker.sourceType = .camera
+                    picker.allowsEditing = false
+                }
+                .flatMap { $0.rx.didFinishPickingMediaWithInfo }
+                .take(1)
+            }
+            .map { info in
+                return info[UIImagePickerControllerOriginalImage] as? UIImage
+            }
+            .catchError({ [weak self] error -> Observable<UIImage?> in
+                self?.viewInput?.showAlert(error: error)
+                return Observable.empty()
+            })
+            .asObservable()
+            .subscribe(onNext: { [weak self] image in
+                guard let image = image else {
+                    let error = ErrorCameraUsage.failedCreateImage
+                    self?.viewInput?.showAlert(error: error)
+                    return
+                }
+                print(image.size)
+            })
+    }
 }
