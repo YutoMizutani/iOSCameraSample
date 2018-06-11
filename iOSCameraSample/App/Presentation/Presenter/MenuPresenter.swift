@@ -59,7 +59,9 @@ extension MenuPresenterImpl: MenuPresenter {
                     self?.viewInput?.showAlert(error: error)
                     return
                 }
-                print(image.size)
+                // TODO: 将来的に破棄される。
+                /// 一時的に確認するfunction
+                self?.viewInput?.previewImage(image)
             })
     }
 }

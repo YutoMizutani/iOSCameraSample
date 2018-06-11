@@ -12,6 +12,8 @@ import RxCocoa
 
 protocol MenuViewInput: class {
     func showAlert(error: Error)
+    // TODO: 将来的に破棄される。
+    func previewImage(_ image: UIImage)
 }
 
 
@@ -79,5 +81,44 @@ extension MenuViewController: MenuViewInput, ErrorShowable {
     /// アラートを表示する。
     public func showAlert(error: Error) {
         self.showAlert(error: error)
+    }
+
+    // TODO: 将来的に破棄される。
+    /// 画像をモーダル表示する一時的なfunction。
+    public func previewImage(_ image: UIImage) {
+        let modalController = PresentationController()
+        modalController.inject(image)
+        modalController.modalPresentationStyle = .overCurrentContext
+        DispatchQueue.main.async {
+            self.present(modalController, animated: true, completion: nil)
+        }
+    }
+}
+
+// TODO: 将来的に破棄される。
+/// 撮影を確認する一時的なViewController。
+fileprivate class PresentationController: UIViewController {
+    var imageView: UIImageView!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.addSubview(self.imageView)
+        layoutView()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        layoutView()
+
+        self.view.layoutIfNeeded()
+    }
+
+    func inject(_ image: UIImage) {
+        self.imageView = UIImageView(image: image)
+    }
+
+    func layoutView() {
+        self.imageView.frame = self.view.frame
     }
 }
