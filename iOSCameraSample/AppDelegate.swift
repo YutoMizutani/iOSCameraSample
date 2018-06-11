@@ -18,9 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
+        // 最初に起動するViewControllerを指定する。
+        do {
+            // アプリ名を取得する。取得できない場合は直接代入する。
+            let appTitle = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "iOSCameraSample"
+            
+            // Navigation付きのViewControllerを設定する。
+            self.firstViewController = MenuBuilder().buildWithNavigationController(title: appTitle)
+        }
+
         // Storyboardを利用しない場合の起動時のViewControllerを設定する。
         do {
-            self.firstViewController = ViewController()
             self.window = UIWindow(frame: UIScreen.main.bounds)
             self.window?.rootViewController = self.firstViewController
             self.window!.backgroundColor = UIColor.white
