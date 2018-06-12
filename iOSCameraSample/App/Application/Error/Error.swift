@@ -28,3 +28,8 @@ enum ErrorWhenDebug: Error {
     case pictureNotFound
 }
 #endif
+
+enum ErrorUserDefaults: Error {
+    /// 値が存在しない場合
+    case notFound
+}
