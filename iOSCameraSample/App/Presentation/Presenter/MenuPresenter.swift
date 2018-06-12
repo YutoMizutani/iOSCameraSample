@@ -88,9 +88,7 @@ extension MenuPresenterImpl {
                 }
             }
             .flatMap { $0.rx.didFinishPickingMediaWithInfo }
-            .map { info in
-                return info[UIImagePickerControllerOriginalImage] as? UIImage
-            }
+            .map { return $0[UIImagePickerControllerOriginalImage] as? UIImage }
             .catchError({ [weak self] error -> Observable<UIImage?> in
                 self?.viewInput?.throwError(error)
                 return Observable.empty()

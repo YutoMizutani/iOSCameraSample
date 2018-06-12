@@ -9,6 +9,7 @@
 import Foundation
 
 protocol PhotoEditPresenter: class {
+    func dismiss()
 }
 
 class PhotoEditPresenterImpl {
@@ -32,4 +33,7 @@ class PhotoEditPresenterImpl {
 }
 
 extension PhotoEditPresenterImpl: PhotoEditPresenter {
+    func dismiss() {
+        self.wireframe.dismiss()
+    }
 }
