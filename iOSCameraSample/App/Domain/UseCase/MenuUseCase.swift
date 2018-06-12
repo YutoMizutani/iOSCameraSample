@@ -7,8 +7,14 @@
 //
 
 import Foundation
+#if DEBUG
+import UIKit
+#endif
 
 protocol MenuUseCase {
+    #if DEBUG
+    func getStubImage() throws -> UIImage
+    #endif
 }
 
 
@@ -29,4 +35,12 @@ struct MenuUseCaseImpl {
 }
 
 extension MenuUseCaseImpl: MenuUseCase {
+    #if DEBUG
+    func getStubImage() throws -> UIImage {
+        guard let image = UIImage(named: "IMG_1000.JPG") else {
+            throw ErrorWhenDebug.pictureNotFound
+        }
+        return image
+    }
+    #endif
 }

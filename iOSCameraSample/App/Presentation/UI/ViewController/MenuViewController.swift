@@ -74,6 +74,15 @@ extension MenuViewController {
                 self?.presenter?.launchCamera()
             })
             .disposed(by: disposeBag)
+
+        #if DEBUG
+        self.subview?.stubCameraButton.rx.tap
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                self?.presenter?.stubCamera()
+            })
+            .disposed(by: disposeBag)
+        #endif
     }
 }
 

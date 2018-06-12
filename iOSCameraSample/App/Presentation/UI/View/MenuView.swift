@@ -10,6 +10,9 @@ import UIKit
 
 class MenuView: UIView {
     var launchCameraButton: UIButton!
+    #if DEBUG
+    var stubCameraButton: UIButton!
+    #endif
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -51,6 +54,25 @@ extension MenuView {
             }()
             self.addSubview(self.launchCameraButton)
         }
+
+        #if DEBUG
+        takePhotoStubButton: do {
+            self.stubCameraButton = { () -> UIButton in
+                let button = UIButton()
+                // タイトル
+                button.setTitle("Stub camera", for: .normal)
+                // 文字色
+                button.setTitleColor(UIColor(red: 0, green: 1, blue: 0, alpha: 1), for: .normal)
+                button.setTitleColor(UIColor(red: 0, green: 1, blue: 0, alpha: 0.2), for: .highlighted)
+                // フォント
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+                // テスト用の識別子
+                button.accessibilityIdentifier = "stubCameraButton"
+                return button
+            }()
+            self.addSubview(self.stubCameraButton)
+        }
+        #endif
     }
 
     /// 画面が更新された際に呼ばれる。
@@ -59,5 +81,12 @@ extension MenuView {
             self.launchCameraButton.frame = CGRect(x: 0, y: 0, width: 300, height: 100)
             self.launchCameraButton.center = self.center
         }
+
+        #if DEBUG
+        takePhotoStubButton: do {
+            self.stubCameraButton.frame = CGRect(x: 0, y: 0, width: 300, height: 100)
+            self.stubCameraButton.center = CGPoint(x: self.center.x, y: self.center.y + 100)
+        }
+        #endif
     }
 }

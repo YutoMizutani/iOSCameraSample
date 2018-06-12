@@ -21,3 +21,10 @@ enum ErrorCameraUsage: Error {
     /// イメージが生成できなかった場合
     case failedCreateImage
 }
+
+#if DEBUG
+enum ErrorWhenDebug: Error {
+    /// 画像を生成できなかった場合
+    case pictureNotFound
+}
+#endif
