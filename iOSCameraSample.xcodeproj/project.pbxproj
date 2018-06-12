@@ -415,8 +415,8 @@
 		99D9B79A20CFE23000992A98 /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				99D9B79B20CFE23000992A98 /* MenuPresenter.swift */,
 				99D9B79C20CFE23000992A98 /* PhotoEditPresenter.swift */,
+				99D9B79B20CFE23000992A98 /* MenuPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";

@@ -72,7 +72,12 @@ extension PhotoEditViewController {
 
 extension PhotoEditViewController {
     private func binding() {
-
+        self.subview?.dismissButton.rx.tap
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                self?.presenter?.dismiss()
+            })
+            .disposed(by: disposeBag)
     }
 }
 

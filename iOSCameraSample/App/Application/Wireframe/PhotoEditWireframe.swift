@@ -9,6 +9,7 @@
 import UIKit
 
 protocol PhotoEditWireframe: class {
+    func dismiss()
 }
 
 class PhotoEditWireframeImpl {
@@ -22,4 +23,7 @@ class PhotoEditWireframeImpl {
 }
 
 extension PhotoEditWireframeImpl: PhotoEditWireframe {
+    func dismiss() {
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
+    }
 }
