@@ -9,9 +9,9 @@
 import UIKit
 
 fileprivate extension UIAlertController {
-    static func present(_ delegate: UIViewController, message: String, actionTitle: String = "Cancel") {
+    static func present(_ delegate: UIViewController, message: String, actionTitle: String = "キャンセル") {
         let alert = UIAlertController(
-            title: "Error",
+            title: "エラー",
             message: message,
             preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: actionTitle, style: .cancel) { _ -> Void in
@@ -30,7 +30,7 @@ protocol ErrorShowable where Self: UIViewController {
 extension ErrorShowable {
     func showAlert(error: Error) {
         guard let error = error as? ErrorCameraUsage else {
-            UIAlertController.present(self, message: "未定義のエラーが発生しました", actionTitle: "OK")
+            UIAlertController.present(self, message: "未定義のエラーが発生しました。", actionTitle: "OK")
             return
         }
 
