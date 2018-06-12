@@ -32,15 +32,17 @@ class PhotoEditView: UIView {
 
 extension PhotoEditView {
     private func configureView() {
+        self.imageView = UIImageView()
         self.addSubview(self.imageView)
     }
     private func layoutView() {
-        self.imageView.frame = self.frame
+        self.imageView?.frame = self.frame
     }
 }
 
 extension PhotoEditView {
-    public func inject(_ image: UIImage) {
-        self.imageView = UIImageView(image: image)
+    /// imageViewに画像をセットする。
+    public func inject(_ image: UIImage?) {
+        self.imageView.image = image
     }
 }

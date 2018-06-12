@@ -102,9 +102,8 @@ extension MenuPresenterImpl {
                     self?.viewInput?.throwError(error)
                     return
                 }
-                // TODO: 将来的に破棄される。
-                /// 一時的に確認するfunction
-                self?.viewInput?.previewImage(image)
+
+                self?.wireframe.transitionPhotoEdit(image: image)
             })
             .disposed(by: disposeBag)
     }

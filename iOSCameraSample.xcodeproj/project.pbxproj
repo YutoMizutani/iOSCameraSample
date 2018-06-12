@@ -44,6 +44,7 @@
 		99D9B7B620CFE23100992A98 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B79920CFE23000992A98 /* MenuViewController.swift */; };
 		99D9B7B720CFE23100992A98 /* MenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B79B20CFE23000992A98 /* MenuPresenter.swift */; };
 		99D9B7B820CFE23100992A98 /* PhotoEditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B79C20CFE23000992A98 /* PhotoEditPresenter.swift */; };
+		99F3E5B620CFE9ED00DB24BC /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */; };
 		C5721E4FE7DE7F0F8AAAE7D6 /* Pods_iOSCameraSampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319BF9CB889CEC06B3E13396 /* Pods_iOSCameraSampleTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -111,6 +112,7 @@
 		99D9B79920CFE23000992A98 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		99D9B79B20CFE23000992A98 /* MenuPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuPresenter.swift; sourceTree = "<group>"; };
 		99D9B79C20CFE23000992A98 /* PhotoEditPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditPresenter.swift; sourceTree = "<group>"; };
+		99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		E1C30D6C9E54A046FDBC9650 /* Pods-iOSCameraSampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSampleUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSampleUITests/Pods-iOSCameraSampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E56D8E486DA0B9414A2A57A5 /* Pods-iOSCameraSampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSampleTests/Pods-iOSCameraSampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		E9D9B2F443E91D6D9D0E2C7B /* Pods-iOSCameraSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSample/Pods-iOSCameraSample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				99D9B77320CFE23000992A98 /* RxSwift */,
+				99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				99D9B7AA20CFE23100992A98 /* MenuEntity.swift in Sources */,
 				99D9B7B220CFE23100992A98 /* MenuUseCase.swift in Sources */,
 				99D9B7B420CFE23100992A98 /* MenuView.swift in Sources */,
+				99F3E5B620CFE9ED00DB24BC /* UIViewController+.swift in Sources */,
 				99D9B7B020CFE23100992A98 /* MenuModel.swift in Sources */,
 				99D9B7A920CFE23100992A98 /* PhotoEditEntity.swift in Sources */,
 			);

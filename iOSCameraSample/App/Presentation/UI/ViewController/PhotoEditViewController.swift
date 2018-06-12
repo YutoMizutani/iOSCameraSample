@@ -58,6 +58,7 @@ extension PhotoEditViewController {
         subview: do {
             self.subview = PhotoEditView(frame: self.view.bounds)
             if self.subview != nil {
+                self.subview!.inject(self.image)
                 self.view.addSubview(self.subview!)
             }
         }
