@@ -9,6 +9,7 @@
 import UIKit
 
 protocol MenuWireframe: class {
+    func transitionPhotoEdit(image: UIImage)
 }
 
 class MenuWireframeImpl {
@@ -22,4 +23,9 @@ class MenuWireframeImpl {
 }
 
 extension MenuWireframeImpl: MenuWireframe {
+    func transitionPhotoEdit(image: UIImage) {
+        let modalController = PhotoEditBuilder().build(with: image)
+        modalController.modalPresentationStyle = .overCurrentContext
+        self.viewController?.front?.present(modalController, animated: true, completion: nil)
+    }
 }

@@ -12,6 +12,12 @@ enum ErrorCameraUsage: Error {
     /// カメラが使用不可能な場合
     case unavailable
 
+    /// アクセス拒否をした場合
+    case permissionDenied
+
+    /// アクセス制限がされている場合
+    case permissionRestricted
+
     /// イメージが生成できなかった場合
     case failedCreateImage
 }
