@@ -39,7 +39,10 @@ extension ErrorShowable {
             UIAlertController.present(self, message: "カメラが無効です。カメラが利用可能な状態か確認してください。")
             return
         case .permissionDenied:
-            UIAlertController.present(self, message: "カメラを起動できません。カメラの使用にはユーザーによる許可が必要です。")
+            UIAlertController.present(self, message: "カメラを起動できません。設定アプリからカメラの使用許可を行ってください。")
+            return
+        case .permissionRestricted:
+            UIAlertController.present(self, message: "カメラを起動できません。カメラへのアクセス制限を解除してください。")
             return
         case .failedCreateImage:
             UIAlertController.present(self, message: "イメージを生成できませんでした。もう一度お試しください。")
