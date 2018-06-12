@@ -42,20 +42,28 @@ extension MenuPresenterImpl: MenuPresenter {
         let mediaType: AVMediaType = .video
         let status = AVCaptureDevice.authorizationStatus(for: mediaType)
         switch status {
+        // 選択していない場合，または許可されている場合
         case .notDetermined, .authorized:
+            // カメラを表示する。
             self.launch()
+        // アクセスがユーザーにより拒否されている場合
         case .denied:
             DispatchQueue.main.async {
+                // 許可リクエストを行う。
                 AVCaptureDevice.requestAccess(for: mediaType, completionHandler: { bool in
                     if bool {
+                        // カメラを表示する。
                         self.launch()
                     }else{
+                        // アラートを表示する。
                         let error = ErrorCameraUsage.permissionDenied
                         self.viewInput?.throwError(error)
                     }
                 })
             }
+        // カメラの使用が制限されている場合
         case .restricted:
+            // アラートを表示する。
             let error = ErrorCameraUsage.permissionRestricted
             self.viewInput?.throwError(error)
         }
@@ -64,11 +72,13 @@ extension MenuPresenterImpl: MenuPresenter {
 
 extension MenuPresenterImpl {
     func launch() {
+        // 即発火するObservableを作成する。
         let observable = Observable<Void>.create { observer in
             observer.onNext()
             observer.onCompleted()
             return Disposables.create()
         }
+        
         observable
             .observeOn(MainScheduler.instance)
             .flatMapLatest { [weak self] _ in
