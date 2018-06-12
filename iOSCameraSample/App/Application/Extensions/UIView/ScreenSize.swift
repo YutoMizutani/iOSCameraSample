@@ -61,4 +61,10 @@ extension UIView {
         }
         return safeAreaInsets
     }
+    var statusBarHeight: CGFloat {
+        return UIApplication.shared.statusBarFrame.size.height
+    }
+    var aboveSpace: CGFloat {
+        return self.safeArea.top == 0 ? self.statusBarHeight : self.safeArea.top
+    }
 }
