@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2BFFC272CD6B0891FF571020 /* Pods_iOSCameraSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE9A5AA2363C6F8B7B2BC2C /* Pods_iOSCameraSample.framework */; };
 		3D25912140128D0166321FBF /* Pods_iOSCameraSampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 747394633570B4EC10FC72AC /* Pods_iOSCameraSampleUITests.framework */; };
+		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		99D9B6EF20CE867200992A98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B6EE20CE867200992A98 /* AppDelegate.swift */; };
 		99D9B6F120CE867200992A98 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B6F020CE867200992A98 /* ViewController.swift */; };
 		99D9B6F420CE867200992A98 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99D9B6F220CE867200992A98 /* Main.storyboard */; };
@@ -71,6 +72,7 @@
 		3BE9A5AA2363C6F8B7B2BC2C /* Pods_iOSCameraSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSCameraSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		46F4CCFFC8BB1629D91415A6 /* Pods-iOSCameraSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSample/Pods-iOSCameraSample.release.xcconfig"; sourceTree = "<group>"; };
 		747394633570B4EC10FC72AC /* Pods_iOSCameraSampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSCameraSampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		99D9B6EB20CE867200992A98 /* iOSCameraSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSCameraSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99D9B6EE20CE867200992A98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		99D9B6F020CE867200992A98 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +160,22 @@
 				12D41C2B5CD0E902C8AEAFDE /* Pods-iOSCameraSampleUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		996B5B2A20CFF11000A8B925 /* UIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */,
+			);
+			path = UIViewController;
+			sourceTree = "<group>";
+		};
+		996B5B2B20CFF11E00A8B925 /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */,
+			);
+			path = UIView;
 			sourceTree = "<group>";
 		};
 		99D9B6E220CE867200992A98 = {
@@ -248,8 +266,9 @@
 		99D9B77220CFE23000992A98 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				996B5B2B20CFF11E00A8B925 /* UIView */,
+				996B5B2A20CFF11000A8B925 /* UIViewController */,
 				99D9B77320CFE23000992A98 /* RxSwift */,
-				99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -670,6 +689,7 @@
 				99D9B7A220CFE23100992A98 /* UIImagePickerController+RxCreate.swift in Sources */,
 				99D9B7AF20CFE23100992A98 /* PhotoEditModel.swift in Sources */,
 				99D9B6F120CE867200992A98 /* ViewController.swift in Sources */,
+				996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */,
 				99D9B7A120CFE23100992A98 /* RxImagePickerDelegateProxy.swift in Sources */,
 				99D9B7A620CFE23100992A98 /* ErrorHandring.swift in Sources */,
 				99D9B7A520CFE23100992A98 /* Error.swift in Sources */,

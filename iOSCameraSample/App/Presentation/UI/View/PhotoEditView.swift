@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PhotoEditView: UIView {
     var imageView: UIImageView!
@@ -32,11 +33,22 @@ class PhotoEditView: UIView {
 
 extension PhotoEditView {
     private func configureView() {
-        self.imageView = UIImageView()
-        self.addSubview(self.imageView)
+        view: do {
+            self.backgroundColor = UIColor.black
+        }
+        imageView: do {
+            self.imageView = UIImageView()
+            self.addSubview(self.imageView)
+        }
     }
+
     private func layoutView() {
-        self.imageView?.frame = self.frame
+        imageView: do {
+            // imageViewのframeを内部のimageサイズに合わせる。
+            guard let image = self.imageView.image else { return }
+            self.imageView.frame = AVMakeRect(aspectRatio: image.size, insideRect: self.bounds)
+            self.imageView.center = self.center
+        }
     }
 }
 
