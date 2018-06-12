@@ -9,9 +9,10 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import AVFoundation
 
 protocol MenuPresenter: class {
-    func launch(_ action: ControlEvent<Void>, delegate: UIViewController?) -> Disposable
+    func launchCamera()
 }
 
 class MenuPresenterImpl {
@@ -22,6 +23,8 @@ class MenuPresenterImpl {
     private weak var viewInput: viewInputType?
     private let wireframe: MenuWireframe
     private let useCase: MenuUseCase
+
+    private let disposeBag = DisposeBag()
 
     init(
         viewInput: viewInputType,
@@ -35,33 +38,64 @@ class MenuPresenterImpl {
 }
 
 extension MenuPresenterImpl: MenuPresenter {
-    func launch(_ action: ControlEvent<Void>, delegate: UIViewController?) -> Disposable {
-        return action
-            .flatMapLatest { _ in
-                return UIImagePickerController.rx.createWithParent(delegate) { picker in
+    func launchCamera() {
+        let mediaType: AVMediaType = .video
+        let status = AVCaptureDevice.authorizationStatus(for: mediaType)
+        switch status {
+        case .notDetermined, .authorized:
+            self.launch()
+        case .denied:
+            DispatchQueue.main.async {
+                AVCaptureDevice.requestAccess(for: mediaType, completionHandler: { bool in
+                    if bool {
+                        self.launch()
+                    }else{
+                        let error = ErrorCameraUsage.permissionDenied
+                        self.viewInput?.throwError(error)
+                    }
+                })
+            }
+        case .restricted:
+            let error = ErrorCameraUsage.permissionRestricted
+            self.viewInput?.throwError(error)
+        }
+    }
+}
+
+extension MenuPresenterImpl {
+    func launch() {
+        let observable = Observable<Void>.create { observer in
+            observer.onNext()
+            observer.onCompleted()
+            return Disposables.create()
+        }
+        observable
+            .observeOn(MainScheduler.instance)
+            .flatMapLatest { [weak self] _ in
+                return UIImagePickerController.rx.createWithParent(self?.viewInput?.delegate) { picker in
                     picker.sourceType = .camera
                     picker.allowsEditing = false
                 }
-                .flatMap { $0.rx.didFinishPickingMediaWithInfo }
-                .take(1)
             }
+            .flatMap { $0.rx.didFinishPickingMediaWithInfo }
             .map { info in
                 return info[UIImagePickerControllerOriginalImage] as? UIImage
             }
             .catchError({ [weak self] error -> Observable<UIImage?> in
-                self?.viewInput?.showAlert(error: error)
+                self?.viewInput?.throwError(error)
                 return Observable.empty()
             })
             .asObservable()
             .subscribe(onNext: { [weak self] image in
                 guard let image = image else {
                     let error = ErrorCameraUsage.failedCreateImage
-                    self?.viewInput?.showAlert(error: error)
+                    self?.viewInput?.throwError(error)
                     return
                 }
                 // TODO: 将来的に破棄される。
                 /// 一時的に確認するfunction
                 self?.viewInput?.previewImage(image)
             })
+            .disposed(by: disposeBag)
     }
 }

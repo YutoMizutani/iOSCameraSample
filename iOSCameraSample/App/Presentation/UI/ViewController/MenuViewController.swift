@@ -11,7 +11,8 @@ import RxSwift
 import RxCocoa
 
 protocol MenuViewInput: class {
-    func showAlert(error: Error)
+    var delegate: UIViewController { get }
+    func throwError(_ error: Error)
     // TODO: 将来的に破棄される。
     func previewImage(_ image: UIImage)
 }
@@ -69,17 +70,23 @@ extension MenuViewController {
 
 extension MenuViewController {
     private func binding() {
-        if let subview = self.subview {
-            self.presenter?.launch(subview.launchCameraButton.rx.tap, delegate: self)
-                .disposed(by: disposeBag)
-        }
+        self.subview?.launchCameraButton.rx.tap
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                self?.presenter?.launchCamera()
+            })
+            .disposed(by: disposeBag)
     }
 }
 
 // MARK:- Public methods accessed from other classes
 extension MenuViewController: MenuViewInput, ErrorShowable {
+    public var delegate: UIViewController {
+        return self
+    }
+
     /// アラートを表示する。
-    public func showAlert(error: Error) {
+    public func throwError(_ error: Error) {
         self.showAlert(error: error)
     }
 
