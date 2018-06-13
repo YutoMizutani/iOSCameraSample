@@ -23,6 +23,8 @@ class PhotoEditViewController: UIViewController {
 
     private var presenter: presenterType?
     private var subview: PhotoEditView?
+    // tintColorの変更のためインスタンスに格納する。
+    private var tools: (undo: UIBarButtonItem, redo: UIBarButtonItem)?
 
     private let disposeBag = DisposeBag()
 
@@ -63,6 +65,24 @@ extension PhotoEditViewController {
                 self.view.addSubview(self.subview!)
             }
         }
+        toolbar: do {
+            // Toolbarの内容を指定する。
+            let undo = UIBarButtonItem(barButtonHiddenItem: .back, target: self, action: #selector(self.undo))
+            let redo = UIBarButtonItem(barButtonHiddenItem: .forward, target: self, action: #selector(self.redo))
+            self.tools = (undo, redo)
+            let items: [UIBarButtonItem] = [
+                self.tools!.undo,
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                self.tools!.redo,
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            ]
+            self.toolbarItems = items
+            self.navigationController?.setToolbarHidden(false, animated: false)
+        }
     }
     private func layoutView() {
         subview: do {
@@ -79,6 +99,18 @@ extension PhotoEditViewController {
                 self?.presenter?.dismiss()
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension PhotoEditViewController {
+    @objc private func undo() {
+
+    }
+    @objc private func redo() {
+
+    }
+    @objc private func showActivity() {
+
     }
 }
 

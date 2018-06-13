@@ -12,6 +12,7 @@
 		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 996B5B3020D06B5700A8B925 /* IMG_1000.JPG */; };
 		996B5B3420D0902C00A8B925 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3320D0902C00A8B925 /* Assets.swift */; };
+		996B5B3A20D1BAF500A8B925 /* UIBarButtonItem+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3920D1BAF500A8B925 /* UIBarButtonItem+.swift */; };
 		99D9B6EF20CE867200992A98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B6EE20CE867200992A98 /* AppDelegate.swift */; };
 		99D9B6F120CE867200992A98 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D9B6F020CE867200992A98 /* ViewController.swift */; };
 		99D9B6F420CE867200992A98 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99D9B6F220CE867200992A98 /* Main.storyboard */; };
@@ -77,6 +78,7 @@
 		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		996B5B3020D06B5700A8B925 /* IMG_1000.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1000.JPG; sourceTree = "<group>"; };
 		996B5B3320D0902C00A8B925 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		996B5B3920D1BAF500A8B925 /* UIBarButtonItem+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+.swift"; sourceTree = "<group>"; };
 		99D9B6EB20CE867200992A98 /* iOSCameraSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSCameraSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99D9B6EE20CE867200992A98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		99D9B6F020CE867200992A98 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +208,14 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		996B5B3820D1BAEB00A8B925 /* UIBarButtonItem */ = {
+			isa = PBXGroup;
+			children = (
+				996B5B3920D1BAF500A8B925 /* UIBarButtonItem+.swift */,
+			);
+			path = UIBarButtonItem;
+			sourceTree = "<group>";
+		};
 		99D9B6E220CE867200992A98 = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +306,7 @@
 		99D9B77220CFE23000992A98 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				996B5B3820D1BAEB00A8B925 /* UIBarButtonItem */,
 				996B5B2B20CFF11E00A8B925 /* UIView */,
 				996B5B2A20CFF11000A8B925 /* UIViewController */,
 				99D9B77320CFE23000992A98 /* RxSwift */,
@@ -742,6 +753,7 @@
 				99D9B79F20CFE23100992A98 /* RxSwift+.swift in Sources */,
 				99D9B7A820CFE23100992A98 /* MenuRepository.swift in Sources */,
 				99D9B7AA20CFE23100992A98 /* MenuEntity.swift in Sources */,
+				996B5B3A20D1BAF500A8B925 /* UIBarButtonItem+.swift in Sources */,
 				99D9B7B220CFE23100992A98 /* MenuUseCase.swift in Sources */,
 				99D9B7B420CFE23100992A98 /* MenuView.swift in Sources */,
 				99F3E5B620CFE9ED00DB24BC /* UIViewController+.swift in Sources */,
