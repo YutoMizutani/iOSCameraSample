@@ -11,7 +11,8 @@ import RxSwift
 import RxCocoa
 
 protocol PhotoEditViewInput: class {
-
+    func throwError(_ error: Error)
+    func presentSelect(_ model: PhotoEditAlertModel)
 }
 
 
@@ -81,6 +82,27 @@ extension PhotoEditViewController {
     }
 }
 
-extension PhotoEditViewController: PhotoEditViewInput {
+extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
+    /// アラートを表示する。
+    public func throwError(_ error: Error) {
+        self.showAlert(error: error)
+    }
 
+    /// 選択可能なアラートを表示する。
+    public func presentSelect(_ model: PhotoEditAlertModel) {
+        let alert = UIAlertController(
+            title: model.title,
+            message: model.message,
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: model.done.0, style: .default) { _ -> Void in
+            model.done.1()
+        })
+        alert.addAction(UIAlertAction(title: model.cancel.0, style: .cancel) { _ -> Void in
+            model.cancel.1?() ?? ()
+        })
+
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }

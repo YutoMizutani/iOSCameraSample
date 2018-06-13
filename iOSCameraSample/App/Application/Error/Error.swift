@@ -33,3 +33,12 @@ enum ErrorUserDefaults: Error {
     /// 値が存在しない場合
     case notFound
 }
+
+/// 画像の編集状態を把握する。アラートの文言に使用し，挙動には影響しない。
+enum ErrorSaveEditingPicture: Error {
+    /// 一度も保存されていない場合
+    case neverSaved
+
+    /// 前回の保存からの変更が保存されていない場合
+    case notSavedWhenPreviousChanges
+}
