@@ -11,6 +11,8 @@ import Foundation
 protocol PhotoEditEntity {
     var didSaveFlag: Bool { get }
     var didEditFlag: Bool { get }
+
+    init(didSaveFlag: Bool?, didEditFlag: Bool?)
 }
 
 struct PhotoEditEntityImpl: PhotoEditEntity {
@@ -18,4 +20,9 @@ struct PhotoEditEntityImpl: PhotoEditEntity {
     let didSaveFlag: Bool
     /// 編集フラグ。前回保存した状態からの変化を保持する。
     let didEditFlag: Bool
+
+    init(didSaveFlag: Bool? = nil, didEditFlag: Bool? = nil) {
+        self.didSaveFlag = didSaveFlag ?? false
+        self.didEditFlag = didEditFlag ?? false
+    }
 }
