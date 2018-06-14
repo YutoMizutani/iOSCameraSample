@@ -107,6 +107,7 @@ extension PhotoEditViewController {
     }
 }
 
+// >>> TODO:- rxで書き直す?
 extension PhotoEditViewController {
     @objc private func undo() {
 
@@ -126,6 +127,7 @@ extension PhotoEditViewController {
 
     }
 }
+// <<< rxで書き直す? MARK:-
 
 extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     /// アラートを表示する。
