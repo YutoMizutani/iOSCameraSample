@@ -66,10 +66,3 @@ extension PhotoEditView {
         }
     }
 }
-
-extension PhotoEditView {
-    /// imageViewに画像をセットする。
-    public func inject(_ image: UIImage?) {
-        self.imageView.image = image
-    }
-}

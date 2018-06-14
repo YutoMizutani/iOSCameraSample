@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 
@@ -34,4 +35,17 @@ struct PhotoEditAlertModelImpl: PhotoEditAlertModel {
     let message: String
     let done: (String, (()->Void))
     let cancel: (String, (()->Void)?)
+}
+
+protocol PhotoEditImageModel {
+    var image: BehaviorRelay<UIImage> { get }
+}
+
+struct PhotoEditImageModelImpl: PhotoEditImageModel {
+    /// UIImageViewのViewModel。
+    var image: BehaviorRelay<UIImage>
+
+    init(image: UIImage) {
+        self.image = BehaviorRelay(value: image)
+    }
 }

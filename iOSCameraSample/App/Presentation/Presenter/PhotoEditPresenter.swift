@@ -8,9 +8,12 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol PhotoEditPresenter: class {
     func dismiss()
+    func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>?
     func presentActivity(image: UIImage)
 }
 
@@ -22,6 +25,8 @@ class PhotoEditPresenterImpl {
     private weak var viewInput: viewInputType?
     private let wireframe: PhotoEditWireframe
     private let useCase: PhotoEditUseCase
+
+    private var imageModel: PhotoEditImageModel?
 
     init(
         viewInput: viewInputType,
@@ -37,7 +42,7 @@ class PhotoEditPresenterImpl {
 extension PhotoEditPresenterImpl: PhotoEditPresenter {
     /// 画像を破棄して終了する。
     func dismiss() {
-        let editStatus = self.useCase.getStatus()
+        let editStatus = self.useCase.getSaveStateModel()
 
         // 編集状態によってアラートを表示する。
         if !editStatus.didSaveFlag || editStatus.didEditFlag {
@@ -53,6 +58,12 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         }
 
         self.wireframe.dismiss()
+    }
+
+    func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>? {
+        guard let image = image else { return nil }
+        self.imageModel = self.useCase.getImageModel(image)
+        return self.imageModel?.image
     }
 
     /// UIActivityViewControllerを表示する。

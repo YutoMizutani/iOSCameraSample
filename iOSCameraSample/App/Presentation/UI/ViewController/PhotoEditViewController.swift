@@ -19,7 +19,8 @@ protocol PhotoEditViewInput: class {
 class PhotoEditViewController: UIViewController {
     typealias presenterType = PhotoEditPresenter
 
-    private var image: UIImage?
+    /// 最初に渡されるimage。
+    private var rawImage: UIImage?
 
     private var presenter: presenterType?
     private var subview: PhotoEditView?
@@ -33,7 +34,7 @@ class PhotoEditViewController: UIViewController {
         image: UIImage
         ) {
         self.presenter = presenter
-        self.image = image
+        self.rawImage = image
     }
 
     override func viewDidLoad() {
@@ -61,7 +62,6 @@ extension PhotoEditViewController {
         subview: do {
             self.subview = PhotoEditView(frame: self.view.bounds)
             if self.subview != nil {
-                self.subview!.inject(self.image)
                 self.view.addSubview(self.subview!)
             }
         }
@@ -98,12 +98,19 @@ extension PhotoEditViewController {
 
 extension PhotoEditViewController {
     private func binding() {
-        self.subview?.dismissButton.rx.tap
-            .asObservable()
-            .subscribe(onNext: { [weak self] _ in
-                self?.presenter?.dismiss()
-            })
-            .disposed(by: disposeBag)
+        if let subview = self.subview {
+            subview.dismissButton.rx.tap
+                .asObservable()
+                .subscribe(onNext: { [weak self] _ in
+                    self?.presenter?.dismiss()
+                })
+                .disposed(by: disposeBag)
+
+            self.presenter?.getImageDisposable(self.rawImage)?
+                .asDriver(onErrorJustReturn: UIImage())
+                .drive(subview.imageView.rx.image)
+                .disposed(by: disposeBag)
+        }
     }
 }
 
@@ -116,7 +123,7 @@ extension PhotoEditViewController {
 
     }
     @objc private func showActivity() {
-        if let image = self.image {
+        if let image = self.subview?.imageView.image {
             self.presenter?.presentActivity(image: image)
         }
     }
