@@ -81,9 +81,9 @@ extension PhotoEditViewController {
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: nil, action: nil),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: #selector(self.editText)),
                 UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: nil, action: nil),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: #selector(self.editContrast)),
             ]
             self.toolbarItems = items
             self.navigationController?.setToolbarHidden(false, animated: false)
@@ -118,6 +118,12 @@ extension PhotoEditViewController {
         if let image = self.image {
             self.presenter?.presentActivity(image: image)
         }
+    }
+    @objc private func editText() {
+
+    }
+    @objc private func editContrast() {
+
     }
 }
 
