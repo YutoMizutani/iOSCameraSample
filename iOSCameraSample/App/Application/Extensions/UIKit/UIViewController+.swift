@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIViewController {
+    /// 最も手前にあるUIViewControllerを取得する。
     var front: UIViewController? {
         if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
             var frontViewControlelr: UIViewController = rootViewController
