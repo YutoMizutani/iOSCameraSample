@@ -115,7 +115,9 @@ extension PhotoEditViewController {
 
     }
     @objc private func showActivity() {
-
+        if let image = self.image {
+            self.presenter?.presentActivity(image: image)
+        }
     }
 }
 

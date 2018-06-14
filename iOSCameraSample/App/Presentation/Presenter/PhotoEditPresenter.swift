@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 protocol PhotoEditPresenter: class {
     func dismiss()
+    func presentActivity(image: UIImage)
 }
 
 class PhotoEditPresenterImpl {
@@ -51,5 +53,10 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         }
 
         self.wireframe.dismiss()
+    }
+
+    /// UIActivityViewControllerを表示する。
+    func presentActivity(image: UIImage) {
+        self.wireframe.presentActivity(image: image)
     }
 }
