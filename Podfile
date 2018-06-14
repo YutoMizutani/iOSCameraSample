@@ -8,6 +8,7 @@ target 'iOSCameraSample' do
   # Pods for iOSCameraSample
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxGesture'
 
   target 'iOSCameraSampleTests' do
     inherit! :search_paths
@@ -20,6 +21,7 @@ target 'iOSCameraSample' do
     # Pods for testing
     pod 'RxSwift'
     pod 'RxCocoa'
+    pod 'RxGesture'
   end
 
 end
