@@ -149,7 +149,6 @@ extension PhotoEditViewController {
         }
     }
     @objc private func addText() {
-        print("addText")
         self.presenter?.addText()
     }
     @objc private func editContrast() {
@@ -184,7 +183,6 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
 
     /// TextImageViewを追加する。
     func addTextImageView(_ view: TextImageView) {
-        print("addTextImageView")
         var views = self.textImageViews.value
         views.append(view)
         self.textImageViews.accept(views)
