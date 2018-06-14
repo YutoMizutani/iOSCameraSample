@@ -15,6 +15,7 @@ protocol PhotoEditPresenter: class {
     func dismiss()
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>?
     func presentActivity(image: UIImage)
+    func addText()
 }
 
 class PhotoEditPresenterImpl {
@@ -69,5 +70,12 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
     /// UIActivityViewControllerを表示する。
     func presentActivity(image: UIImage) {
         self.wireframe.presentActivity(image: image)
+    }
+
+    /// Textを追加する。
+    func addText() {
+        let textImageView = TextImageView()
+        textImageView.frame = CGRect(x: 0, y: 0, width: 200, height: 44)
+        self.viewInput?.addTextImageView(textImageView)
     }
 }

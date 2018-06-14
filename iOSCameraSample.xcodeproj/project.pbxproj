@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		2BFFC272CD6B0891FF571020 /* Pods_iOSCameraSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE9A5AA2363C6F8B7B2BC2C /* Pods_iOSCameraSample.framework */; };
 		3D25912140128D0166321FBF /* Pods_iOSCameraSampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 747394633570B4EC10FC72AC /* Pods_iOSCameraSampleUITests.framework */; };
+		9936201A20D2A7AC00AAA9AD /* EditTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936201920D2A7AC00AAA9AD /* EditTextViewController.swift */; };
+		9936201C20D2A84600AAA9AD /* TextImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936201B20D2A84600AAA9AD /* TextImageView.swift */; };
+		9936201E20D2A98300AAA9AD /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936201D20D2A98300AAA9AD /* UIView+.swift */; };
+		9936202020D2AF7D00AAA9AD /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936201F20D2AF7D00AAA9AD /* EditTextView.swift */; };
 		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 996B5B3020D06B5700A8B925 /* IMG_1000.JPG */; };
 		996B5B3420D0902C00A8B925 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3320D0902C00A8B925 /* Assets.swift */; };
@@ -79,6 +83,10 @@
 		3BE9A5AA2363C6F8B7B2BC2C /* Pods_iOSCameraSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSCameraSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		46F4CCFFC8BB1629D91415A6 /* Pods-iOSCameraSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSCameraSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSCameraSample/Pods-iOSCameraSample.release.xcconfig"; sourceTree = "<group>"; };
 		747394633570B4EC10FC72AC /* Pods_iOSCameraSampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSCameraSampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9936201920D2A7AC00AAA9AD /* EditTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextViewController.swift; sourceTree = "<group>"; };
+		9936201B20D2A84600AAA9AD /* TextImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImageView.swift; sourceTree = "<group>"; };
+		9936201D20D2A98300AAA9AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		9936201F20D2AF7D00AAA9AD /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		996B5B3020D06B5700A8B925 /* IMG_1000.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1000.JPG; sourceTree = "<group>"; };
 		996B5B3320D0902C00A8B925 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -218,6 +226,7 @@
 				99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */,
 				996B5B3920D1BAF500A8B925 /* UIBarButtonItem+.swift */,
 				996B5B4A20D217B600A8B925 /* UIImage+.swift */,
+				9936201D20D2A98300AAA9AD /* UIView+.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -452,6 +461,8 @@
 			children = (
 				99D9B79520CFE23000992A98 /* PhotoEditView.swift */,
 				99D9B79620CFE23000992A98 /* MenuView.swift */,
+				9936201B20D2A84600AAA9AD /* TextImageView.swift */,
+				9936201F20D2AF7D00AAA9AD /* EditTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -459,6 +470,7 @@
 		99D9B79720CFE23000992A98 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9936201920D2A7AC00AAA9AD /* EditTextViewController.swift */,
 				99D9B79820CFE23000992A98 /* PhotoEditViewController.swift */,
 				99D9B79920CFE23000992A98 /* MenuViewController.swift */,
 			);
@@ -742,6 +754,7 @@
 				99D9B7A420CFE23100992A98 /* PhotoEditBuilder.swift in Sources */,
 				99D9B7AC20CFE23100992A98 /* PhotoEditDataStore.swift in Sources */,
 				99D9B7AB20CFE23100992A98 /* MenuDataStore.swift in Sources */,
+				9936201C20D2A84600AAA9AD /* TextImageView.swift in Sources */,
 				99D9B7A220CFE23100992A98 /* UIImagePickerController+RxCreate.swift in Sources */,
 				99D9B7AF20CFE23100992A98 /* PhotoEditModel.swift in Sources */,
 				99D9B6F120CE867200992A98 /* ViewController.swift in Sources */,
@@ -757,6 +770,8 @@
 				99D9B7B320CFE23100992A98 /* PhotoEditView.swift in Sources */,
 				99D9B7B520CFE23100992A98 /* PhotoEditViewController.swift in Sources */,
 				99D9B7A320CFE23100992A98 /* MenuBuilder.swift in Sources */,
+				9936202020D2AF7D00AAA9AD /* EditTextView.swift in Sources */,
+				9936201A20D2A7AC00AAA9AD /* EditTextViewController.swift in Sources */,
 				99D9B7A020CFE23100992A98 /* UIImagePickerController+Rx.swift in Sources */,
 				99D9B7B120CFE23100992A98 /* PhotoEditUseCase.swift in Sources */,
 				99D9B6EF20CE867200992A98 /* AppDelegate.swift in Sources */,
@@ -773,6 +788,7 @@
 				99D9B7B220CFE23100992A98 /* MenuUseCase.swift in Sources */,
 				99D9B7B420CFE23100992A98 /* MenuView.swift in Sources */,
 				99F3E5B620CFE9ED00DB24BC /* UIViewController+.swift in Sources */,
+				9936201E20D2A98300AAA9AD /* UIView+.swift in Sources */,
 				99D9B7B020CFE23100992A98 /* MenuModel.swift in Sources */,
 				99D9B7A920CFE23100992A98 /* PhotoEditEntity.swift in Sources */,
 			);

@@ -13,6 +13,7 @@ import RxCocoa
 protocol PhotoEditViewInput: class {
     func throwError(_ error: Error)
     func presentSelect(_ model: PhotoEditAlertModel)
+    func addTextImageView(_ view: TextImageView)
 }
 
 
@@ -24,6 +25,7 @@ class PhotoEditViewController: UIViewController {
 
     private var presenter: presenterType?
     private var subview: PhotoEditView?
+    private var textImageViews: BehaviorRelay<[TextImageView]>!
     // tintColorの変更のためインスタンスに格納する。
     private var tools: (undo: UIBarButtonItem, redo: UIBarButtonItem)?
 
@@ -65,6 +67,9 @@ extension PhotoEditViewController {
                 self.view.addSubview(self.subview!)
             }
         }
+        textImageViews: do {
+            self.textImageViews = BehaviorRelay<[TextImageView]>(value: [])
+        }
         toolbar: do {
             // Toolbarの内容を指定する。
             let undo = UIBarButtonItem(barButtonHiddenItem: .back, target: self, action: #selector(self.undo))
@@ -80,10 +85,10 @@ extension PhotoEditViewController {
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: nil, action: nil),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: #selector(self.editText)),
-                UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: nil, action: nil),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: #selector(self.editContrast)),
+                UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil),
             ]
             self.toolbarItems = items
             self.navigationController?.setToolbarHidden(false, animated: false)
@@ -111,6 +116,22 @@ extension PhotoEditViewController {
                 .drive(subview.imageView.rx.image)
                 .disposed(by: disposeBag)
         }
+        textImageViews: do {
+            // textImageViewsが追加されたらaddSubViewする。
+            self.textImageViews.asObservable()
+                .map{ $0.filter{ !$0.isDescendant(of: self.view) } }
+                .subscribe(onNext: { [weak self] textImageViews in
+                    if let _self = self {
+                        DispatchQueue.main.async {
+                            textImageViews.forEach {
+                                $0.center = _self.view.center
+                                _self.view.addSubview($0)
+                            }
+                        }
+                    }
+                })
+                .disposed(by: disposeBag)
+        }
     }
 }
 
@@ -127,8 +148,9 @@ extension PhotoEditViewController {
             self.presenter?.presentActivity(image: image)
         }
     }
-    @objc private func editText() {
-
+    @objc private func addText() {
+        print("addText")
+        self.presenter?.addText()
     }
     @objc private func editContrast() {
 
@@ -158,5 +180,13 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
         DispatchQueue.main.async {
             self.present(alert, animated: true, completion: nil)
         }
+    }
+
+    /// TextImageViewを追加する。
+    func addTextImageView(_ view: TextImageView) {
+        print("addTextImageView")
+        var views = self.textImageViews.value
+        views.append(view)
+        self.textImageViews.accept(views)
     }
 }
