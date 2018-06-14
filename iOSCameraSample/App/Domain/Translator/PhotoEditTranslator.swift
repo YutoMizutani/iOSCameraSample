@@ -15,9 +15,9 @@ protocol PhotoEditTranslator {
 
 struct PhotoEditTranslatorImpl: PhotoEditTranslator {
     func translate(from model: PhotoEditModel) -> PhotoEditEntity {
-        return PhotoEditEntityImpl()
+        return PhotoEditEntityImpl(didSaveFlag: model.didSaveFlag, didEditFlag: model.didEditFlag)
     }
     func translate(from entity: PhotoEditEntity) -> PhotoEditModel {
-        return PhotoEditModelImpl()
+        return PhotoEditModelImpl(didSaveFlag: entity.didSaveFlag, didEditFlag: entity.didEditFlag)
     }
 }

@@ -13,6 +13,9 @@ import AVFoundation
 
 protocol MenuPresenter: class {
     func launchCamera()
+    #if DEBUG
+    func stubCamera()
+    #endif
 }
 
 class MenuPresenterImpl {
@@ -38,6 +41,7 @@ class MenuPresenterImpl {
 }
 
 extension MenuPresenterImpl: MenuPresenter {
+    /// カメラを起動する。
     func launchCamera() {
         let mediaType: AVMediaType = .video
         let status = AVCaptureDevice.authorizationStatus(for: mediaType)
@@ -68,6 +72,18 @@ extension MenuPresenterImpl: MenuPresenter {
             self.viewInput?.throwError(error)
         }
     }
+
+    #if DEBUG
+    /// カメラの起動時間やシャッター音防止のためのスタブ画像経由で遷移する。
+    func stubCamera() {
+        do {
+            let stubImage = try self.useCase.getStubImage()
+            self.wireframe.transitionPhotoEdit(image: stubImage)
+        }catch let e {
+            self.viewInput?.throwError(e)
+        }
+    }
+    #endif
 }
 
 extension MenuPresenterImpl {

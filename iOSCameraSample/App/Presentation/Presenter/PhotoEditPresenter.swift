@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 protocol PhotoEditPresenter: class {
     func dismiss()
+    func presentActivity(image: UIImage)
 }
 
 class PhotoEditPresenterImpl {
@@ -33,7 +35,28 @@ class PhotoEditPresenterImpl {
 }
 
 extension PhotoEditPresenterImpl: PhotoEditPresenter {
+    /// 画像を破棄して終了する。
     func dismiss() {
+        let editStatus = self.useCase.getStatus()
+
+        // 編集状態によってアラートを表示する。
+        if !editStatus.didSaveFlag || editStatus.didEditFlag {
+            let title = "確認"
+            let message: String = (!editStatus.didSaveFlag) ? "写真が保存されていません。\n本当に編集を終了しますか?" : "編集した写真が保存されていません。\n本当に編集を終了しますか?"
+            let done: (String, (()->Void)) = ("終了", self.wireframe.dismiss)
+            let cancel: (String, (()->Void)?) = ("キャンセル", nil)
+
+            let model = PhotoEditAlertModelImpl(title: title, message: message, done: done, cancel: cancel)
+
+            self.viewInput?.presentSelect(model)
+            return
+        }
+
         self.wireframe.dismiss()
+    }
+
+    /// UIActivityViewControllerを表示する。
+    func presentActivity(image: UIImage) {
+        self.wireframe.presentActivity(image: image)
     }
 }

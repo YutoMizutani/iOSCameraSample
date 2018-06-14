@@ -46,7 +46,7 @@ extension PhotoEditView {
                 let button = UIButton()
                 button.setTitle("×", for: .normal)
                 button.setTitleColor(.white, for: .normal)
-                button.titleLabel?.font = UIFont.systemFont(ofSize: 55)
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 44)
                 return button
             }()
             self.addSubview(self.dismissButton)
@@ -61,7 +61,7 @@ extension PhotoEditView {
             self.imageView.center = self.center
         }
         dismissButton: do {
-            let space: CGFloat = 15, length: CGFloat = 50
+            let space: CGFloat = 5, length: CGFloat = 50
             self.dismissButton.frame = CGRect(x: space, y: self.aboveSpace + space, width: length, height: length)
         }
     }

@@ -9,6 +9,9 @@
 import Foundation
 
 protocol PhotoEditUseCase {
+    func getStatus() -> PhotoEditModel
+    func changeSaveState(_ state: Bool)
+    func changeEditState(_ state: Bool)
 }
 
 struct PhotoEditUseCaseImpl {
@@ -28,4 +31,14 @@ struct PhotoEditUseCaseImpl {
 }
 
 extension PhotoEditUseCaseImpl: PhotoEditUseCase {
+    func getStatus() -> PhotoEditModel {
+        let entity = self.repository.getState()
+        return self.translator.translate(from: entity)
+    }
+    func changeSaveState(_ state: Bool) {
+        self.repository.setDidSaveState(state)
+    }
+    func changeEditState(_ state: Bool) {
+        self.repository.setDidEditState(state)
+    }
 }

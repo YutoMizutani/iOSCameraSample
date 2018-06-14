@@ -7,9 +7,31 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 protocol PhotoEditModel {
+    var didSaveFlag: Bool { get }
+    var didEditFlag: Bool { get }
 }
 
 struct PhotoEditModelImpl: PhotoEditModel {
+    /// 保存フラグ。これまで保存されたかの状態を保持する。
+    private(set) var didSaveFlag: Bool
+    /// 編集フラグ。前回保存した状態からの変化を保持する。
+    private(set) var didEditFlag: Bool
+}
+
+protocol PhotoEditAlertModel {
+    var title: String { get }
+    var message: String { get }
+    var done: (String, (()->Void)) { get }
+    var cancel: (String, (()->Void)?) { get }
+}
+
+struct PhotoEditAlertModelImpl: PhotoEditAlertModel {
+    let title: String
+    let message: String
+    let done: (String, (()->Void))
+    let cancel: (String, (()->Void)?)
 }

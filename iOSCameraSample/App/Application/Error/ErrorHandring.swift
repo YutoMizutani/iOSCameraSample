@@ -29,24 +29,33 @@ protocol ErrorShowable where Self: UIViewController {
 
 extension ErrorShowable {
     func showAlert(error: Error) {
-        guard let error = error as? ErrorCameraUsage else {
-            UIAlertController.present(self, message: "未定義のエラーが発生しました。", actionTitle: "OK")
-            return
+        if let error = error as? ErrorCameraUsage {
+            switch error {
+            case .unavailable:
+                UIAlertController.present(self, message: "カメラが無効です。カメラが利用可能な状態か確認してください。")
+                return
+            case .permissionDenied:
+                UIAlertController.present(self, message: "カメラを起動できません。設定アプリからカメラの使用許可を行ってください。")
+                return
+            case .permissionRestricted:
+                UIAlertController.present(self, message: "カメラを起動できません。カメラへのアクセス制限を解除してください。")
+                return
+            case .failedCreateImage:
+                UIAlertController.present(self, message: "イメージを生成できませんでした。もう一度お試しください。")
+                return
+            }
         }
+        
+        #if DEBUG
+        if let error = error as? ErrorWhenDebug {
+            switch error {
+            case .pictureNotFound:
+                UIAlertController.present(self, message: "(DEBUG) 画像の生成に失敗しました。")
+                return
+            }
+        }
+        #endif
 
-        switch error {
-        case .unavailable:
-            UIAlertController.present(self, message: "カメラが無効です。カメラが利用可能な状態か確認してください。")
-            return
-        case .permissionDenied:
-            UIAlertController.present(self, message: "カメラを起動できません。設定アプリからカメラの使用許可を行ってください。")
-            return
-        case .permissionRestricted:
-            UIAlertController.present(self, message: "カメラを起動できません。カメラへのアクセス制限を解除してください。")
-            return
-        case .failedCreateImage:
-            UIAlertController.present(self, message: "イメージを生成できませんでした。もう一度お試しください。")
-            return
-        }
+        UIAlertController.present(self, message: "未定義のエラーが発生しました。", actionTitle: "OK")
     }
 }

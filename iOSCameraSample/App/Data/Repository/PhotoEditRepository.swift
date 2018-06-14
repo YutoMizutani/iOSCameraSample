@@ -9,6 +9,9 @@
 import Foundation
 
 protocol PhotoEditRepository {
+    func getState() -> PhotoEditEntity
+    func setDidSaveState(_ state: Bool)
+    func setDidEditState(_ state: Bool)
 }
 
 struct PhotoEditRepositoryImpl {
@@ -24,4 +27,18 @@ struct PhotoEditRepositoryImpl {
 }
 
 extension PhotoEditRepositoryImpl: PhotoEditRepository {
+    func getState() -> PhotoEditEntity {
+        // ここで生じるエラーは保存されていない場合のみ。try?でnilを許容する。
+        let didSaveFlag = try? self.dataStore.get(key: .didSaveFlag)
+        let didEditFlag = try? self.dataStore.get(key: .didEditFlag)
+
+        // Entityを生成して返す。
+        return PhotoEditEntityImpl(didSaveFlag: didSaveFlag, didEditFlag: didEditFlag)
+    }
+    func setDidSaveState(_ state: Bool) {
+        self.dataStore.push(state, key: .didSaveFlag)
+    }
+    func setDidEditState(_ state: Bool) {
+        self.dataStore.push(state, key: .didEditFlag)
+    }
 }
