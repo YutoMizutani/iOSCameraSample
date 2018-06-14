@@ -123,10 +123,12 @@ extension PhotoEditViewController {
                 .map{ $0.filter{ !$0.isDescendant(of: self.view) } }
                 .subscribe(onNext: { [weak self] textImageViews in
                     if let _self = self {
-                        textImageViews.forEach {
-                            $0.center = _self.view.center
-                            _self.view.addSubview($0)
-                            $0.binding(by: _self.disposeBag)
+                        textImageViews.forEach { [weak self] view in
+                            view.center = _self.view.center
+                            _self.view.addSubview(view)
+                            view.binding(by: _self.disposeBag, completion: {
+                                self?.removeTextImageView(view)
+                            })
                         }
                     }
                 })
@@ -182,9 +184,15 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     }
 
     /// TextImageViewを追加する。
-    func addTextImageView(_ view: TextImageView) {
+    public func addTextImageView(_ view: TextImageView) {
         var views = self.textImageViews.value
         views.append(view)
+        self.textImageViews.accept(views)
+    }
+
+    /// TextImageViewを削除する。
+    private func removeTextImageView(_ view: TextImageView) {
+        let views = self.textImageViews.value.filter{ $0 != view }
         self.textImageViews.accept(views)
     }
 }

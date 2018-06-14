@@ -13,6 +13,7 @@ import RxGesture
 
 class TextImageView: UIView {
     var label: UILabel!
+    var borderView: UIView!
     var deleteButton: UIButton!
     var editButton: UIButton!
 
@@ -39,8 +40,15 @@ extension TextImageView {
     private func configureView() {
         view: do {
             self.backgroundColor = UIColor.clear
-            self.layer.borderWidth = 0.4
-            self.layer.borderColor = UIColor.white.cgColor
+        }
+        borderView: do {
+            self.borderView = { () -> UIView in
+                let view = UIView()
+                view.layer.borderWidth = 0.5
+                view.layer.borderColor = UIColor.white.cgColor
+                return view
+            }()
+            self.addSubview(self.borderView)
         }
         label: do {
             self.label = { () -> UILabel in
@@ -60,6 +68,8 @@ extension TextImageView {
                 button.setTitle("×", for: .normal)
                 button.setTitleColor(.white, for: .normal)
                 button.titleLabel?.font = UIFont.systemFont(ofSize: 44)
+                button.backgroundColor = .white
+                button.setTitleColor(.black, for: .normal)
                 return button
             }()
             self.addSubview(self.deleteButton)
@@ -77,34 +87,67 @@ extension TextImageView {
     }
 
     private func layoutView() {
+        // ボタンの長さ
+        let length: CGFloat = 44
+        borderView: do {
+            self.borderView.frame = CGRect(x: length/2, y: length/2, width: self.width-length, height: self.height-length)
+        }
         label: do {
-            self.label.frame = self.bounds
+            self.label.frame = CGRect(x: length/2, y: length/2, width: self.width-length, height: self.height-length)
+        }
+        deleteButton: do {
+            self.deleteButton.layer.cornerRadius = length/2
+            self.deleteButton.frame = CGRect(x: 0, y: 0, width: length, height: length)
         }
     }
 }
 
 extension TextImageView {
-    public func binding(by disposeBag: DisposeBag) {
-        // Transform
-        let transformGestures = self.rx.transformGestures().share(replay: 1)
-        var previousTransform = CGAffineTransform.identity
+    public func binding(by disposeBag: DisposeBag, completion: (() -> Void)?) {
+        transform: do {
+            let transformGestures = self.rx.transformGestures().share(replay: 1)
+            var previousTransform = CGAffineTransform.identity
 
-        transformGestures
-            .when(.changed)
-            .asTransform()
-            .subscribe(onNext: { [weak self] transform, _ in
-                guard let _self = self else { return }
-                _self.transform = previousTransform.scaledBy(x: transform.a, y: transform.a).rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
-            })
-            .disposed(by: disposeBag)
+            // 移動時に最前面に移動させる。
+            transformGestures
+                .when(.began)
+                .asTransform()
+                .subscribe(onNext: { [weak self] _ in
+                    guard let _self = self else { return }
+                    guard let parentViewController = _self.parent else { return }
+                    parentViewController.view.bringSubview(toFront: _self)
+                })
+                .disposed(by: disposeBag)
 
-        transformGestures
-            .when(.ended)
-            .asTransform()
-            .subscribe(onNext: { [weak self] _ in
-                guard let _self = self else { return }
-                previousTransform = _self.transform
-            })
-            .disposed(by: disposeBag)
+            // 変形させる。
+            transformGestures
+                .when(.changed)
+                .asTransform()
+                .subscribe(onNext: { [weak self] transform, _ in
+                    guard let _self = self else { return }
+                    _self.transform = previousTransform.scaledBy(x: transform.a, y: transform.a).rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
+                })
+                .disposed(by: disposeBag)
+
+            // 前回の変形値を保存する。
+            transformGestures
+                .when(.ended)
+                .asTransform()
+                .subscribe(onNext: { [weak self] _ in
+                    guard let _self = self else { return }
+                    previousTransform = _self.transform
+                })
+                .disposed(by: disposeBag)
+        }
+        deleteButton: do {
+            // viewを削除する。
+            self.deleteButton.rx.tap
+                .observeOn(MainScheduler.instance)
+                .subscribe(onNext: { [weak self] _ in
+                    self?.removeFromSuperview()
+                    completion?()
+                })
+                .disposed(by: disposeBag)
+        }
     }
 }
