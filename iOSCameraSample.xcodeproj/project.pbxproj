@@ -187,8 +187,8 @@
 		996B5B2F20D06B2200A8B925 /* pic */ = {
 			isa = PBXGroup;
 			children = (
+				996B5B5920D279CD00A8B925 /* stub */,
 				996B5B5320D21A4600A8B925 /* icons */,
-				996B5B3020D06B5700A8B925 /* IMG_1000.JPG */,
 			);
 			path = pic;
 			sourceTree = "<group>";
@@ -220,6 +220,14 @@
 				996B5B4A20D217B600A8B925 /* UIImage+.swift */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		996B5B5920D279CD00A8B925 /* stub */ = {
+			isa = PBXGroup;
+			children = (
+				996B5B3020D06B5700A8B925 /* IMG_1000.JPG */,
+			);
+			path = stub;
 			sourceTree = "<group>";
 		};
 		99D9B6E220CE867200992A98 = {
