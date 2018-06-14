@@ -176,22 +176,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		996B5B2A20CFF11000A8B925 /* UIViewController */ = {
-			isa = PBXGroup;
-			children = (
-				99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */,
-			);
-			path = UIViewController;
-			sourceTree = "<group>";
-		};
-		996B5B2B20CFF11E00A8B925 /* UIView */ = {
-			isa = PBXGroup;
-			children = (
-				996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */,
-			);
-			path = UIView;
-			sourceTree = "<group>";
-		};
 		996B5B2E20D06B1900A8B925 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,22 +202,6 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		996B5B3820D1BAEB00A8B925 /* UIBarButtonItem */ = {
-			isa = PBXGroup;
-			children = (
-				996B5B3920D1BAF500A8B925 /* UIBarButtonItem+.swift */,
-			);
-			path = UIBarButtonItem;
-			sourceTree = "<group>";
-		};
-		996B5B4920D217A600A8B925 /* UIImage */ = {
-			isa = PBXGroup;
-			children = (
-				996B5B4A20D217B600A8B925 /* UIImage+.swift */,
-			);
-			path = UIImage;
-			sourceTree = "<group>";
-		};
 		996B5B5320D21A4600A8B925 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +209,17 @@
 				996B5B5520D21A4600A8B925 /* text.png */,
 			);
 			path = icons;
+			sourceTree = "<group>";
+		};
+		996B5B5820D21D2800A8B925 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */,
+				99F3E5B520CFE9ED00DB24BC /* UIViewController+.swift */,
+				996B5B3920D1BAF500A8B925 /* UIBarButtonItem+.swift */,
+				996B5B4A20D217B600A8B925 /* UIImage+.swift */,
+			);
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		99D9B6E220CE867200992A98 = {
@@ -333,10 +312,7 @@
 		99D9B77220CFE23000992A98 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				996B5B4920D217A600A8B925 /* UIImage */,
-				996B5B3820D1BAEB00A8B925 /* UIBarButtonItem */,
-				996B5B2B20CFF11E00A8B925 /* UIView */,
-				996B5B2A20CFF11000A8B925 /* UIViewController */,
+				996B5B5820D21D2800A8B925 /* UIKit */,
 				99D9B77320CFE23000992A98 /* RxSwift */,
 			);
 			path = Extensions;
