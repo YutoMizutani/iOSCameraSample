@@ -13,6 +13,7 @@ import RxGesture
 
 class TextImageView: UIView {
     var label: UILabel!
+    var contentText: BehaviorRelay<String> = BehaviorRelay(value: "Text")
     var borderView: UIView!
     var deleteButton: UIButton!
     var editButton: UIButton!
@@ -53,11 +54,11 @@ extension TextImageView {
         label: do {
             self.label = { () -> UILabel in
                 let label = UILabel()
-                label.text = "Text"
+                label.text = ""
                 label.textColor = .white
                 label.textAlignment = .center
                 label.numberOfLines = 0
-                label.adjustsFontSizeToFitWidth = true
+                label.font = UIFont.systemFont(ofSize: 44)
                 return label
             }()
             self.addSubview(self.label)
@@ -89,11 +90,16 @@ extension TextImageView {
     private func layoutView() {
         // ボタンの長さ
         let length: CGFloat = 44
-        borderView: do {
-            self.borderView.frame = CGRect(x: length/2, y: length/2, width: self.width-length, height: self.height-length)
+        self.label.sizeToFit()
+        view: do {
+            // ラベルの自動整形によって大きさを変更する。
+            self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.label.width + length, height: self.label.height + length)
         }
         label: do {
-            self.label.frame = CGRect(x: length/2, y: length/2, width: self.width-length, height: self.height-length)
+            self.label.center = CGPoint(x: self.width/2, y: self.height/2)
+        }
+        borderView: do {
+            self.borderView.frame = CGRect(x: length/2, y: length/2, width: self.label.width, height: self.label.height)
         }
         deleteButton: do {
             self.deleteButton.layer.cornerRadius = length/2
@@ -104,6 +110,13 @@ extension TextImageView {
 
 extension TextImageView {
     public func binding(by disposeBag: DisposeBag, completion: (() -> Void)?) {
+        label: do {
+            self.contentText
+                .map{ $0 == "" ? "Text" : $0 }
+                .asDriver(onErrorJustReturn: "Text")
+                .drive(self.label.rx.text)
+                .disposed(by: disposeBag)
+        }
         transform: do {
             let transformGestures = self.rx.transformGestures().share(replay: 1)
             var previousTransform = CGAffineTransform.identity
@@ -125,7 +138,7 @@ extension TextImageView {
                 .asTransform()
                 .subscribe(onNext: { [weak self] transform, _ in
                     guard let _self = self else { return }
-                    _self.transform = previousTransform.scaledBy(x: transform.a, y: transform.a).rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
+                    _self.transform = previousTransform.rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
                 })
                 .disposed(by: disposeBag)
 
