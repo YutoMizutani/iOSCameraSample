@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxGesture
 
 protocol PhotoEditViewInput: class {
     func throwError(_ error: Error)
@@ -122,11 +123,10 @@ extension PhotoEditViewController {
                 .map{ $0.filter{ !$0.isDescendant(of: self.view) } }
                 .subscribe(onNext: { [weak self] textImageViews in
                     if let _self = self {
-                        DispatchQueue.main.async {
-                            textImageViews.forEach {
-                                $0.center = _self.view.center
-                                _self.view.addSubview($0)
-                            }
+                        textImageViews.forEach {
+                            $0.center = _self.view.center
+                            _self.view.addSubview($0)
+                            $0.binding(by: _self.disposeBag)
                         }
                     }
                 })

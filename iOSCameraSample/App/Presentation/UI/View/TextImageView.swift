@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import RxGesture
 
 class TextImageView: UIView {
     var label: UILabel!
@@ -77,5 +80,31 @@ extension TextImageView {
         label: do {
             self.label.frame = self.bounds
         }
+    }
+}
+
+extension TextImageView {
+    public func binding(by disposeBag: DisposeBag) {
+        // Transform
+        let transformGestures = self.rx.transformGestures().share(replay: 1)
+        var previousTransform = CGAffineTransform.identity
+
+        transformGestures
+            .when(.changed)
+            .asTransform()
+            .subscribe(onNext: { [weak self] transform, _ in
+                guard let _self = self else { return }
+                _self.transform = previousTransform.scaledBy(x: transform.a, y: transform.a).rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
+            })
+            .disposed(by: disposeBag)
+
+        transformGestures
+            .when(.ended)
+            .asTransform()
+            .subscribe(onNext: { [weak self] _ in
+                guard let _self = self else { return }
+                previousTransform = _self.transform
+            })
+            .disposed(by: disposeBag)
     }
 }

@@ -75,7 +75,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
     /// Textを追加する。
     func addText() {
         let textImageView = TextImageView()
-        textImageView.frame = CGRect(x: 0, y: 0, width: 200, height: 44)
+        textImageView.frame = CGRect(x: 0, y: 0, width: 150, height: 100)
         self.viewInput?.addTextImageView(textImageView)
     }
 }
