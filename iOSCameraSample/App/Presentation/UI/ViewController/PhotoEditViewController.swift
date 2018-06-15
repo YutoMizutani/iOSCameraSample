@@ -21,12 +21,12 @@ protocol Focusable: class {
     var focusView: BehaviorRelay<UIView?> { get set }
 }
 
-
 class PhotoEditViewController: UIViewController {
     typealias presenterType = PhotoEditPresenter
 
     /// 最初に渡されるimage。
     private var rawImage: UIImage?
+    private var image: BehaviorRelay<UIImage>?
 
     private var presenter: presenterType?
     private var subview: PhotoEditView?
@@ -119,7 +119,8 @@ extension PhotoEditViewController {
                 })
                 .disposed(by: disposeBag)
 
-            self.presenter?.getImageDisposable(self.rawImage)?
+            self.image = self.presenter?.getImageDisposable(self.rawImage)
+            self.image?
                 .asDriver(onErrorJustReturn: UIImage())
                 .drive(subview.imageView.rx.image)
                 .disposed(by: disposeBag)
@@ -153,7 +154,9 @@ extension PhotoEditViewController {
 
     }
     @objc private func showActivity() {
-        if let image = self.subview?.imageView.image {
+        if let image = self.translate() {
+            self.image?.accept(image)
+            self.presenter?.compose(image: image)
             self.presenter?.presentActivity(image: image)
         }
     }
@@ -207,6 +210,28 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
         if self.focusView.value == view {
             self.focusView.accept(nil)
         }
+    }
+}
+
+extension PhotoEditViewController {
+    private func translate() -> UIImage? {
+        guard let imageView = self.subview?.imageView else { return nil }
+
+        // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
+        for view in self.textImageViews.value {
+            view.removeFromSuperview()
+            let previousTransform = view.transform
+            view.transform = .identity
+            view.frame = CGRect(x: view.frame.minX, y: view.frame.minY - imageView.frame.minY, width: view.frame.width, height: view.frame.height)
+            view.transform = previousTransform
+            imageView.addSubview(view)
+        }
+        // focusViewを初期化
+        self.focusView.accept(nil)
+        // textImageViewsを初期化
+        self.textImageViews.accept([])
+
+        return imageView.layerImage
     }
 }
 
