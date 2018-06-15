@@ -9,7 +9,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import RxGesture
 
 protocol PhotoEditViewInput: class {
     func throwError(_ error: Error)
