@@ -17,7 +17,8 @@ class TextImageView: UIView {
     var borderView: UIView!
     var editButton: UIButton!
     var deleteButton: UIButton!
-    var isFocus: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+
+    var compositeDisposable = CompositeDisposable()
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -29,6 +30,7 @@ class TextImageView: UIView {
         configureView()
         layoutView()
     }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -68,7 +70,6 @@ extension TextImageView {
         editButton: do {
             self.editButton = { () -> UIButton in
                 let button = UIButton()
-//                button.backgroundColor = .red
                 return button
             }()
             self.addSubview(self.editButton)
@@ -121,113 +122,119 @@ extension TextImageView {
 }
 
 extension TextImageView {
-    public func binding(by disposeBag: DisposeBag, completion: (() -> Void)?) {
+    public func binding(_ completion: (() -> Void)?) {
+        // Focus可能なViewControllerにaddSubViewされていれば，フォーカス状態に応じた処理を行う。
         if let parentViewController = self.parent as? Focusable {
+            self.compositeDisposable.append(
+                self.editButton.rx.touchDown
+                    .asObservable()
+                    .subscribe(onNext: { [weak self] _ in
+                        parentViewController.focusView.accept(self)
+                    })
+            )
             parentViewController.focusView.accept(self)
-            self.editButton.rx.touchDown
-                .asObservable()
-                .subscribe(onNext: { [weak self] _ in
-                    parentViewController.focusView.accept(self)
-                })
-                .disposed(by: disposeBag)
 
-            parentViewController.focusView
+            let sharedFocus = parentViewController.focusView
                 .asObservable()
-                .map{ $0 == self }
-                .bind(to: self.isFocus)
-                .disposed(by: disposeBag)
-
-            let sharedFocus = self.isFocus
-                .asObservable()
-                .map{ !$0 }
+                .map{ $0 != self }
                 .share(replay: 1)
 
-            sharedFocus
-                .asDriver(onErrorJustReturn: false)
-                .drive(self.borderView.rx.isHidden)
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                sharedFocus
+                    .asDriver(onErrorJustReturn: false)
+                    .drive(self.borderView.rx.isHidden)
+            )
 
-            sharedFocus
-                .asDriver(onErrorJustReturn: false)
-                .drive(self.deleteButton.rx.isHidden)
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                sharedFocus
+                    .asDriver(onErrorJustReturn: false)
+                    .drive(self.deleteButton.rx.isHidden)
+            )
         }
 
-
         label: do {
-            self.contentText
-                .asObservable()
-                .map{ $0 == "" ? "Text" : $0 }
-                .asDriver(onErrorJustReturn: "Text")
-                .drive(self.label.rx.text)
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                self.contentText
+                    .asObservable()
+                    .map{ $0 == "" ? "Text" : $0 }
+                    .asDriver(onErrorJustReturn: "Text")
+                    .drive(self.label.rx.text)
+            )
         }
         transform: do {
             let transformGestures = self.rx.transformGestures().share(replay: 1)
             var previousTransform = CGAffineTransform.identity
 
             // 移動時に最前面に移動させる。
-            transformGestures
-                .when(.began)
-                .asTransform()
-                .subscribe(onNext: { [weak self] _ in
-                    guard let _self = self else { return }
-                    guard let parentViewController = _self.parent else { return }
-                    parentViewController.view.bringSubview(toFront: _self)
-                })
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                transformGestures
+                    .when(.began)
+                    .asTransform()
+                    .subscribe(onNext: { [weak self] _ in
+                        guard let _self = self else { return }
+                        guard let parentViewController = _self.parent else { return }
+                        parentViewController.view.bringSubview(toFront: _self)
+                    })
+            )
 
             // 変形させる。
-            transformGestures
-                .when(.changed)
-                .asTransform()
-                .subscribe(onNext: { [weak self] transform, _ in
-                    guard let _self = self else { return }
-                    _self.transform = previousTransform.rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
-                })
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                transformGestures
+                    .when(.changed)
+                    .asTransform()
+                    .subscribe(onNext: { [weak self] transform, _ in
+                        guard let _self = self else { return }
+                        _self.transform = previousTransform.rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
+                    })
+            )
 
             // 前回の変形値を保存する。
-            transformGestures
-                .when(.ended)
-                .asTransform()
-                .subscribe(onNext: { [weak self] _ in
-                    guard let _self = self else { return }
-                    previousTransform = _self.transform
-                })
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                transformGestures
+                    .when(.ended)
+                    .asTransform()
+                    .subscribe(onNext: { [weak self] _ in
+                        guard let _self = self else { return }
+                        previousTransform = _self.transform
+                    })
+            )
         }
         editButton: do {
-            self.editButton.rx.tap
-                .asObservable()
-                .subscribe(onNext: { [weak self] _ in
-                    let viewController: EditTextViewController = EditTextViewController()
-                    viewController.navigationItem.title = "Edit text"
-                    binding: do {
-                        viewController.sendText
-                            .filter{ $0 != nil }.map{ $0! }
-                            .asObservable()
-                            .subscribe(onNext: { [weak self] text in
-                                self?.contentText.accept(text)
-                                self?.layoutView()
-                            })
-                            .disposed(by: disposeBag)
-                    }
-                    let modalController = UINavigationController.init(rootViewController: viewController)
-                    modalController.modalPresentationStyle = .overCurrentContext
-                    self?.parent?.present(modalController, animated: true, completion: nil)
-                })
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                self.editButton.rx.tap
+                    .asObservable()
+                    .subscribe(onNext: { [weak self] _ in
+                        let viewController = EditTextViewController()
+                        viewController.navigationItem.title = "Edit text"
+                        viewController.contentText.accept(self?.label.text)
+                        binding: do {
+                            self?.compositeDisposable.append(
+                                viewController.sendText
+                                    .filter{ $0 != nil }.map{ $0! }
+                                    .asObservable()
+                                    .subscribe(onNext: { [weak self] text in
+                                        self?.contentText.accept(text)
+                                        self?.layoutView()
+                                    })
+                            )
+                        }
+                        let modalController = UINavigationController.init(rootViewController: viewController)
+                        modalController.modalPresentationStyle = .overCurrentContext
+                        self?.parent?.present(modalController, animated: true, completion: nil)
+                    })
+            )
         }
         deleteButton: do {
             // viewを削除する。
-            self.deleteButton.rx.tap
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { [weak self] _ in
-                    self?.removeFromSuperview()
-                    completion?()
-                })
-                .disposed(by: disposeBag)
+            self.compositeDisposable.append(
+                self.deleteButton.rx.tap
+                    .observeOn(MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] _ in
+                        self?.removeFromSuperview()
+                        self?.compositeDisposable.dispose()
+                        completion?()
+                    })
+            )
         }
     }
 }

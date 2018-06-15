@@ -33,7 +33,11 @@ class EditTextView: UIView {
 extension EditTextView {
     private func configureView() {
         textView: do {
-            self.textView = UITextView()
+            self.textView = { () -> UITextView in
+                let textView = UITextView()
+                textView.font = UIFont.systemFont(ofSize: 20)
+                return textView
+            }()
             self.addSubview(self.textView)
         }
     }

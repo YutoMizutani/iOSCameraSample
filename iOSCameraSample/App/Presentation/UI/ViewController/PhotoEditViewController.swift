@@ -133,7 +133,7 @@ extension PhotoEditViewController {
                         textImageViews.forEach { [weak self] view in
                             view.center = _self.view.center
                             _self.view.addSubview(view)
-                            view.binding(by: _self.disposeBag, completion: {
+                            view.binding({
                                 self?.removeTextImageView(view)
                             })
                         }
@@ -199,8 +199,14 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
 
     /// TextImageViewを削除する。
     private func removeTextImageView(_ view: TextImageView) {
+        // textImageViews保持の破棄
         let views = self.textImageViews.value.filter{ $0 != view }
         self.textImageViews.accept(views)
+
+        // フォーカスの破棄
+        if self.focusView.value == view {
+            self.focusView.accept(nil)
+        }
     }
 }
 

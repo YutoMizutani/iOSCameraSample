@@ -11,11 +11,12 @@ import RxSwift
 import RxCocoa
 
 protocol EditTextViewInput: class {
-
+    func inject(_ text: String?)
 }
 
 class EditTextViewController: UIViewController {
     private var subview: EditTextView?
+    public var contentText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     public var sendText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
 
     private let disposeBag = DisposeBag()
@@ -65,7 +66,12 @@ extension EditTextViewController {
 
 extension EditTextViewController {
     private func binding() {
-
+        guard let textView = self.subview?.textView else { return }
+        self.contentText
+            .asObservable()
+            .asDriver(onErrorJustReturn: "")
+            .drive(textView.rx.text)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -80,5 +86,7 @@ extension EditTextViewController {
 }
 
 extension EditTextViewController: EditTextViewInput {
-
+    public func inject(_ text: String?) {
+        self.contentText.accept(text)
+    }
 }
