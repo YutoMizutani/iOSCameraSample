@@ -17,6 +17,7 @@ class TextImageView: UIView {
     var borderView: UIView!
     var editButton: UIButton!
     var deleteButton: UIButton!
+    var isFocus: BehaviorRelay<Bool> = BehaviorRelay(value: true)
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -121,6 +122,38 @@ extension TextImageView {
 
 extension TextImageView {
     public func binding(by disposeBag: DisposeBag, completion: (() -> Void)?) {
+        if let parentViewController = self.parent as? Focusable {
+            parentViewController.focusView.accept(self)
+            self.editButton.rx.touchDown
+                .asObservable()
+                .subscribe(onNext: { [weak self] _ in
+                    parentViewController.focusView.accept(self)
+                })
+                .disposed(by: disposeBag)
+
+            parentViewController.focusView
+                .asObservable()
+                .map{ $0 == self }
+                .bind(to: self.isFocus)
+                .disposed(by: disposeBag)
+
+            let sharedFocus = self.isFocus
+                .asObservable()
+                .map{ !$0 }
+                .share(replay: 1)
+
+            sharedFocus
+                .asDriver(onErrorJustReturn: false)
+                .drive(self.borderView.rx.isHidden)
+                .disposed(by: disposeBag)
+
+            sharedFocus
+                .asDriver(onErrorJustReturn: false)
+                .drive(self.deleteButton.rx.isHidden)
+                .disposed(by: disposeBag)
+        }
+
+
         label: do {
             self.contentText
                 .asObservable()

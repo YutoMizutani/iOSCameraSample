@@ -17,6 +17,10 @@ protocol PhotoEditViewInput: class {
     func addTextImageView(_ view: TextImageView)
 }
 
+protocol Focusable: class {
+    var focusView: BehaviorRelay<UIView?> { get set }
+}
+
 
 class PhotoEditViewController: UIViewController {
     typealias presenterType = PhotoEditPresenter
@@ -29,6 +33,9 @@ class PhotoEditViewController: UIViewController {
     private var textImageViews: BehaviorRelay<[TextImageView]>!
     // tintColorの変更のためインスタンスに格納する。
     private var tools: (undo: UIBarButtonItem, redo: UIBarButtonItem)?
+
+    // フォーカスされているViewを保持する。
+    public var focusView: BehaviorRelay<UIView?> = BehaviorRelay(value: nil)
 
     private let disposeBag = DisposeBag()
 
@@ -195,4 +202,7 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
         let views = self.textImageViews.value.filter{ $0 != view }
         self.textImageViews.accept(views)
     }
+}
+
+extension PhotoEditViewController: Focusable {
 }
