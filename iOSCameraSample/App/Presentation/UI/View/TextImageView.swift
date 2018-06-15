@@ -56,7 +56,7 @@ extension TextImageView {
                 let label = UILabel()
                 label.text = ""
                 label.textColor = .white
-                label.textAlignment = .center
+                label.textAlignment = .left
                 label.numberOfLines = 0
                 label.lineBreakMode = .byWordWrapping
                 label.font = UIFont.systemFont(ofSize: 44)
@@ -88,6 +88,9 @@ extension TextImageView {
 
     private func layoutView() {
         DispatchQueue.main.async {
+            // transformが初期状態ではない場合にframeを変更すると表示がずれるため，frameの変更は.identity下で行う。
+            let previousTransform = self.transform
+            self.transform = .identity
             // ボタンの長さ
             let length: CGFloat = 44
             label: do {
@@ -111,6 +114,7 @@ extension TextImageView {
                 self.deleteButton.layer.cornerRadius = length/2
                 self.deleteButton.frame = CGRect(x: 0, y: 0, width: length, height: length)
             }
+            self.transform = previousTransform
         }
     }
 }
@@ -170,7 +174,6 @@ extension TextImageView {
                             .filter{ $0 != nil }.map{ $0! }
                             .asObservable()
                             .subscribe(onNext: { [weak self] text in
-                                print("sendSignal")
                                 self?.contentText.accept(text)
                                 self?.layoutView()
                             })
