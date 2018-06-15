@@ -123,6 +123,7 @@ extension TextImageView {
     public func binding(by disposeBag: DisposeBag, completion: (() -> Void)?) {
         label: do {
             self.contentText
+                .asObservable()
                 .map{ $0 == "" ? "Text" : $0 }
                 .asDriver(onErrorJustReturn: "Text")
                 .drive(self.label.rx.text)
