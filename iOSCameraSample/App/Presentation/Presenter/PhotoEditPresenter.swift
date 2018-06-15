@@ -16,7 +16,6 @@ protocol PhotoEditPresenter: class {
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>?
     func presentActivity(image: UIImage)
     func addText()
-    func compose(image: UIImage)
 }
 
 class PhotoEditPresenterImpl {
@@ -107,13 +106,5 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         let textImageView = TextImageView()
         textImageView.frame = CGRect(x: 0, y: 0, width: 150, height: 100)
         self.viewInput?.addTextImageView(textImageView)
-    }
-
-    /// 画像を合成する。
-    func compose(image: UIImage) {
-//        if let composed = model.image.value.composed(with: images) {
-//            model.image.accept(image)
-//            textImageViews.accept([])
-//        }
     }
 }

@@ -29,7 +29,6 @@ class PhotoEditViewController: UIViewController {
 
     private var presenter: presenterType?
     private var subview: PhotoEditView?
-    private var textImageViews: BehaviorRelay<[TextImageView]>!
     // tintColorの変更のためインスタンスに格納する。
     private var tools: (undo: UIBarButtonItem, redo: UIBarButtonItem)?
 
@@ -74,9 +73,6 @@ extension PhotoEditViewController {
                 self.view.addSubview(self.subview!)
             }
         }
-        textImageViews: do {
-            self.textImageViews = BehaviorRelay<[TextImageView]>(value: [])
-        }
         toolbar: do {
             // Toolbarの内容を指定する。
             let undo = UIBarButtonItem(barButtonHiddenItem: .back, target: self, action: #selector(self.undo))
@@ -108,7 +104,7 @@ extension PhotoEditViewController {
     }
 }
 
-extension PhotoEditViewController {
+extension PhotoEditViewController: Focusable {
     private func binding() {
         if let subview = self.subview {
             subview.dismissButton.rx.tap
@@ -123,18 +119,17 @@ extension PhotoEditViewController {
                 .asDriver(onErrorJustReturn: UIImage())
                 .drive(subview.imageView.rx.image)
                 .disposed(by: disposeBag)
-        }
-        textImageViews: do {
+
             // textImageViewsが追加されたらaddSubViewする。
-            self.textImageViews.asObservable()
+            subview.textImageViews.asObservable()
                 .map{ $0.filter{ !$0.isDescendant(of: self.view) } }
                 .subscribe(onNext: { [weak self] textImageViews in
-                    if let _self = self {
-                        textImageViews.forEach { [weak self] view in
+                    textImageViews.forEach { [weak self] view in
+                        if let _self = self {
                             view.center = _self.view.center
-                            _self.view.addSubview(view)
+                            _self.subview?.layerView.addSubview(view)
                             view.binding({
-                                self?.removeTextImageView(view)
+                                _self.removeTextImageView(view)
                             })
                         }
                     }
@@ -153,9 +148,9 @@ extension PhotoEditViewController {
 
     }
     @objc private func showActivity() {
+        // TODO:
         if let image = self.translate() {
             self.image?.accept(image)
-            self.presenter?.compose(image: image)
             self.presenter?.presentActivity(image: image)
         }
     }
@@ -194,16 +189,18 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
 
     /// TextImageViewを追加する。
     public func addTextImageView(_ view: TextImageView) {
-        var views = self.textImageViews.value
+        guard let textImageViews = self.subview?.textImageViews else { return }
+        var views = textImageViews.value
         views.append(view)
-        self.textImageViews.accept(views)
+        textImageViews.accept(views)
     }
 
     /// TextImageViewを削除する。
     private func removeTextImageView(_ view: TextImageView) {
+        guard let textImageViews = self.subview?.textImageViews else { return }
         // textImageViews保持の破棄
-        let views = self.textImageViews.value.filter{ $0 != view }
-        self.textImageViews.accept(views)
+        let views = textImageViews.value.filter{ $0 != view }
+        textImageViews.accept(views)
 
         // フォーカスの破棄
         if self.focusView.value == view {
@@ -214,25 +211,22 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
 
 extension PhotoEditViewController {
     private func translate() -> UIImage? {
-        guard let imageView = self.subview?.imageView else { return nil }
+        guard let subview = self.subview else { return nil }
 
         // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
-        for view in self.textImageViews.value {
+        for view in subview.textImageViews.value {
             view.removeFromSuperview()
             let previousTransform = view.transform
             view.transform = .identity
-            view.frame = CGRect(x: view.frame.minX, y: view.frame.minY - imageView.frame.minY, width: view.frame.width, height: view.frame.height)
+            view.frame = CGRect(x: view.frame.minX - subview.imageView.frame.minX, y: view.frame.minY - subview.imageView.frame.minY, width: view.frame.width, height: view.frame.height)
             view.transform = previousTransform
-            imageView.addSubview(view)
+            subview.imageView.addSubview(view)
         }
         // focusViewを初期化
         self.focusView.accept(nil)
         // textImageViewsを初期化
-        self.textImageViews.accept([])
+        subview.textImageViews.accept([])
 
-        return imageView.layerImage
+        return subview.imageView.layerImage
     }
-}
-
-extension PhotoEditViewController: Focusable {
 }
