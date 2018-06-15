@@ -91,13 +91,19 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
 
             // 共有された場合にはSaveされたと判定する。
             if let type = activityType, targets.index(of: type) != nil {
+                // 保存フラグを立てる。
                 self.useCase.changeSaveState(true)
+                self.useCase.changeEditState(false)
             }
         })
     }
 
     /// Textを追加する。
     func addText() {
+        // 編集フラグを立てる。
+        self.useCase.changeEditState(true)
+
+        // TextImageViewを追加する。
         let textImageView = TextImageView()
         textImageView.frame = CGRect(x: 0, y: 0, width: 150, height: 100)
         self.viewInput?.addTextImageView(textImageView)
