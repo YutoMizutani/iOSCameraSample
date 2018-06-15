@@ -10,7 +10,7 @@ import UIKit
 
 protocol PhotoEditWireframe: class {
     func dismiss()
-    func presentActivity(image: UIImage)
+    func presentActivity(image: UIImage, completionWithItemsHandler: ((_ activityType: UIActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ activityError: Error?) -> Void)?)
 }
 
 class PhotoEditWireframeImpl {
@@ -28,11 +28,12 @@ extension PhotoEditWireframeImpl: PhotoEditWireframe {
         UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
     }
 
-    func presentActivity(image: UIImage) {
+    func presentActivity(image: UIImage, completionWithItemsHandler: ((_ activityType: UIActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ activityError: Error?) -> Void)?) {
         let activityItems = [image]
         let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityViewController.completionWithItemsHandler = completionWithItemsHandler
 
-        // iPad時にクラッシュしないようにする表示起点の設定。
+        // iPad使用時にクラッシュしないようにする表示起点の設定。
         activityViewController.popoverPresentationController?.sourceView = self.viewController?.view
 
         // 使用しないUIActivityType
