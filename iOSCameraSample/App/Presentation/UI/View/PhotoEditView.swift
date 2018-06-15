@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import AVFoundation
 
 class PhotoEditView: UIView {
     var imageView: UIImageView!
+    var textImageViews: BehaviorRelay<[TextImageView]>!
+    var layerView: UIView!
     var dismissButton: UIButton!
 
     required init(coder aDecoder: NSCoder) {
@@ -41,6 +45,13 @@ extension PhotoEditView {
             self.imageView = UIImageView()
             self.addSubview(self.imageView)
         }
+        textImageViews: do {
+            self.textImageViews = BehaviorRelay<[TextImageView]>(value: [])
+        }
+        layerView: do {
+            self.layerView = UIView()
+            self.addSubview(self.layerView)
+        }
         dismissButton: do {
             self.dismissButton = { () -> UIButton in
                 let button = UIButton()
@@ -59,6 +70,9 @@ extension PhotoEditView {
             guard let image = self.imageView.image else { return }
             self.imageView.frame = AVMakeRect(aspectRatio: image.size, insideRect: self.bounds)
             self.imageView.center = self.center
+        }
+        layerView: do {
+            self.layerView.frame = self.frame
         }
         dismissButton: do {
             let space: CGFloat = 5, length: CGFloat = 50

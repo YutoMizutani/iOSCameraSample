@@ -15,6 +15,7 @@ protocol PhotoEditPresenter: class {
     func dismiss()
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>?
     func presentActivity(image: UIImage)
+    func addText()
 }
 
 class PhotoEditPresenterImpl {
@@ -68,6 +69,42 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
 
     /// UIActivityViewControllerを表示する。
     func presentActivity(image: UIImage) {
-        self.wireframe.presentActivity(image: image)
+        self.wireframe.presentActivity(image: image, completionWithItemsHandler: { (activityType, completed, returnedItems, activityError) in
+            guard completed else { return }
+
+            // 共有対象の定義
+            let targets = [
+                UIActivityType.airDrop,
+                UIActivityType.mail,
+                UIActivityType.markupAsPDF,
+                UIActivityType.message,
+                UIActivityType.openInIBooks,
+                UIActivityType.postToFacebook,
+                UIActivityType.postToFlickr,
+                UIActivityType.postToTencentWeibo,
+                UIActivityType.postToTwitter,
+                UIActivityType.postToVimeo,
+                UIActivityType.postToWeibo,
+                UIActivityType.saveToCameraRoll,
+            ]
+
+            // 共有された場合にはSaveされたと判定する。
+            if let type = activityType, targets.index(of: type) != nil {
+                // 保存フラグを立てる。
+                self.useCase.changeSaveState(true)
+                self.useCase.changeEditState(false)
+            }
+        })
+    }
+
+    /// Textを追加する。
+    func addText() {
+        // 編集フラグを立てる。
+        self.useCase.changeEditState(true)
+
+        // TextImageViewを追加する。
+        let textImageView = TextImageView()
+        textImageView.frame = CGRect(x: 0, y: 0, width: 150, height: 100)
+        self.viewInput?.addTextImageView(textImageView)
     }
 }
