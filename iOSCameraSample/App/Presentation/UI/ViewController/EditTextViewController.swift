@@ -16,6 +16,7 @@ protocol EditTextViewInput: class {
 
 class EditTextViewController: UIViewController {
     private var subview: EditTextView?
+    public var sendText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
 
     private let disposeBag = DisposeBag()
 
@@ -73,6 +74,7 @@ extension EditTextViewController {
         self.dismiss(animated: true, completion: nil)
     }
     @objc private func done() {
+        self.sendText.accept(self.subview?.textView.text)
         self.dismiss(animated: true, completion: nil)
     }
 }
