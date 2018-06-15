@@ -9,15 +9,15 @@
 import Foundation
 
 protocol PhotoEditTranslator {
-    func translate(from model: PhotoEditModel) -> PhotoEditEntity
-    func translate(from entity: PhotoEditEntity) -> PhotoEditModel
+    func translate(from model: PhotoEditSaveStateModel) -> PhotoEditSaveStateEntity
+    func translate(from entity: PhotoEditSaveStateEntity) -> PhotoEditSaveStateModel
 }
 
 struct PhotoEditTranslatorImpl: PhotoEditTranslator {
-    func translate(from model: PhotoEditModel) -> PhotoEditEntity {
-        return PhotoEditEntityImpl(didSaveFlag: model.didSaveFlag, didEditFlag: model.didEditFlag)
+    func translate(from model: PhotoEditSaveStateModel) -> PhotoEditSaveStateEntity {
+        return PhotoEditSaveStateEntityImpl(didSaveFlag: model.didSaveFlag, didEditFlag: model.didEditFlag)
     }
-    func translate(from entity: PhotoEditEntity) -> PhotoEditModel {
-        return PhotoEditModelImpl(didSaveFlag: entity.didSaveFlag, didEditFlag: entity.didEditFlag)
+    func translate(from entity: PhotoEditSaveStateEntity) -> PhotoEditSaveStateModel {
+        return PhotoEditSaveStateModelImpl(didSaveFlag: entity.didSaveFlag, didEditFlag: entity.didEditFlag)
     }
 }

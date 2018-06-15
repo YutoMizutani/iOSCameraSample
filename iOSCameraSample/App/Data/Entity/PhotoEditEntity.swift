@@ -1,5 +1,5 @@
 //
-//  PhotoEditEntity.swift
+//  PhotoEditSaveStateEntity.swift
 //  iOSCameraSample
 //
 //  Created by Yuto Mizutani on 2018/6/12.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-protocol PhotoEditEntity {
+protocol PhotoEditSaveStateEntity {
     var didSaveFlag: Bool { get }
     var didEditFlag: Bool { get }
 
     init(didSaveFlag: Bool?, didEditFlag: Bool?)
 }
 
-struct PhotoEditEntityImpl: PhotoEditEntity {
+struct PhotoEditSaveStateEntityImpl: PhotoEditSaveStateEntity {
     /// 保存フラグ。これまで保存されたかの状態を保持する。
     let didSaveFlag: Bool
     /// 編集フラグ。前回保存した状態からの変化を保持する。
