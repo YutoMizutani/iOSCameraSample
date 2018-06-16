@@ -9,6 +9,7 @@
 import UIKit
 
 class EditTextView: UIView {
+    var fontSliderView: FontSliderView!
     var textView: UITextView!
 
     required init(coder aDecoder: NSCoder) {
@@ -32,18 +33,26 @@ class EditTextView: UIView {
 
 extension EditTextView {
     private func configureView() {
+        fontSliderView: do {
+            self.fontSliderView = FontSliderView()
+            self.fontSliderView.setRange((30, 100))
+            self.addSubview(self.fontSliderView)
+        }
         textView: do {
             self.textView = { () -> UITextView in
                 let textView = UITextView()
-                textView.font = UIFont.systemFont(ofSize: 20)
                 return textView
             }()
             self.addSubview(self.textView)
         }
     }
     private func layoutView() {
+        fontSliderView: do {
+            let height: CGFloat = 60
+            self.fontSliderView.frame = CGRect(x: 0, y: self.safeAreaInsets.top, width: self.width, height: height)
+        }
         textView: do {
-            self.textView.frame = self.frame
+            self.textView.frame = CGRect(x: 0, y: self.fontSliderView.frame.maxY, width: self.width, height: self.height - self.fontSliderView.height)
         }
     }
 }
