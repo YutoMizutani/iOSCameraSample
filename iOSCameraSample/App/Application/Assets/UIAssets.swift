@@ -19,3 +19,9 @@ struct PhotoEditToolIcons {
         return UIImage(named: "stamp.png")?.resize(for: CGSize(width: 32, height: 44))
     }
 }
+
+struct PhotoEditCollectionItems {
+    static func stamp(index: Int) -> UIImage? {
+        return UIImage(named: "stamp\(index).png")
+    }
+}
