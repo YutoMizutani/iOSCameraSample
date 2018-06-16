@@ -52,9 +52,6 @@ class SliderView: UIView {
 
 extension SliderView {
     private func configureView() {
-        view: do {
-            self.backgroundColor = UIColor(white: 0, alpha: 0.1)
-        }
         slider: do {
             self.slider = { () -> UISlider in
                 let slider = UISlider()
