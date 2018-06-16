@@ -252,3 +252,28 @@ extension TextImageView {
         }
     }
 }
+
+extension TextImageView {
+    /// 自身のUILabelのコンテンツのみ複製する。
+    public var duplicatedContentView: UIView {
+        // 新しいViewを作成する。
+        let view = UIView()
+
+        // transform前のViewからViewの情報を取得する。
+        let previousTransform = self.transform
+        self.transform = .identity
+        view.frame = CGRect(x: 0, y: 0, width: self.width, height: self.height)
+        view.center = self.center
+
+        // UILabelを複製する。
+        if let duplicatedLabel: UILabel = self.label.duplicated as? UILabel {
+            view.addSubview(duplicatedLabel)
+        }
+
+        // transform状態を反映する。
+        self.transform = previousTransform
+        view.transform = previousTransform
+
+        return view
+    }
+}

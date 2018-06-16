@@ -29,8 +29,6 @@ class PhotoEditViewController: UIViewController {
 
     private var presenter: presenterType?
     private var subview: PhotoEditView?
-    // tintColorの変更のためインスタンスに格納する。
-    private var tools: (undo: UIBarButtonItem, redo: UIBarButtonItem)?
 
     // フォーカスされているViewを保持する。
     public var focusView: BehaviorRelay<UIView?> = BehaviorRelay(value: nil)
@@ -75,23 +73,16 @@ extension PhotoEditViewController {
         }
         toolbar: do {
             // Toolbarの内容を指定する。
-            let undo = UIBarButtonItem(barButtonHiddenItem: .back, target: self, action: #selector(self.undo))
-            let redo = UIBarButtonItem(barButtonHiddenItem: .forward, target: self, action: #selector(self.redo))
-            self.tools = (undo, redo)
-            self.tools?.undo.isEnabled = false
-            self.tools?.redo.isEnabled = false
             let items: [UIBarButtonItem] = [
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil),
-                self.tools!.undo,
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                self.tools!.redo,
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem.fixedSpace,
+                UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil),
+                UIBarButtonItem.flexibleSpace,
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
+                UIBarButtonItem.flexibleSpace,
+                UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
+                UIBarButtonItem.flexibleSpace,
+                UIBarButtonItem.fixedSpace,
             ]
             self.toolbarItems = items
             self.navigationController?.setToolbarHidden(false, animated: false)
@@ -141,15 +132,8 @@ extension PhotoEditViewController: Focusable {
 
 // >>> TODO:- rxで書き直す?
 extension PhotoEditViewController {
-    @objc private func undo() {
-
-    }
-    @objc private func redo() {
-
-    }
     @objc private func showActivity() {
         if let image = self.translate() {
-            self.image?.accept(image)
             self.presenter?.presentActivity(image: image)
         }
     }
@@ -212,20 +196,30 @@ extension PhotoEditViewController {
     private func translate() -> UIImage? {
         guard let subview = self.subview else { return nil }
 
-        // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
-        for view in subview.textImageViews.value {
-            view.removeFromSuperview()
-            let previousTransform = view.transform
-            view.transform = .identity
-            view.frame = CGRect(x: view.frame.minX - subview.imageView.frame.minX, y: view.frame.minY - subview.imageView.frame.minY, width: view.frame.width, height: view.frame.height)
-            view.transform = previousTransform
-            subview.imageView.addSubview(view)
-        }
         // focusViewを初期化
         self.focusView.accept(nil)
-        // textImageViewsを初期化
-        subview.textImageViews.accept([])
+        // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
+        for view in subview.textImageViews.value {
+            // textImageViewsのViewから，Labelのみの情報を取得する。
+            let myview = view.duplicatedContentView
 
-        return subview.imageView.layerImage
+            // transform前の状態からサイズを変更する。
+            let previousTransform = myview.transform
+            myview.transform = .identity
+
+            // imageViewのサイズに調整する。
+            myview.frame = CGRect(x: myview.frame.minX - subview.imageView.frame.minX, y: myview.frame.minY - subview.imageView.frame.minY, width: myview.frame.width, height: myview.frame.height)
+
+            // transform状態を戻す。
+            myview.transform = previousTransform
+
+            subview.imageView.addSubview(myview)
+        }
+
+        let image = subview.imageView.layerImage
+
+        self.subview?.imageView.subviews.forEach { $0.removeFromSuperview() }
+
+        return image
     }
 }

@@ -22,3 +22,12 @@ extension UIBarButtonItem {
         self.init(barButtonSystemItem: systemItem!, target: target, action: action)
     }
 }
+
+extension UIBarButtonItem {
+    static var fixedSpace: UIBarButtonItem {
+        return UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+    }
+    static var flexibleSpace: UIBarButtonItem {
+        return UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+    }
+}

@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIView {
+    /// addSubViewした先のViewControllerを取得する。
     public var parent: UIViewController? {
         weak var parentResponder: UIResponder? = self
         while parentResponder != nil {
@@ -18,5 +19,12 @@ extension UIView {
             }
         }
         return nil
+    }
+}
+
+extension UIView {
+    /// UIViewを複製する。
+    public var duplicated: UIView? {
+        return NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as? UIView
     }
 }
