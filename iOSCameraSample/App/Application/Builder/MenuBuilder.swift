@@ -27,9 +27,8 @@ struct MenuBuilder {
         )
         return viewController
     }
-    func buildWithNavigationController(title: String) -> UINavigationController {
+    func buildWithNavigationController() -> UINavigationController {
         let viewController = self.build()
-        viewController.navigationItem.title = title
         let navigationController = UINavigationController.init(rootViewController: viewController)
         return navigationController
     }

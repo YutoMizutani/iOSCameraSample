@@ -26,7 +26,7 @@ class PhotoEditWireframeImpl {
 
 extension PhotoEditWireframeImpl: PhotoEditWireframe {
     func dismiss() {
-        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
+        self.viewController?.dismiss(animated: true, completion: nil)
     }
 
     func presentActivity(image: UIImage, completionWithItemsHandler: ((_ activityType: UIActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ activityError: Error?) -> Void)?) {

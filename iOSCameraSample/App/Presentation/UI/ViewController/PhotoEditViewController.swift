@@ -71,11 +71,11 @@ class PhotoEditViewController: UIViewController {
 
 extension PhotoEditViewController {
     private func configureView() {
-        selfview: do {
+        view: do {
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
-            self.subview = PhotoEditView(frame: self.view.bounds)
+            self.subview = PhotoEditView()
             if self.subview != nil {
                 self.view.addSubview(self.subview!)
             }
@@ -117,6 +117,9 @@ extension PhotoEditViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
     }
     private func layoutView() {
+        view: do {
+            self.navigationItem.title = "画像の編集"
+        }
         subview: do {
             self.subview?.frame = self.view.bounds
         }

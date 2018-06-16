@@ -51,11 +51,12 @@ class MenuViewController: UIViewController {
 
 extension MenuViewController {
     private func configureView() {
-        selfView: do {
+        view: do {
+            self.navigationItem.title = AppAssets.name
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
-            self.subview = MenuView(frame: self.view.bounds)
+            self.subview = MenuView()
             if self.subview != nil {
                 self.view.addSubview(self.subview!)
             }
