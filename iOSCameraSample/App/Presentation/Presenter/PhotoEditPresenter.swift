@@ -106,7 +106,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
                 UIActivityType.saveToCameraRoll,
             ]
 
-            // 共有された場合にはSaveされたと判定する。
+            // saveMethodsに一致した場合には画像を保存したと判定する。
             if let type = activityType, saveMethods.index(of: type) != nil {
                 // 保存完了のアラートを表示する。
                 self.viewInput?.presentAlert(title: "確認", message: "画像の保存が完了しました。")
