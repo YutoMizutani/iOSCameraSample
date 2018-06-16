@@ -24,3 +24,19 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    func presentAlert(_ title: String, message: String, actionTitle: String="OK") {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: actionTitle, style: .cancel) { _ -> Void in
+        })
+
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+

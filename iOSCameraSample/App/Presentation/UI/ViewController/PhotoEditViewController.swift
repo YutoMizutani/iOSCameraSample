@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol PhotoEditViewInput: class {
+    func presentAlert(title: String, message: String)
     func throwError(_ error: Error)
     func presentSelect(_ model: PhotoEditAlertModel)
     func addTextImageView(_ view: TextImageView)
@@ -43,6 +44,12 @@ class PhotoEditViewController: UIViewController {
         self.rawImage = image
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        configureNavigationBar()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -71,7 +78,12 @@ extension PhotoEditViewController {
                 self.view.addSubview(self.subview!)
             }
         }
+        navigationBar: do {
+            let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.dismissView))
+            self.navigationItem.leftBarButtonItem = leftItem
+        }
         toolbar: do {
+            self.navigationController?.toolbar.barTintColor = .black
             // Toolbarの内容を指定する。
             let items: [UIBarButtonItem] = [
                 UIBarButtonItem.fixedSpace,
@@ -84,9 +96,21 @@ extension PhotoEditViewController {
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem.fixedSpace,
             ]
+            items.forEach{
+                $0.tintColor = .white
+            }
             self.toolbarItems = items
             self.navigationController?.setToolbarHidden(false, animated: false)
         }
+    }
+    /// NavigationBarの設定を行う。
+    private func configureNavigationBar() {
+        // 背景色
+        self.navigationController?.navigationBar.barTintColor = .black
+        // ボタン色
+        self.navigationController?.navigationBar.tintColor = .white
+        // タイトル色
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
     }
     private func layoutView() {
         subview: do {
@@ -98,13 +122,6 @@ extension PhotoEditViewController {
 extension PhotoEditViewController: Focusable {
     private func binding() {
         if let subview = self.subview {
-            subview.dismissButton.rx.tap
-                .asObservable()
-                .subscribe(onNext: { [weak self] _ in
-                    self?.presenter?.dismiss()
-                })
-                .disposed(by: disposeBag)
-
             self.image = self.presenter?.getImageDisposable(self.rawImage)
             self.image?
                 .asDriver(onErrorJustReturn: UIImage())
@@ -132,6 +149,9 @@ extension PhotoEditViewController: Focusable {
 
 // >>> TODO:- rxで書き直す?
 extension PhotoEditViewController {
+    @objc private func dismissView() {
+        self.presenter?.dismiss()
+    }
     @objc private func showActivity() {
         if let image = self.translate() {
             self.presenter?.presentActivity(image: image)
@@ -148,6 +168,11 @@ extension PhotoEditViewController {
 
 extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     /// アラートを表示する。
+    public func presentAlert(title: String, message: String) {
+        self.presentAlert(title, message: message)
+    }
+
+    /// エラーアラートを表示する。
     public func throwError(_ error: Error) {
         self.showAlert(error: error)
     }
