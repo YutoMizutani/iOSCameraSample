@@ -13,7 +13,7 @@ import RxGesture
 
 class TextImageView: UIView {
     var label: UILabel!
-    var contentText: BehaviorRelay<String> = BehaviorRelay(value: "Text")
+    var contentText: BehaviorRelay<(String, UIFont?)> = BehaviorRelay(value: ("Text", nil))
     var borderView: UIView!
     var editButton: UIButton!
     var deleteButton: UIButton!
@@ -153,12 +153,23 @@ extension TextImageView {
         }
 
         label: do {
+            let observableText = self.contentText.share(replay: 1)
             self.compositeDisposable.append(
-                self.contentText
+                observableText
                     .asObservable()
+                    .map{ $0.0 }
                     .map{ $0 == "" ? "Text" : $0 }
                     .asDriver(onErrorJustReturn: "Text")
                     .drive(self.label.rx.text)
+            )
+            self.compositeDisposable.append(
+                observableText
+                    .observeOn(MainScheduler.instance)
+                    .map{ $0.1 }
+                    .filter{ $0 != nil }.map{ $0! }
+                    .subscribe(onNext: { font in
+                        self.label.font = font
+                    })
             )
         }
         transform: do {
@@ -206,7 +217,10 @@ extension TextImageView {
                     .subscribe(onNext: { [weak self] _ in
                         let viewController = EditTextViewController()
                         viewController.navigationItem.title = "Edit text"
-                        viewController.contentText.accept(self?.label.text)
+                        let text = self?.label.text, font = self?.label.font
+                        if let content = text != nil ? (text!, font) : nil {
+                            viewController.contentText.accept(content)
+                        }
                         binding: do {
                             self?.compositeDisposable.append(
                                 viewController.sendText

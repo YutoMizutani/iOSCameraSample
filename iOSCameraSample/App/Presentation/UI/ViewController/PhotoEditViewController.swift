@@ -148,7 +148,6 @@ extension PhotoEditViewController {
 
     }
     @objc private func showActivity() {
-        // TODO:
         if let image = self.translate() {
             self.image?.accept(image)
             self.presenter?.presentActivity(image: image)
