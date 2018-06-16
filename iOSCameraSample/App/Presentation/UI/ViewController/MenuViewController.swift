@@ -22,6 +22,8 @@ class MenuViewController: UIViewController {
     private var presenter: presenterType?
     private var subview: MenuView?
 
+    private var image = BehaviorRelay<UIImage?>(value: nil)
+
     private let disposeBag = DisposeBag()
 
     internal func inject(
@@ -71,7 +73,7 @@ extension MenuViewController {
         self.subview?.launchCameraButton.rx.tap
             .asObservable()
             .subscribe(onNext: { [weak self] _ in
-                self?.presenter?.launchCamera()
+                self?.presenter?.launchCamera(self)
             })
             .disposed(by: disposeBag)
 
