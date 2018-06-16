@@ -79,13 +79,13 @@ extension EditTextViewController {
             .asObservable()
             .map{ $0.1?.pointSize }
             .filter{ $0 != nil }.map{ $0! }
-            .map{ Int($0) }
+            .map{ Float($0) }
             .subscribe(onNext: { [weak self] value in
-                self?.subview.fontSliderView.value.accept(value)
+                self?.subview.sliderView.value.accept(value)
             })
             .disposed(by: disposeBag)
 
-        self.subview.fontSliderView.value
+        self.subview.sliderView.value
             .asObservable()
             .subscribe(onNext: { [weak self] value in
                 self?.subview.textView.font = UIFont.systemFont(ofSize: CGFloat(value))

@@ -16,6 +16,7 @@ protocol PhotoEditPresenter: class {
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>?
     func presentActivity(image: UIImage)
     func addText()
+    func editContrast(value: Float)
 }
 
 class PhotoEditPresenterImpl {
@@ -28,6 +29,8 @@ class PhotoEditPresenterImpl {
     private let useCase: PhotoEditUseCase
 
     private var imageModel: PhotoEditImageModel?
+
+    private var rawImage: UIImage?
 
     init(
         viewInput: viewInputType,
@@ -70,6 +73,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>? {
         guard let image = image else { return nil }
         self.imageModel = self.useCase.getImageModel(image)
+        self.rawImage = self.imageModel?.image.value
         return self.imageModel?.image
     }
 
@@ -106,7 +110,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
                 UIActivityType.saveToCameraRoll,
             ]
 
-            // 共有された場合にはSaveされたと判定する。
+            // saveMethodsに一致した場合には画像を保存したと判定する。
             if let type = activityType, saveMethods.index(of: type) != nil {
                 // 保存完了のアラートを表示する。
                 self.viewInput?.presentAlert(title: "確認", message: "画像の保存が完了しました。")
@@ -123,5 +127,13 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         let textImageView = TextImageView()
         textImageView.frame = CGRect(x: 0, y: 0, width: 150, height: 100)
         self.viewInput?.addTextImageView(textImageView)
+    }
+
+    func editContrast(value: Float) {
+        guard let model = self.imageModel else { return }
+
+        if let contrastImage = self.useCase.contrast(self.rawImage!, value: value) {
+            model.image.accept(contrastImage)
+        }
     }
 }

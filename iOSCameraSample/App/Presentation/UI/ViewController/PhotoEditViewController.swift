@@ -143,6 +143,13 @@ extension PhotoEditViewController: Focusable {
                     }
                 })
                 .disposed(by: disposeBag)
+
+            subview.contrastView.value
+                .asObservable()
+                .subscribe(onNext: { [weak self] value in
+                    self?.presenter?.editContrast(value: value)
+                })
+                .disposed(by: disposeBag)
         }
     }
 }
@@ -160,8 +167,11 @@ extension PhotoEditViewController {
     @objc private func addText() {
         self.presenter?.addText()
     }
-    @objc private func editContrast() {
+    @objc private func editContrast(_ sender: UIBarButtonItem) {
+        guard let subview = self.subview else { return }
 
+        subview.contrastView.isHidden = !subview.contrastView.isHidden
+        sender.tintColor = subview.contrastView.isHidden ? .white : self.view.tintColor
     }
 }
 // <<< rxで書き直す? MARK:-
