@@ -149,7 +149,6 @@ extension PhotoEditViewController {
     }
     @objc private func showActivity() {
         if let image = self.translate() {
-            self.image?.accept(image)
             self.presenter?.presentActivity(image: image)
         }
     }
@@ -212,20 +211,30 @@ extension PhotoEditViewController {
     private func translate() -> UIImage? {
         guard let subview = self.subview else { return nil }
 
-        // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
-        for view in subview.textImageViews.value {
-            view.removeFromSuperview()
-            let previousTransform = view.transform
-            view.transform = .identity
-            view.frame = CGRect(x: view.frame.minX - subview.imageView.frame.minX, y: view.frame.minY - subview.imageView.frame.minY, width: view.frame.width, height: view.frame.height)
-            view.transform = previousTransform
-            subview.imageView.addSubview(view)
-        }
         // focusViewを初期化
         self.focusView.accept(nil)
-        // textImageViewsを初期化
-        subview.textImageViews.accept([])
+        // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
+        for view in subview.textImageViews.value {
+            // textImageViewsのViewから，Labelのみの情報を取得する。
+            let myview = view.duplicatedContentView
 
-        return subview.imageView.layerImage
+            // transform前の状態からサイズを変更する。
+            let previousTransform = myview.transform
+            myview.transform = .identity
+
+            // imageViewのサイズに調整する。
+            myview.frame = CGRect(x: myview.frame.minX - subview.imageView.frame.minX, y: myview.frame.minY - subview.imageView.frame.minY, width: myview.frame.width, height: myview.frame.height)
+
+            // transform状態を戻す。
+            myview.transform = previousTransform
+
+            subview.imageView.addSubview(myview)
+        }
+
+        let image = subview.imageView.layerImage
+
+        self.subview?.imageView.subviews.forEach { $0.removeFromSuperview() }
+
+        return image
     }
 }
