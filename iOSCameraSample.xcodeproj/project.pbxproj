@@ -14,6 +14,7 @@
 		9936201E20D2A98300AAA9AD /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936201D20D2A98300AAA9AD /* UIView+.swift */; };
 		9936202020D2AF7D00AAA9AD /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936201F20D2AF7D00AAA9AD /* EditTextView.swift */; };
 		9936202420D3E90600AAA9AD /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936202320D3E90600AAA9AD /* UIImageView+.swift */; };
+		995D050F20D4DE42003DBE06 /* CIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D050E20D4DE42003DBE06 /* CIImage+.swift */; };
 		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 996B5B3020D06B5700A8B925 /* IMG_1000.JPG */; };
 		996B5B3420D0902C00A8B925 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3320D0902C00A8B925 /* Assets.swift */; };
@@ -90,6 +91,7 @@
 		9936201D20D2A98300AAA9AD /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		9936201F20D2AF7D00AAA9AD /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		9936202320D3E90600AAA9AD /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
+		995D050E20D4DE42003DBE06 /* CIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+.swift"; sourceTree = "<group>"; };
 		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		996B5B3020D06B5700A8B925 /* IMG_1000.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1000.JPG; sourceTree = "<group>"; };
 		996B5B3320D0902C00A8B925 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				996B5B4A20D217B600A8B925 /* UIImage+.swift */,
 				9936201D20D2A98300AAA9AD /* UIView+.swift */,
 				9936202320D3E90600AAA9AD /* UIImageView+.swift */,
+				995D050E20D4DE42003DBE06 /* CIImage+.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 				99D9B7B320CFE23100992A98 /* PhotoEditView.swift in Sources */,
 				99D9B7B520CFE23100992A98 /* PhotoEditViewController.swift in Sources */,
 				99D9B7A320CFE23100992A98 /* MenuBuilder.swift in Sources */,
+				995D050F20D4DE42003DBE06 /* CIImage+.swift in Sources */,
 				9936202020D2AF7D00AAA9AD /* EditTextView.swift in Sources */,
 				9936201A20D2A7AC00AAA9AD /* EditTextViewController.swift in Sources */,
 				99D9B7A020CFE23100992A98 /* UIImagePickerController+Rx.swift in Sources */,

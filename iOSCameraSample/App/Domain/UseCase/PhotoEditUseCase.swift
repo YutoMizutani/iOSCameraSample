@@ -14,6 +14,7 @@ protocol PhotoEditUseCase {
     func getImageModel(_ image: UIImage) -> PhotoEditImageModel
     func changeSaveState(_ state: Bool)
     func changeEditState(_ state: Bool)
+    func contrast(_ image: UIImage, value: Float) -> UIImage?
 }
 
 struct PhotoEditUseCaseImpl {
@@ -45,5 +46,12 @@ extension PhotoEditUseCaseImpl: PhotoEditUseCase {
     }
     func changeEditState(_ state: Bool) {
         self.repository.setDidEditState(state)
+    }
+
+    func contrast(_ image: UIImage, value: Float) -> UIImage? {
+        let ciImage = CIImage.init(cgImage: image.cgImage!)
+        let contrastCIImage = ciImage.applyColorControls([(CIColorControlsType.contrast, value)])
+        let uiImage = CIContextInstance.shared.generate(from: contrastCIImage)
+        return uiImage
     }
 }

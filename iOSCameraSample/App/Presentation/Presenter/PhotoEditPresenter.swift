@@ -16,6 +16,7 @@ protocol PhotoEditPresenter: class {
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>?
     func presentActivity(image: UIImage)
     func addText()
+    func editContrast(value: Float)
 }
 
 class PhotoEditPresenterImpl {
@@ -123,5 +124,13 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         let textImageView = TextImageView()
         textImageView.frame = CGRect(x: 0, y: 0, width: 150, height: 100)
         self.viewInput?.addTextImageView(textImageView)
+    }
+
+    func editContrast(value: Float) {
+        guard let model = self.imageModel else { return }
+
+        if let contrastImage = self.useCase.contrast(model.image.value, value: value) {
+            self.imageModel!.image.accept(contrastImage)
+        }
     }
 }
