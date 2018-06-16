@@ -40,7 +40,7 @@ class EditTextViewController: UIViewController {
 
 extension EditTextViewController {
     private func configureView() {
-        selfview: do {
+        view: do {
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
