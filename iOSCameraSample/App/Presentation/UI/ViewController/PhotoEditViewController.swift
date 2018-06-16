@@ -29,8 +29,6 @@ class PhotoEditViewController: UIViewController {
 
     private var presenter: presenterType?
     private var subview: PhotoEditView?
-    // tintColorの変更のためインスタンスに格納する。
-    private var tools: (undo: UIBarButtonItem, redo: UIBarButtonItem)?
 
     // フォーカスされているViewを保持する。
     public var focusView: BehaviorRelay<UIView?> = BehaviorRelay(value: nil)
@@ -75,22 +73,15 @@ extension PhotoEditViewController {
         }
         toolbar: do {
             // Toolbarの内容を指定する。
-            let undo = UIBarButtonItem(barButtonHiddenItem: .back, target: self, action: #selector(self.undo))
-            let redo = UIBarButtonItem(barButtonHiddenItem: .forward, target: self, action: #selector(self.redo))
-            self.tools = (undo, redo)
-            self.tools?.undo.isEnabled = false
-            self.tools?.redo.isEnabled = false
             let items: [UIBarButtonItem] = [
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil),
-                self.tools!.undo,
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                self.tools!.redo,
+                UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil),
             ]
             self.toolbarItems = items
