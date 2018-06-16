@@ -18,6 +18,7 @@ class StampImageView: UIView {
     var deleteButton: UIButton!
 
     var compositeDisposable = CompositeDisposable()
+    private var scale = BehaviorRelay<CGFloat>(value: 1)
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -88,14 +89,12 @@ extension StampImageView {
             self.transform = .identity
             // ボタンの長さ
             let buttonLength: CGFloat = 44
-            let imageLength: CGFloat = 100
+            let imageLength: CGFloat = 100 * self.scale.value
             imageView: do {
                 self.imageView.frame = CGRect(x: 0, y: 0, width: imageLength, height: imageLength)
-                self.imageView.center = CGPoint(x: self.width/2, y: self.height/2)
-            }
-            view: do {
                 // ラベルの自動整形によって大きさを変更する。
                 self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.imageView.width + buttonLength, height: self.imageView.height + buttonLength)
+                self.imageView.center = CGPoint(x: self.width/2, y: self.height/2)
             }
             borderView: do {
                 self.borderView.frame = CGRect(x: buttonLength/2, y: buttonLength/2, width: self.imageView.width, height: self.imageView.height)
@@ -147,6 +146,7 @@ extension StampImageView {
         transform: do {
             let transformGestures = self.rx.transformGestures().share(replay: 1)
             var previousTransform = CGAffineTransform.identity
+            var previousScale: CGFloat = 1
 
             // 移動時に最前面に移動させる。
             self.compositeDisposable.append(
@@ -167,7 +167,8 @@ extension StampImageView {
                     .asTransform()
                     .subscribe(onNext: { [weak self] transform, _ in
                         guard let _self = self else { return }
-                        _self.transform = previousTransform.scaledBy(x: transform.a, y: transform.a).rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
+                        _self.scale.accept(transform.a * previousScale)
+                        _self.transform = previousTransform.rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
                     })
             )
 
@@ -178,7 +179,16 @@ extension StampImageView {
                     .asTransform()
                     .subscribe(onNext: { [weak self] _ in
                         guard let _self = self else { return }
+                        previousScale = _self.scale.value
                         previousTransform = _self.transform
+                    })
+            )
+
+            self.compositeDisposable.append(
+                self.scale
+                    .asObservable()
+                    .subscribe(onNext: { [weak self] _ in
+                        self?.layoutView()
                     })
             )
         }
