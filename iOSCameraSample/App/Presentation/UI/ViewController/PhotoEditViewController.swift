@@ -43,6 +43,12 @@ class PhotoEditViewController: UIViewController {
         self.rawImage = image
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        configureNavigationBar()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,6 +78,7 @@ extension PhotoEditViewController {
             }
         }
         toolbar: do {
+            self.navigationController?.toolbar.barTintColor = .black
             // Toolbarの内容を指定する。
             let items: [UIBarButtonItem] = [
                 UIBarButtonItem.fixedSpace,
@@ -84,9 +91,21 @@ extension PhotoEditViewController {
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem.fixedSpace,
             ]
+            items.forEach{
+                $0.tintColor = .white
+            }
             self.toolbarItems = items
             self.navigationController?.setToolbarHidden(false, animated: false)
         }
+    }
+    /// NavigationBarの設定を行う。
+    private func configureNavigationBar() {
+        // 背景色
+        self.navigationController?.navigationBar.barTintColor = .black
+        // ボタン色
+        self.navigationController?.navigationBar.tintColor = .white
+        // タイトル色
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
     }
     private func layoutView() {
         subview: do {
