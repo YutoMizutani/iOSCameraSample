@@ -117,6 +117,9 @@ extension PhotoEditViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
     }
     private func layoutView() {
+        view: do {
+            self.navigationItem.title = "画像の編集"
+        }
         subview: do {
             self.subview?.frame = self.view.bounds
         }

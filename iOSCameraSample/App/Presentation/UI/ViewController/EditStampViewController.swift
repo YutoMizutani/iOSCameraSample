@@ -79,6 +79,7 @@ extension EditStampViewController {
             self.collectionView?.setCollectionViewLayout(self.flowLayout, animated: true)
         }
         navigationItem: do {
+            self.navigationItem.title = "スタンプ"
             let leftButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancel))
             self.navigationItem.leftBarButtonItem = leftButton
         }

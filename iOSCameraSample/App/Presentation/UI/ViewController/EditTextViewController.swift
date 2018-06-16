@@ -58,6 +58,9 @@ extension EditTextViewController {
         }
     }
     private func layoutView() {
+        view: do {
+            self.navigationItem.title = "文字の編集"
+        }
         subview: do {
             self.subview?.frame = self.view.bounds
         }

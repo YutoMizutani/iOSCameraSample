@@ -28,9 +28,8 @@ struct PhotoEditBuilder {
         )
         return viewController
     }
-    func buildWithNavigationController(title: String, image: UIImage) -> UINavigationController {
+    func buildWithNavigationController(image: UIImage) -> UINavigationController {
         let viewController = self.build(with: image)
-        viewController.navigationItem.title = title
         let navigationController = UINavigationController.init(rootViewController: viewController)
         return navigationController
     }
