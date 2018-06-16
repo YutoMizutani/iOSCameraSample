@@ -49,9 +49,9 @@ extension PhotoEditUseCaseImpl: PhotoEditUseCase {
     }
 
     func contrast(_ image: UIImage, value: Float) -> UIImage? {
-        let ciImage = CIImage.init(cgImage: image.cgImage!)
+        let ciImage = CIImage(cgImage: image.cgImage!)
         let contrastCIImage = ciImage.applyColorControls([(CIColorControlsType.contrast, value)])
-        let uiImage = CIContextInstance.shared.generate(from: contrastCIImage)
+        let uiImage = CIContextInstance.shared.generate(from: contrastCIImage, orientation: image.imageOrientation)
         return uiImage
     }
 }

@@ -59,8 +59,9 @@ class CIContextInstance {
     }
 
     /// CIImageからUIImageに変換する。
-    public func generate(from image: CIImage) -> UIImage? {
+    public func generate(from image: CIImage, orientation: UIImageOrientation) -> UIImage? {
         guard let cgImage: CGImage = self.ciContext.createCGImage(image, from: image.extent) else { return nil }
-        return UIImage(cgImage: cgImage)
+
+        return UIImage(cgImage: cgImage, scale: 0, orientation: orientation)
     }
 }

@@ -10,22 +10,22 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-func dismissViewController(_ viewController: UIViewController, animated: Bool) {
+func dismissViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
     if viewController.isBeingDismissed || viewController.isBeingPresented {
         DispatchQueue.main.async {
-            dismissViewController(viewController, animated: animated)
+            dismissViewController(viewController, animated: animated, completion: completion)
         }
 
         return
     }
 
     if viewController.presentingViewController != nil {
-        viewController.dismiss(animated: animated, completion: nil)
+        viewController.dismiss(animated: animated, completion: completion)
     }
 }
 
 extension Reactive where Base: UIImagePickerController {
-    static func createWithParent(_ parent: UIViewController?, animated: Bool = true, configureImagePicker: @escaping (UIImagePickerController) throws -> () = { x in }) -> Observable<UIImagePickerController> {
+    static func createWithParent(_ parent: UIViewController?, animated: Bool = true, completion: (() -> Void)?, configureImagePicker: @escaping (UIImagePickerController) throws -> () = { x in }) -> Observable<UIImagePickerController> {
         return Observable.create { [weak parent] observer in
             let imagePicker = UIImagePickerController()
             let dismissDisposable = imagePicker.rx
@@ -34,7 +34,7 @@ extension Reactive where Base: UIImagePickerController {
                     guard let imagePicker = imagePicker else {
                         return
                     }
-                    dismissViewController(imagePicker, animated: animated)
+                    dismissViewController(imagePicker, animated: animated, completion: completion)
                 })
 
             do {
@@ -54,7 +54,7 @@ extension Reactive where Base: UIImagePickerController {
             observer.on(.next(imagePicker))
 
             return Disposables.create(dismissDisposable, Disposables.create {
-                dismissViewController(imagePicker, animated: animated)
+                dismissViewController(imagePicker, animated: animated, completion: completion)
             })
         }
     }
