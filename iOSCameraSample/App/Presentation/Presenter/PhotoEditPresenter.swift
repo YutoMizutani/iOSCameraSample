@@ -100,6 +100,17 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
                 self.useCase.changeSaveState(true)
                 self.useCase.changeEditState(false)
             }
+
+            // 保存の定義
+            let saveMethods = [
+                UIActivityType.saveToCameraRoll,
+            ]
+
+            // 共有された場合にはSaveされたと判定する。
+            if let type = activityType, saveMethods.index(of: type) != nil {
+                // 保存完了のアラートを表示する。
+                self.viewInput?.presentAlert(title: "確認", message: "画像の保存が完了しました。")
+            }
         })
     }
 

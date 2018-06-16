@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol PhotoEditViewInput: class {
+    func presentAlert(title: String, message: String)
     func throwError(_ error: Error)
     func presentSelect(_ model: PhotoEditAlertModel)
     func addTextImageView(_ view: TextImageView)
@@ -167,6 +168,11 @@ extension PhotoEditViewController {
 
 extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     /// アラートを表示する。
+    public func presentAlert(title: String, message: String) {
+        self.presentAlert(title, message: message)
+    }
+
+    /// エラーアラートを表示する。
     public func throwError(_ error: Error) {
         self.showAlert(error: error)
     }
