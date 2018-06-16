@@ -9,7 +9,7 @@
 import UIKit
 
 class EditTextView: UIView {
-    var fontSliderView: FontSliderView!
+    var sliderView: SliderView!
     var textView: UITextView!
 
     required init(coder aDecoder: NSCoder) {
@@ -33,10 +33,11 @@ class EditTextView: UIView {
 
 extension EditTextView {
     private func configureView() {
-        fontSliderView: do {
-            self.fontSliderView = FontSliderView()
-            self.fontSliderView.setRange((30, 100))
-            self.addSubview(self.fontSliderView)
+        sliderView: do {
+            self.sliderView = SliderView(type: .integer)
+            self.sliderView.backgroundColor = UIColor(white: 0.9, alpha: 1)
+            self.sliderView.setRange((30, 100))
+            self.addSubview(self.sliderView)
         }
         textView: do {
             self.textView = { () -> UITextView in
@@ -47,12 +48,12 @@ extension EditTextView {
         }
     }
     private func layoutView() {
-        fontSliderView: do {
+        sliderView: do {
             let height: CGFloat = 60
-            self.fontSliderView.frame = CGRect(x: 0, y: self.safeAreaInsets.top, width: self.width, height: height)
+            self.sliderView.frame = CGRect(x: 0, y: self.safeAreaInsets.top, width: self.width, height: height)
         }
         textView: do {
-            self.textView.frame = CGRect(x: 0, y: self.fontSliderView.frame.maxY, width: self.width, height: self.height - self.fontSliderView.height)
+            self.textView.frame = CGRect(x: 0, y: self.sliderView.frame.maxY, width: self.width, height: self.height - self.sliderView.height)
         }
     }
 }
