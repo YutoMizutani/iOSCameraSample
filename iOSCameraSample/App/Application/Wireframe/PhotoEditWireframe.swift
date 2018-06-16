@@ -11,6 +11,7 @@ import UIKit
 protocol PhotoEditWireframe: class {
     func dismiss()
     func presentActivity(image: UIImage, completionWithItemsHandler: ((_ activityType: UIActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ activityError: Error?) -> Void)?)
+    func presentStampCollection(images: [UIImage], onSelect: @escaping ((UIImage?) -> Void))
 }
 
 class PhotoEditWireframeImpl {
@@ -47,5 +48,12 @@ extension PhotoEditWireframeImpl: PhotoEditWireframe {
 
         activityViewController.excludedActivityTypes = excludedActivityTypes
         self.viewController?.present(activityViewController, animated: true, completion: nil)
+    }
+
+    func presentStampCollection(images: [UIImage], onSelect: @escaping ((UIImage?) -> Void)) {
+        let collectionViewController = EditStampViewController(onSelect: onSelect)
+        let navigationViewController = UINavigationController(rootViewController: collectionViewController)
+        navigationViewController.title = "スタンプ"
+        self.viewController?.present(navigationViewController, animated: true, completion: nil)
     }
 }

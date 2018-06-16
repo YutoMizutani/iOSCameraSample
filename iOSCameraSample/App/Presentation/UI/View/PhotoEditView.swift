@@ -14,6 +14,7 @@ import AVFoundation
 class PhotoEditView: UIView {
     var imageView: UIImageView!
     var textImageViews: BehaviorRelay<[TextImageView]>!
+    var stampImageViews: BehaviorRelay<[StampImageView]>!
     var layerView: UIView!
     var contrastView: SliderView!
 
@@ -47,6 +48,9 @@ extension PhotoEditView {
         }
         textImageViews: do {
             self.textImageViews = BehaviorRelay<[TextImageView]>(value: [])
+        }
+        stampImageViews: do {
+            self.stampImageViews = BehaviorRelay<[StampImageView]>(value: [])
         }
         layerView: do {
             self.layerView = UIView()
