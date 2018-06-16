@@ -86,7 +86,6 @@ extension PhotoEditViewController {
             self.navigationController?.toolbar.barTintColor = .black
             // Toolbarの内容を指定する。
             let items: [UIBarButtonItem] = [
-                UIBarButtonItem.fixedSpace,
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem.empty,
                 UIBarButtonItem.flexibleSpace,
@@ -98,7 +97,6 @@ extension PhotoEditViewController {
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem(image: PhotoEditToolIcons.stamp, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addStamp)),
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem.fixedSpace,
             ]
             items.filter{ $0.accessibilityIdentifier != UIBarButtonItem.empty.accessibilityIdentifier }.forEach{
                 $0.tintColor = .white
