@@ -37,6 +37,12 @@ class PhotoEditPresenterImpl {
         self.viewInput = viewInput
         self.useCase = useCase
         self.wireframe = wireframe
+        self.configureState()
+    }
+
+    private func configureState() {
+        self.useCase.changeSaveState(false)
+        self.useCase.changeEditState(true)
     }
 }
 
@@ -93,6 +99,17 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
                 // 保存フラグを立てる。
                 self.useCase.changeSaveState(true)
                 self.useCase.changeEditState(false)
+            }
+
+            // 保存の定義
+            let saveMethods = [
+                UIActivityType.saveToCameraRoll,
+            ]
+
+            // 共有された場合にはSaveされたと判定する。
+            if let type = activityType, saveMethods.index(of: type) != nil {
+                // 保存完了のアラートを表示する。
+                self.viewInput?.presentAlert(title: "確認", message: "画像の保存が完了しました。")
             }
         })
     }
