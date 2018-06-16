@@ -157,7 +157,8 @@ extension StampImageView {
                     .subscribe(onNext: { [weak self] _ in
                         guard let _self = self else { return }
                         guard let parentViewController = _self.parent else { return }
-                        parentViewController.view.bringSubview(toFront: _self)
+                        let focusLayerView = (parentViewController as? Focusable)?.focusLayerView ?? parentViewController.view
+                        focusLayerView?.bringSubview(toFront: _self)
                     })
             )
 

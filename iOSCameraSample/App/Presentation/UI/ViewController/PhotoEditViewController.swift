@@ -20,6 +20,7 @@ protocol PhotoEditViewInput: class {
 
 protocol Focusable: class {
     var focusView: BehaviorRelay<UIView?> { get set }
+    var focusLayerView: UIView? { get }
 }
 
 class PhotoEditViewController: UIViewController {
@@ -123,6 +124,10 @@ extension PhotoEditViewController {
 }
 
 extension PhotoEditViewController: Focusable {
+    public var focusLayerView: UIView? {
+        return self.subview?.layerView
+    }
+
     private func binding() {
         if let subview = self.subview {
             self.image = self.presenter?.getImageDisposable(self.rawImage)
