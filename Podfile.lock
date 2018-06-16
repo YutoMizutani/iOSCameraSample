@@ -1,4 +1,5 @@
 PODS:
+  - MBProgressHUD (1.1.0)
   - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
   - RxGesture (1.2.1):
@@ -7,21 +8,24 @@ PODS:
   - RxSwift (4.2.0)
 
 DEPENDENCIES:
+  - MBProgressHUD
   - RxCocoa
   - RxGesture
   - RxSwift
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - MBProgressHUD
     - RxCocoa
     - RxGesture
     - RxSwift
 
 SPEC CHECKSUMS:
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxGesture: c278eb05b187abd47e11e65464ae4de53ab71d95
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
 
-PODFILE CHECKSUM: e2371f3ec50ef09c8a1e7ce551b484c2bd2a8d66
+PODFILE CHECKSUM: 0bf76363326d6a1378b7730f0a96bb5116621fd4
 
 COCOAPODS: 1.5.3
