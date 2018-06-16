@@ -15,6 +15,7 @@
 		9936202020D2AF7D00AAA9AD /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936201F20D2AF7D00AAA9AD /* EditTextView.swift */; };
 		9936202420D3E90600AAA9AD /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936202320D3E90600AAA9AD /* UIImageView+.swift */; };
 		995D050F20D4DE42003DBE06 /* CIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D050E20D4DE42003DBE06 /* CIImage+.swift */; };
+		995D051620D54CF3003DBE06 /* UIViewMBProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D051520D54CF3003DBE06 /* UIViewMBProgressHUD.swift */; };
 		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 996B5B3020D06B5700A8B925 /* IMG_1000.JPG */; };
 		996B5B3420D0902C00A8B925 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3320D0902C00A8B925 /* Assets.swift */; };
@@ -92,6 +93,7 @@
 		9936201F20D2AF7D00AAA9AD /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		9936202320D3E90600AAA9AD /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		995D050E20D4DE42003DBE06 /* CIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+.swift"; sourceTree = "<group>"; };
+		995D051520D54CF3003DBE06 /* UIViewMBProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewMBProgressHUD.swift; sourceTree = "<group>"; };
 		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		996B5B3020D06B5700A8B925 /* IMG_1000.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1000.JPG; sourceTree = "<group>"; };
 		996B5B3320D0902C00A8B925 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -188,6 +190,14 @@
 				12D41C2B5CD0E902C8AEAFDE /* Pods-iOSCameraSampleUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		995D051720D54D34003DBE06 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				995D051520D54CF3003DBE06 /* UIViewMBProgressHUD.swift */,
+			);
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		996B5B2E20D06B1900A8B925 /* src */ = {
@@ -337,6 +347,7 @@
 		99D9B77220CFE23000992A98 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				995D051720D54D34003DBE06 /* MBProgressHUD */,
 				996B5B5820D21D2800A8B925 /* UIKit */,
 				99D9B77320CFE23000992A98 /* RxSwift */,
 			);
@@ -648,12 +659,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOSCameraSample/Pods-iOSCameraSample-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxGesture/RxGesture.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxGesture.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -773,6 +786,7 @@
 				99D9B6F120CE867200992A98 /* ViewController.swift in Sources */,
 				996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */,
 				99D9B7A120CFE23100992A98 /* RxImagePickerDelegateProxy.swift in Sources */,
+				995D051620D54CF3003DBE06 /* UIViewMBProgressHUD.swift in Sources */,
 				99D9B7A620CFE23100992A98 /* ErrorHandring.swift in Sources */,
 				99D9B7A520CFE23100992A98 /* Error.swift in Sources */,
 				996B5B4D20D2183B00A8B925 /* UIAssets.swift in Sources */,
