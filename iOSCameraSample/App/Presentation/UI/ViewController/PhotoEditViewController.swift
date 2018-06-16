@@ -132,12 +132,6 @@ extension PhotoEditViewController: Focusable {
 
 // >>> TODO:- rxで書き直す?
 extension PhotoEditViewController {
-    @objc private func undo() {
-
-    }
-    @objc private func redo() {
-
-    }
     @objc private func showActivity() {
         if let image = self.translate() {
             self.presenter?.presentActivity(image: image)
