@@ -88,15 +88,19 @@ extension PhotoEditViewController {
             let items: [UIBarButtonItem] = [
                 UIBarButtonItem.fixedSpace,
                 UIBarButtonItem.flexibleSpace,
+                UIBarButtonItem.empty,
+                UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
                 UIBarButtonItem.flexibleSpace,
+                UIBarButtonItem(image: PhotoEditToolIcons.stamp, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addStamp)),
+                UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem.fixedSpace,
             ]
-            items.forEach{
+            items.filter{ $0.accessibilityIdentifier != UIBarButtonItem.empty.accessibilityIdentifier }.forEach{
                 $0.tintColor = .white
             }
             self.toolbarItems = items
@@ -172,6 +176,9 @@ extension PhotoEditViewController {
 
         subview.contrastView.isHidden = !subview.contrastView.isHidden
         sender.tintColor = subview.contrastView.isHidden ? .white : self.view.tintColor
+    }
+    @objc private func addStamp() {
+
     }
 }
 // <<< rxで書き直す? MARK:-

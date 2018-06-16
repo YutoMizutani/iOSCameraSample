@@ -15,4 +15,7 @@ struct PhotoEditToolIcons {
     static var contrast: UIImage? {
         return UIImage(named: "contrast.png")?.resize(for: CGSize(width: 32, height: 44))
     }
+    static var stamp: UIImage? {
+        return UIImage(named: "stamp.png")?.resize(for: CGSize(width: 32, height: 44))
+    }
 }
