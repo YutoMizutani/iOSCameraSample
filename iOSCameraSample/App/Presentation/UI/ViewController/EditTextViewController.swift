@@ -44,7 +44,7 @@ extension EditTextViewController {
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
-            self.subview = EditTextView(frame: self.view.bounds)
+            self.subview = EditTextView()
             if self.subview != nil {
                 self.view.addSubview(self.subview!)
             }

@@ -55,7 +55,7 @@ extension MenuViewController {
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
-            self.subview = MenuView(frame: self.view.bounds)
+            self.subview = MenuView()
             if self.subview != nil {
                 self.view.addSubview(self.subview!)
             }
