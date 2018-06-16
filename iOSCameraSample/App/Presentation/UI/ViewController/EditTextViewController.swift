@@ -11,13 +11,13 @@ import RxSwift
 import RxCocoa
 
 protocol EditTextViewInput: class {
-    func inject(_ text: String?)
+    func inject(_ value: (String, UIFont?)?)
 }
 
 class EditTextViewController: UIViewController {
-    private var subview: EditTextView?
-    public var contentText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
-    public var sendText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    private var subview: EditTextView!
+    public var contentText: BehaviorRelay<(String, UIFont?)?> = BehaviorRelay(value: nil)
+    public var sendText: BehaviorRelay<(String, UIFont?)?> = BehaviorRelay(value: nil)
 
     private let disposeBag = DisposeBag()
 
@@ -66,11 +66,30 @@ extension EditTextViewController {
 
 extension EditTextViewController {
     private func binding() {
-        guard let textView = self.subview?.textView else { return }
-        self.contentText
+        let observableContent = self.contentText.filter{ $0 != nil }.map{ $0! }.share(replay: 1)
+
+        observableContent
             .asObservable()
+            .map{ $0.0 }
             .asDriver(onErrorJustReturn: "")
-            .drive(textView.rx.text)
+            .drive(self.subview.textView.rx.text)
+            .disposed(by: disposeBag)
+
+        observableContent
+            .asObservable()
+            .map{ $0.1?.pointSize }
+            .filter{ $0 != nil }.map{ $0! }
+            .map{ Int($0) }
+            .subscribe(onNext: { [weak self] value in
+                self?.subview.fontSliderView.value.accept(value)
+            })
+            .disposed(by: disposeBag)
+
+        self.subview.fontSliderView.value
+            .asObservable()
+            .subscribe(onNext: { [weak self] value in
+                self?.subview.textView.font = UIFont.systemFont(ofSize: CGFloat(value))
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -80,13 +99,13 @@ extension EditTextViewController {
         self.dismiss(animated: true, completion: nil)
     }
     @objc private func done() {
-        self.sendText.accept(self.subview?.textView.text)
+        self.sendText.accept((self.subview.textView.text, self.subview.textView.font))
         self.dismiss(animated: true, completion: nil)
     }
 }
 
 extension EditTextViewController: EditTextViewInput {
-    public func inject(_ text: String?) {
-        self.contentText.accept(text)
+    public func inject(_ value: (String, UIFont?)?) {
+        self.contentText.accept(value)
     }
 }
