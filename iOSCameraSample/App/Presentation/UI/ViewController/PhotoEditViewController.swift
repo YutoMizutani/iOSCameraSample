@@ -143,6 +143,13 @@ extension PhotoEditViewController: Focusable {
                     }
                 })
                 .disposed(by: disposeBag)
+
+            subview.contrastView.value
+                .asObservable()
+                .subscribe(onNext: { [weak self] value in
+                    self?.presenter?.editContrast(value: value)
+                })
+                .disposed(by: disposeBag)
         }
     }
 }

@@ -35,7 +35,7 @@ extension EditTextView {
     private func configureView() {
         sliderView: do {
             self.sliderView = SliderView(type: .integer)
-            self.sliderView.backgroundColor = UIColor(white: 0, alpha: 0.1)
+            self.sliderView.backgroundColor = UIColor(white: 0.9, alpha: 1)
             self.sliderView.setRange((30, 100))
             self.addSubview(self.sliderView)
         }

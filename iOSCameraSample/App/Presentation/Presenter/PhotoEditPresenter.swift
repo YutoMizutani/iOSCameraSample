@@ -30,6 +30,8 @@ class PhotoEditPresenterImpl {
 
     private var imageModel: PhotoEditImageModel?
 
+    private var rawImage: UIImage?
+
     init(
         viewInput: viewInputType,
         wireframe: wireframeType,
@@ -71,6 +73,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>? {
         guard let image = image else { return nil }
         self.imageModel = self.useCase.getImageModel(image)
+        self.rawImage = self.imageModel?.image.value
         return self.imageModel?.image
     }
 
@@ -129,8 +132,8 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
     func editContrast(value: Float) {
         guard let model = self.imageModel else { return }
 
-        if let contrastImage = self.useCase.contrast(model.image.value, value: value) {
-            self.imageModel!.image.accept(contrastImage)
+        if let contrastImage = self.useCase.contrast(self.rawImage!, value: value) {
+            model.image.accept(contrastImage)
         }
     }
 }
