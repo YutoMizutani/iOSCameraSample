@@ -54,6 +54,7 @@ extension PhotoEditView {
         }
         contrastView: do {
             self.contrastView = SliderView(type: .digit(1))
+            self.contrastView.isHidden = true
             self.contrastView.backgroundColor = UIColor(white: 0.8, alpha: 1)
             self.contrastView.setRange((0.5, 2))
             self.contrastView.value.accept(1)
