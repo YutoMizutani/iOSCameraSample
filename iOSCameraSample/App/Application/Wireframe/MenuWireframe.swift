@@ -26,6 +26,6 @@ extension MenuWireframeImpl: MenuWireframe {
     func transitionPhotoEdit(image: UIImage) {
         let modalController = PhotoEditBuilder().buildWithNavigationController(title: "画像の編集", image: image)
         modalController.modalPresentationStyle = .overCurrentContext
-        self.viewController?.front?.present(modalController, animated: true, completion: nil)
+        self.viewController?.present(modalController, animated: true, completion: nil)
     }
 }
