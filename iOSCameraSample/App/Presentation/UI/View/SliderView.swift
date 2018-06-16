@@ -1,5 +1,5 @@
 //
-//  FontSliderView.swift
+//  SliderView.swift
 //  iOSCameraSample
 //
 //  Created by YutoMizutani on 2018/06/16.
@@ -10,17 +10,28 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class FontSliderView: UIView {
+enum SliderLabelType {
+    case integer
+    case digit(Int)
+}
+
+class SliderView: UIView {
     private var slider: UISlider!
     private var label: UILabel!
 
-    private var range: (min: CGFloat, max: CGFloat) = (0, 1)
-    public var value = BehaviorRelay<Int>(value: 0)
+    private var range: (min: Float, max: Float) = (0, 1)
+    public var value = BehaviorRelay<Float>(value: 0)
+    private var labelType: SliderLabelType = .integer
 
     let disposeBag = DisposeBag()
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
+    }
+
+    convenience init(type: SliderLabelType) {
+        self.init()
+        self.labelType = type
     }
 
     override init(frame: CGRect) {
@@ -39,7 +50,7 @@ class FontSliderView: UIView {
     }
 }
 
-extension FontSliderView {
+extension SliderView {
     private func configureView() {
         view: do {
             self.backgroundColor = UIColor(white: 0, alpha: 0.1)
@@ -76,35 +87,41 @@ extension FontSliderView {
     }
 }
 
-extension FontSliderView {
+extension SliderView {
     private func binding() {
         self.slider.rx.value
             .asObservable()
-            .map{ CGFloat($0) }
             .map{ self.range.min + (self.range.max - self.range.min) * $0 }
-            .map{ Int($0) }
             .bind(to: self.value)
             .disposed(by: disposeBag)
 
         let valueObservable = self.value.share(replay: 1)
         valueObservable
             .asObservable()
-            .map{ "\($0)" }
+            .map{
+                switch self.labelType {
+                case .integer:
+                    return "\(Int($0))"
+                case .digit(let value):
+                    let d = pow(10, Float(value))
+                    return "\(Float(Int($0*d))/d)"
+                }
+            }
             .asDriver(onErrorJustReturn: "")
             .drive(self.label.rx.text)
             .disposed(by: disposeBag)
 
         valueObservable
             .asObservable()
-            .map{ Float(CGFloat($0) - self.range.min) / Float(self.range.max - self.range.min) }
+            .map{ Float($0 - self.range.min) / Float(self.range.max - self.range.min) }
             .asDriver(onErrorJustReturn: 0)
             .drive(self.slider.rx.value)
             .disposed(by: disposeBag)
     }
 }
 
-extension FontSliderView {
-    public func setRange(_ range: (min: CGFloat, max: CGFloat)) {
+extension SliderView {
+    public func setRange(_ range: (min: Float, max: Float)) {
         self.range = range
     }
 }
