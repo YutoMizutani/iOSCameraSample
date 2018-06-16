@@ -12,13 +12,14 @@ import RxCocoa
 import RxGesture
 
 class StampImageView: UIView {
-    public var imageView: UIImageView!
-    var borderView: UIView!
-    var focusButton: UIButton!
-    var deleteButton: UIButton!
+    private var imageView: UIImageView!
+    private var borderView: UIView!
+    private var focusButton: UIButton!
+    private var deleteButton: UIButton!
 
-    var compositeDisposable = CompositeDisposable()
     private var scale = BehaviorRelay<CGFloat>(value: 1)
+
+    private var compositeDisposable = CompositeDisposable()
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -230,5 +231,11 @@ extension StampImageView {
         view.transform = previousTransform
 
         return view
+    }
+}
+
+extension StampImageView {
+    public func inject(_ image: UIImage?) {
+        self.imageView.image = image
     }
 }

@@ -145,7 +145,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
             self?.useCase.changeEditState(true)
 
             let stampImageView = StampImageView()
-            stampImageView.imageView.image = image
+            stampImageView.inject(image)
             stampImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
             self?.viewInput?.addStampImageView(stampImageView)
         })

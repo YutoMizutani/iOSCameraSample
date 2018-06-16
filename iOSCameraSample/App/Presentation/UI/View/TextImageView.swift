@@ -12,13 +12,13 @@ import RxCocoa
 import RxGesture
 
 class TextImageView: UIView {
-    var label: UILabel!
-    var contentText: BehaviorRelay<(String, UIFont?)> = BehaviorRelay(value: ("Text", nil))
-    var borderView: UIView!
-    var editButton: UIButton!
-    var deleteButton: UIButton!
+    private var label: UILabel!
+    private var contentText: BehaviorRelay<(String, UIFont?)> = BehaviorRelay(value: ("Text", nil))
+    private var borderView: UIView!
+    private var editButton: UIButton!
+    private var deleteButton: UIButton!
 
-    var compositeDisposable = CompositeDisposable()
+    private var compositeDisposable = CompositeDisposable()
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
