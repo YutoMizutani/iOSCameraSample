@@ -15,7 +15,6 @@ class PhotoEditView: UIView {
     var imageView: UIImageView!
     var textImageViews: BehaviorRelay<[TextImageView]>!
     var layerView: UIView!
-    var dismissButton: UIButton!
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -52,16 +51,6 @@ extension PhotoEditView {
             self.layerView = UIView()
             self.addSubview(self.layerView)
         }
-        dismissButton: do {
-            self.dismissButton = { () -> UIButton in
-                let button = UIButton()
-                button.setTitle("×", for: .normal)
-                button.setTitleColor(.white, for: .normal)
-                button.titleLabel?.font = UIFont.systemFont(ofSize: 44)
-                return button
-            }()
-            self.addSubview(self.dismissButton)
-        }
     }
 
     private func layoutView() {
@@ -73,10 +62,6 @@ extension PhotoEditView {
         }
         layerView: do {
             self.layerView.frame = self.frame
-        }
-        dismissButton: do {
-            let space: CGFloat = 5, length: CGFloat = 50
-            self.dismissButton.frame = CGRect(x: space, y: self.aboveSpace + space, width: length, height: length)
         }
     }
 }

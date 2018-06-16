@@ -77,6 +77,10 @@ extension PhotoEditViewController {
                 self.view.addSubview(self.subview!)
             }
         }
+        navigationBar: do {
+            let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.dismissView))
+            self.navigationItem.leftBarButtonItem = leftItem
+        }
         toolbar: do {
             self.navigationController?.toolbar.barTintColor = .black
             // Toolbarの内容を指定する。
@@ -117,13 +121,6 @@ extension PhotoEditViewController {
 extension PhotoEditViewController: Focusable {
     private func binding() {
         if let subview = self.subview {
-            subview.dismissButton.rx.tap
-                .asObservable()
-                .subscribe(onNext: { [weak self] _ in
-                    self?.presenter?.dismiss()
-                })
-                .disposed(by: disposeBag)
-
             self.image = self.presenter?.getImageDisposable(self.rawImage)
             self.image?
                 .asDriver(onErrorJustReturn: UIImage())
@@ -151,6 +148,9 @@ extension PhotoEditViewController: Focusable {
 
 // >>> TODO:- rxで書き直す?
 extension PhotoEditViewController {
+    @objc private func dismissView() {
+        self.presenter?.dismiss()
+    }
     @objc private func showActivity() {
         if let image = self.translate() {
             self.presenter?.presentActivity(image: image)

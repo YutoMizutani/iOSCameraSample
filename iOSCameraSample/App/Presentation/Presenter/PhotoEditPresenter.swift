@@ -37,6 +37,12 @@ class PhotoEditPresenterImpl {
         self.viewInput = viewInput
         self.useCase = useCase
         self.wireframe = wireframe
+        self.configureState()
+    }
+
+    private func configureState() {
+        self.useCase.changeSaveState(false)
+        self.useCase.changeEditState(true)
     }
 }
 
