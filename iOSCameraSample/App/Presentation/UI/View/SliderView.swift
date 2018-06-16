@@ -63,7 +63,7 @@ extension SliderView {
         label: do {
             self.label = { () -> UILabel in
                 let label = UILabel()
-                label.textAlignment = .left
+                label.textAlignment = .center
                 label.font = UIFont.systemFont(ofSize: 20)
 
                 return label
@@ -79,7 +79,7 @@ extension SliderView {
         }
         slider: do {
             self.slider.frame = CGRect(x: 0, y: 0, width: self.width*7/10, height: self.height)
-            self.slider.center = CGPoint(x: (self.width - self.label.width)/2, y: self.height/2)
+            self.slider.center = CGPoint(x: self.width*4/10, y: self.height/2)
         }
     }
 }
