@@ -100,6 +100,10 @@ extension StampImageView {
             borderView: do {
                 self.borderView.frame = CGRect(x: buttonLength/2, y: buttonLength/2, width: self.imageView.width, height: self.imageView.height)
             }
+            focusButton: do {
+                self.focusButton.frame = self.imageView.frame
+                self.focusButton.center = self.imageView.center
+            }
             deleteButton: do {
                 self.deleteButton.layer.cornerRadius = buttonLength/2
                 self.deleteButton.frame = CGRect(x: 0, y: 0, width: buttonLength, height: buttonLength)
