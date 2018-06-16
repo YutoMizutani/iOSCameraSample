@@ -17,6 +17,7 @@ protocol PhotoEditPresenter: class {
     func presentActivity(image: UIImage)
     func addText()
     func editContrast(value: Float)
+    func addStamp()
 }
 
 class PhotoEditPresenterImpl {
@@ -135,5 +136,18 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         if let contrastImage = self.useCase.contrast(self.rawImage!, value: value) {
             model.image.accept(contrastImage)
         }
+    }
+
+    func addStamp() {
+        let collections: [UIImage] = (1...9).map{ PhotoEditCollectionItems.stamp(index: $0) }.filter{ $0 != nil }.map{ $0! }
+        self.wireframe.presentStampCollection(images: collections, onSelect: { [weak self] image in
+            // 編集フラグを立てる。
+            self?.useCase.changeEditState(true)
+
+            let stampImageView = StampImageView()
+            stampImageView.inject(image)
+            stampImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+            self?.viewInput?.addStampImageView(stampImageView)
+        })
     }
 }
