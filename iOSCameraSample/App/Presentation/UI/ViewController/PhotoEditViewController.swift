@@ -176,7 +176,7 @@ extension PhotoEditViewController {
         sender.tintColor = subview.contrastView.isHidden ? .white : self.view.tintColor
     }
     @objc private func addStamp() {
-
+        self.presenter?.addStamp()
     }
 }
 // <<< rxで書き直す? MARK:-

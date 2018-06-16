@@ -19,6 +19,18 @@
 		995D051C20D55639003DBE06 /* contrast.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D051920D55639003DBE06 /* contrast.png */; };
 		995D051D20D55639003DBE06 /* stamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D051A20D55639003DBE06 /* stamp.png */; };
 		995D051E20D55639003DBE06 /* text.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D051B20D55639003DBE06 /* text.png */; };
+		995D052020D560BA003DBE06 /* EditStampViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D051F20D560BA003DBE06 /* EditStampViewController.swift */; };
+		995D052220D560CB003DBE06 /* EditStampViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D052120D560CB003DBE06 /* EditStampViewCell.swift */; };
+		995D052420D56FAF003DBE06 /* StampFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D052320D56FAF003DBE06 /* StampFlowLayout.swift */; };
+		995D054220D5759C003DBE06 /* stamp4.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053920D5759B003DBE06 /* stamp4.png */; };
+		995D054320D5759C003DBE06 /* stamp5.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053A20D5759B003DBE06 /* stamp5.png */; };
+		995D054420D5759C003DBE06 /* stamp7.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053B20D5759B003DBE06 /* stamp7.png */; };
+		995D054520D5759C003DBE06 /* stamp6.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053C20D5759B003DBE06 /* stamp6.png */; };
+		995D054620D5759C003DBE06 /* stamp2.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053D20D5759B003DBE06 /* stamp2.png */; };
+		995D054720D5759C003DBE06 /* stamp3.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053E20D5759B003DBE06 /* stamp3.png */; };
+		995D054820D5759C003DBE06 /* stamp1.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053F20D5759B003DBE06 /* stamp1.png */; };
+		995D054920D5759C003DBE06 /* stamp0.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D054020D5759B003DBE06 /* stamp0.png */; };
+		995D054A20D5759C003DBE06 /* stamp8.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D054120D5759B003DBE06 /* stamp8.png */; };
 		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 996B5B3020D06B5700A8B925 /* IMG_1000.JPG */; };
 		996B5B3420D0902C00A8B925 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3320D0902C00A8B925 /* Assets.swift */; };
@@ -98,6 +110,18 @@
 		995D051920D55639003DBE06 /* contrast.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contrast.png; sourceTree = "<group>"; };
 		995D051A20D55639003DBE06 /* stamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp.png; sourceTree = "<group>"; };
 		995D051B20D55639003DBE06 /* text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = text.png; sourceTree = "<group>"; };
+		995D051F20D560BA003DBE06 /* EditStampViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStampViewController.swift; sourceTree = "<group>"; };
+		995D052120D560CB003DBE06 /* EditStampViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStampViewCell.swift; sourceTree = "<group>"; };
+		995D052320D56FAF003DBE06 /* StampFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampFlowLayout.swift; sourceTree = "<group>"; };
+		995D053920D5759B003DBE06 /* stamp4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp4.png; sourceTree = "<group>"; };
+		995D053A20D5759B003DBE06 /* stamp5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp5.png; sourceTree = "<group>"; };
+		995D053B20D5759B003DBE06 /* stamp7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp7.png; sourceTree = "<group>"; };
+		995D053C20D5759B003DBE06 /* stamp6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp6.png; sourceTree = "<group>"; };
+		995D053D20D5759B003DBE06 /* stamp2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp2.png; sourceTree = "<group>"; };
+		995D053E20D5759B003DBE06 /* stamp3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp3.png; sourceTree = "<group>"; };
+		995D053F20D5759B003DBE06 /* stamp1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp1.png; sourceTree = "<group>"; };
+		995D054020D5759B003DBE06 /* stamp0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp0.png; sourceTree = "<group>"; };
+		995D054120D5759B003DBE06 /* stamp8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp8.png; sourceTree = "<group>"; };
 		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		996B5B3020D06B5700A8B925 /* IMG_1000.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1000.JPG; sourceTree = "<group>"; };
 		996B5B3320D0902C00A8B925 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -212,6 +236,22 @@
 			path = icons;
 			sourceTree = "<group>";
 		};
+		995D053820D5759B003DBE06 /* stamp */ = {
+			isa = PBXGroup;
+			children = (
+				995D053920D5759B003DBE06 /* stamp4.png */,
+				995D053A20D5759B003DBE06 /* stamp5.png */,
+				995D053B20D5759B003DBE06 /* stamp7.png */,
+				995D053C20D5759B003DBE06 /* stamp6.png */,
+				995D053D20D5759B003DBE06 /* stamp2.png */,
+				995D053E20D5759B003DBE06 /* stamp3.png */,
+				995D053F20D5759B003DBE06 /* stamp1.png */,
+				995D054020D5759B003DBE06 /* stamp0.png */,
+				995D054120D5759B003DBE06 /* stamp8.png */,
+			);
+			path = stamp;
+			sourceTree = "<group>";
+		};
 		996B5B2E20D06B1900A8B925 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +263,7 @@
 		996B5B2F20D06B2200A8B925 /* pic */ = {
 			isa = PBXGroup;
 			children = (
+				995D053820D5759B003DBE06 /* stamp */,
 				995D051820D55639003DBE06 /* icons */,
 				996B5B5920D279CD00A8B925 /* stub */,
 			);
@@ -486,6 +527,8 @@
 				9936201B20D2A84600AAA9AD /* TextImageView.swift */,
 				9936201F20D2AF7D00AAA9AD /* EditTextView.swift */,
 				99DBE7B420D48EA30031EEF0 /* SliderView.swift */,
+				995D052120D560CB003DBE06 /* EditStampViewCell.swift */,
+				995D052320D56FAF003DBE06 /* StampFlowLayout.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -494,6 +537,7 @@
 			isa = PBXGroup;
 			children = (
 				9936201920D2A7AC00AAA9AD /* EditTextViewController.swift */,
+				995D051F20D560BA003DBE06 /* EditStampViewController.swift */,
 				99D9B79820CFE23000992A98 /* PhotoEditViewController.swift */,
 				99D9B79920CFE23000992A98 /* MenuViewController.swift */,
 			);
@@ -630,12 +674,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				995D051C20D55639003DBE06 /* contrast.png in Resources */,
+				995D054820D5759C003DBE06 /* stamp1.png in Resources */,
 				995D051D20D55639003DBE06 /* stamp.png in Resources */,
 				996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */,
+				995D054920D5759C003DBE06 /* stamp0.png in Resources */,
+				995D054520D5759C003DBE06 /* stamp6.png in Resources */,
+				995D054720D5759C003DBE06 /* stamp3.png in Resources */,
 				99D9B6F920CE867500992A98 /* LaunchScreen.storyboard in Resources */,
 				995D051E20D55639003DBE06 /* text.png in Resources */,
+				995D054320D5759C003DBE06 /* stamp5.png in Resources */,
+				995D054A20D5759C003DBE06 /* stamp8.png in Resources */,
 				99D9B6F620CE867500992A98 /* Assets.xcassets in Resources */,
+				995D054620D5759C003DBE06 /* stamp2.png in Resources */,
+				995D054220D5759C003DBE06 /* stamp4.png in Resources */,
 				99D9B6F420CE867200992A98 /* Main.storyboard in Resources */,
+				995D054420D5759C003DBE06 /* stamp7.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +863,8 @@
 				99D9B7B720CFE23100992A98 /* MenuPresenter.swift in Sources */,
 				99D9B7B620CFE23100992A98 /* MenuViewController.swift in Sources */,
 				9936202420D3E90600AAA9AD /* UIImageView+.swift in Sources */,
+				995D052020D560BA003DBE06 /* EditStampViewController.swift in Sources */,
+				995D052420D56FAF003DBE06 /* StampFlowLayout.swift in Sources */,
 				99DBE7B520D48EA30031EEF0 /* SliderView.swift in Sources */,
 				996B5B4B20D217B600A8B925 /* UIImage+.swift in Sources */,
 				99D9B79E20CFE23100992A98 /* MenuWireframe.swift in Sources */,
@@ -824,6 +879,7 @@
 				99F3E5B620CFE9ED00DB24BC /* UIViewController+.swift in Sources */,
 				9936201E20D2A98300AAA9AD /* UIView+.swift in Sources */,
 				99D9B7B020CFE23100992A98 /* MenuModel.swift in Sources */,
+				995D052220D560CB003DBE06 /* EditStampViewCell.swift in Sources */,
 				99D9B7A920CFE23100992A98 /* PhotoEditEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
