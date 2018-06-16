@@ -144,7 +144,10 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
             // 編集フラグを立てる。
             self?.useCase.changeEditState(true)
 
-            print(image?.size)
+            let stampImageView = StampImageView()
+            stampImageView.imageView.image = image
+            stampImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+            self?.viewInput?.addStampImageView(stampImageView)
         })
     }
 }

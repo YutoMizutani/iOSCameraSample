@@ -31,6 +31,7 @@
 		995D054820D5759C003DBE06 /* stamp1.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D053F20D5759B003DBE06 /* stamp1.png */; };
 		995D054920D5759C003DBE06 /* stamp0.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D054020D5759B003DBE06 /* stamp0.png */; };
 		995D054A20D5759C003DBE06 /* stamp8.png in Resources */ = {isa = PBXBuildFile; fileRef = 995D054120D5759B003DBE06 /* stamp8.png */; };
+		995D054C20D57E34003DBE06 /* StampImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D054B20D57E34003DBE06 /* StampImageView.swift */; };
 		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 996B5B3020D06B5700A8B925 /* IMG_1000.JPG */; };
 		996B5B3420D0902C00A8B925 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3320D0902C00A8B925 /* Assets.swift */; };
@@ -122,6 +123,7 @@
 		995D053F20D5759B003DBE06 /* stamp1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp1.png; sourceTree = "<group>"; };
 		995D054020D5759B003DBE06 /* stamp0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp0.png; sourceTree = "<group>"; };
 		995D054120D5759B003DBE06 /* stamp8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp8.png; sourceTree = "<group>"; };
+		995D054B20D57E34003DBE06 /* StampImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampImageView.swift; sourceTree = "<group>"; };
 		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		996B5B3020D06B5700A8B925 /* IMG_1000.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1000.JPG; sourceTree = "<group>"; };
 		996B5B3320D0902C00A8B925 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -525,6 +527,7 @@
 				99D9B79520CFE23000992A98 /* PhotoEditView.swift */,
 				99D9B79620CFE23000992A98 /* MenuView.swift */,
 				9936201B20D2A84600AAA9AD /* TextImageView.swift */,
+				995D054B20D57E34003DBE06 /* StampImageView.swift */,
 				9936201F20D2AF7D00AAA9AD /* EditTextView.swift */,
 				99DBE7B420D48EA30031EEF0 /* SliderView.swift */,
 				995D052120D560CB003DBE06 /* EditStampViewCell.swift */,
@@ -852,6 +855,7 @@
 				99D9B7AD20CFE23100992A98 /* PhotoEditTranslator.swift in Sources */,
 				99D9B7A720CFE23100992A98 /* PhotoEditRepository.swift in Sources */,
 				99D9B7B320CFE23100992A98 /* PhotoEditView.swift in Sources */,
+				995D054C20D57E34003DBE06 /* StampImageView.swift in Sources */,
 				99D9B7B520CFE23100992A98 /* PhotoEditViewController.swift in Sources */,
 				99D9B7A320CFE23100992A98 /* MenuBuilder.swift in Sources */,
 				995D050F20D4DE42003DBE06 /* CIImage+.swift in Sources */,
