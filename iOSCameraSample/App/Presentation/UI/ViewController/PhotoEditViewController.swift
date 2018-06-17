@@ -304,39 +304,27 @@ extension PhotoEditViewController {
         // focusViewを初期化
         self.focusView.accept(nil)
 
-        // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
-        for view in subview.textImageViews.value {
-            // textImageViewsのViewから，Labelのみの情報を取得する。
-            let myview = view.duplicatedContentView
+        for view in subview.layerView.subviews {
+            // imageViewに追加するコンテンツをlayerViewから抽出する。
+            var duplicatedContentView: UIView? = nil
+            if let textImageView = view as? TextImageView {
+                // textImageViewsのViewから，Labelのみの情報を取得する。
+                duplicatedContentView = textImageView.duplicatedContentView
+            }else if let stampImageView = view as? StampImageView {
+                // textImageViewsのViewから，Labelのみの情報を取得する。
+                duplicatedContentView = stampImageView.duplicatedContentView
+            }
+
+            guard let myview = duplicatedContentView else { continue }
 
             // transform前の状態からサイズを変更する。
             let previousTransform = myview.transform
             myview.transform = .identity
-
             // imageViewのサイズに調整する。
             myview.frame = CGRect(x: myview.frame.minX - subview.imageView.frame.minX, y: myview.frame.minY - subview.imageView.frame.minY, width: myview.frame.width, height: myview.frame.height)
-
             // transform状態を戻す。
             myview.transform = previousTransform
-
-            subview.imageView.addSubview(myview)
-        }
-
-        // stampImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
-        for view in subview.stampImageViews.value {
-            // textImageViewsのViewから，Labelのみの情報を取得する。
-            let myview = view.duplicatedContentView
-
-            // transform前の状態からサイズを変更する。
-            let previousTransform = myview.transform
-            myview.transform = .identity
-
-            // imageViewのサイズに調整する。
-            myview.frame = CGRect(x: myview.frame.minX - subview.imageView.frame.minX, y: myview.frame.minY - subview.imageView.frame.minY, width: myview.frame.width, height: myview.frame.height)
-
-            // transform状態を戻す。
-            myview.transform = previousTransform
-
+            // image作成用にimageViewに追加する。
             subview.imageView.addSubview(myview)
         }
 
