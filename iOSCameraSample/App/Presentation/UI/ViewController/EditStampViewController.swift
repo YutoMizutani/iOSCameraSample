@@ -55,7 +55,7 @@ class EditStampViewController: UICollectionViewController {
         return cell
     }
 
-    // 画面遷移先に渡すデータをここで格納する
+    // 選択された際に呼ばれる。
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = PhotoEditCollectionItems.stamp(index: indexPath.item % 9)
         self.onSelect?(image)
@@ -80,8 +80,9 @@ extension EditStampViewController {
         }
         navigationItem: do {
             self.navigationItem.title = "スタンプ"
-            let leftButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancel))
-            self.navigationItem.leftBarButtonItem = leftButton
+            let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancel))
+            leftItem.accessibilityIdentifier = "PhotoEditLeftBarButtonItem"
+            self.navigationItem.leftBarButtonItem = leftItem
         }
     }
 

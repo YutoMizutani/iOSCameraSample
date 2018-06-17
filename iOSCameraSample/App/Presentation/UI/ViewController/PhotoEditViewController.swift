@@ -82,27 +82,36 @@ extension PhotoEditViewController {
         }
         navigationBar: do {
             let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.dismissView))
+            leftItem.accessibilityIdentifier = "PhotoEditLeftBarButtonItem"
             self.navigationItem.leftBarButtonItem = leftItem
         }
         toolbar: do {
-            self.navigationController?.toolbar.barTintColor = .black
+            let contrastButton = UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast))
+            contrastButton.accessibilityIdentifier = "contrastButton"
+            let activityButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity))
+            activityButton.accessibilityIdentifier = "activityButton"
+            let textButton = UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText))
+            textButton.accessibilityIdentifier = "textButton"
+            let stampButton = UIBarButtonItem(image: PhotoEditToolIcons.stamp, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addStamp))
+            stampButton.accessibilityIdentifier = "stampButton"
             // Toolbarの内容を指定する。
             let items: [UIBarButtonItem] = [
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem.empty,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
+                contrastButton,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
+                activityButton,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
+                textButton,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(image: PhotoEditToolIcons.stamp, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addStamp)),
+                stampButton,
                 UIBarButtonItem.flexibleSpace,
             ]
             items.filter{ $0.accessibilityIdentifier != UIBarButtonItem.empty.accessibilityIdentifier }.forEach{
                 $0.tintColor = .white
             }
+            self.navigationController?.toolbar.barTintColor = .black
             self.toolbarItems = items
             self.navigationController?.setToolbarHidden(false, animated: false)
         }
@@ -155,13 +164,6 @@ extension PhotoEditViewController: Focusable {
                 })
                 .disposed(by: disposeBag)
 
-            subview.contrastView.value
-                .asObservable()
-                .subscribe(onNext: { [weak self] value in
-                    self?.presenter?.editContrast(value: value)
-                })
-                .disposed(by: disposeBag)
-
             // stampImageViewsが追加されたらaddSubViewする。
             subview.stampImageViews.asObservable()
                 .map{ $0.filter{ !$0.isDescendant(of: self.view) } }
@@ -178,6 +180,14 @@ extension PhotoEditViewController: Focusable {
                 })
                 .disposed(by: disposeBag)
 
+            // コントラストバーの値の変更を元にコントラストを変更する。
+            subview.contrastView.value
+                .asObservable()
+                .subscribe(onNext: { [weak self] value in
+                    self?.presenter?.editContrast(value: value)
+                })
+                .disposed(by: disposeBag)
+
             // コンテンツ以外のフィールドへのタップによりフォーカスを解除する。
             subview.resetFocusButton.rx.tap
                 .asObservable()
@@ -189,30 +199,32 @@ extension PhotoEditViewController: Focusable {
     }
 }
 
-// >>> TODO:- rxで書き直す?
 extension PhotoEditViewController {
     @objc private func dismissView() {
         self.presenter?.dismiss()
     }
     @objc private func showActivity() {
         if let image = self.translate() {
+            // 変換したイメージを元にActivityを表示する。
             self.presenter?.presentActivity(image: image)
         }
     }
     @objc private func addText() {
+        // テキストを追加する。
         self.presenter?.addText()
     }
     @objc private func editContrast(_ sender: UIBarButtonItem) {
         guard let subview = self.subview else { return }
 
+        // コントラストViewの表示を切り換える。
         subview.contrastView.isHidden = !subview.contrastView.isHidden
         sender.tintColor = subview.contrastView.isHidden ? .white : self.view.tintColor
     }
     @objc private func addStamp() {
+        // スタンプを表示する。
         self.presenter?.addStamp()
     }
 }
-// <<< rxで書き直す? MARK:-
 
 extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     /// アラートを表示する。
@@ -287,11 +299,13 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
 }
 
 extension PhotoEditViewController {
+    /// imageViewから画像を作成する。
     private func translate() -> UIImage? {
         guard let subview = self.subview else { return nil }
 
         // focusViewを初期化
         self.focusView.accept(nil)
+
         // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
         for view in subview.textImageViews.value {
             // textImageViewsのViewから，Labelのみの情報を取得する。
@@ -309,7 +323,8 @@ extension PhotoEditViewController {
 
             subview.imageView.addSubview(myview)
         }
-        
+
+        // stampImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
         for view in subview.stampImageViews.value {
             // textImageViewsのViewから，Labelのみの情報を取得する。
             let myview = view.duplicatedContentView
@@ -327,8 +342,10 @@ extension PhotoEditViewController {
             subview.imageView.addSubview(myview)
         }
 
-        let image = subview.imageView.layerImage
+        // imageView内の表示を元にUIImageを作成する。
+        let image: UIImage = subview.imageView.layerImage
 
+        // imageView内に作成したviewを開放する。
         self.subview?.imageView.subviews.forEach { $0.removeFromSuperview() }
 
         return image

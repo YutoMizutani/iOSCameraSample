@@ -53,7 +53,6 @@ extension PhotoEditWireframeImpl: PhotoEditWireframe {
     func presentStampCollection(images: [UIImage], onSelect: @escaping ((UIImage?) -> Void)) {
         let collectionViewController = EditStampViewController(onSelect: onSelect)
         let navigationViewController = UINavigationController(rootViewController: collectionViewController)
-        navigationViewController.title = "スタンプ"
         self.viewController?.present(navigationViewController, animated: true, completion: nil)
     }
 }

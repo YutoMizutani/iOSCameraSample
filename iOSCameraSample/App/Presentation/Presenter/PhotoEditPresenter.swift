@@ -71,6 +71,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         self.wireframe.dismiss()
     }
 
+    /// UIImageを表示する。
     func getImageDisposable(_ image: UIImage?) -> BehaviorRelay<UIImage>? {
         guard let image = image else { return nil }
         self.imageModel = self.useCase.getImageModel(image)
@@ -119,7 +120,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         })
     }
 
-    /// Textを追加する。
+    /// テキストを追加する。
     func addText() {
         // 編集フラグを立てる。
         self.useCase.changeEditState(true)
@@ -130,6 +131,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         self.viewInput?.addTextImageView(textImageView)
     }
 
+    /// コントラストを編集するViewを呼び出す。
     func editContrast(value: Float) {
         guard let model = self.imageModel else { return }
 
@@ -138,6 +140,7 @@ extension PhotoEditPresenterImpl: PhotoEditPresenter {
         }
     }
 
+    /// スタンプを表示するViewを呼び出す。
     func addStamp() {
         let collections: [UIImage] = (1...9).map{ PhotoEditCollectionItems.stamp(index: $0) }.filter{ $0 != nil }.map{ $0! }
         self.wireframe.presentStampCollection(images: collections, onSelect: { [weak self] image in

@@ -71,17 +71,42 @@ extension MenuViewController {
 
 extension MenuViewController {
     private func binding() {
-        self.subview?.launchCameraButton.rx.tap
-            .asObservable()
-            .subscribe(onNext: { [weak self] _ in
-                self?.presenter?.launchCamera(self)
-            })
-            .disposed(by: disposeBag)
+        if let rx = self.subview?.launchCameraButton.rx {
+            rx.touchDown
+                .asObservable()
+                .delay(0.1, scheduler: MainScheduler.instance)
+                .subscribe(onNext: { [weak self] _ in
+                    // Indicatorを表示する。
+                    self?.view.hud.show()
+                })
+                .disposed(by: disposeBag)
+
+            rx.tap
+                .asObservable()
+                .subscribe(onNext: { [weak self] _ in
+                    // Indicatorを非表示にする。
+                    self?.view.hud.hidden()
+                    // カメラを起動する。
+                    self?.presenter?.launchCamera(self)
+                })
+                .disposed(by: disposeBag)
+
+            Observable
+                .of(rx.touchCancel, rx.touchDragExit, rx.touchUpOutside, rx.touchDragOutside, rx.touchUpInside)
+                .merge()
+                .delay(0.15, scheduler: MainScheduler.instance)
+                .subscribe(onNext: { [weak self] _ in
+                    // Indicatorを非表示にする。
+                    self?.view.hud.hidden()
+                })
+                .disposed(by: disposeBag)
+        }
 
         #if DEBUG
         self.subview?.stubCameraButton.rx.tap
             .asObservable()
             .subscribe(onNext: { [weak self] _ in
+                // カメラのスタブを起動する。
                 self?.presenter?.stubCamera()
             })
             .disposed(by: disposeBag)

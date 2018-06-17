@@ -52,6 +52,31 @@ extension Reactive where Base: UIButton {
     var touchUpInside: ControlEvent<Void> {
         return controlEvent(.touchUpInside)
     }
+
+    /// Reactive wrapper for `TouchCancel` control event.
+    var touchCancel: ControlEvent<Void> {
+        return controlEvent(.touchCancel)
+    }
+
+    /// Reactive wrapper for `TouchUpOutside` control event.
+    var touchUpOutside: ControlEvent<Void> {
+        return controlEvent(.touchUpOutside)
+    }
+
+    /// Reactive wrapper for `TouchDragOutside` control event.
+    var touchDragOutside: ControlEvent<Void> {
+        return controlEvent(.touchDragOutside)
+    }
+
+    /// Reactive wrapper for `TouchDragExit` control event.
+    var touchDragExit: ControlEvent<Void> {
+        return controlEvent(.touchDragExit)
+    }
+
+    /// Reactive wrapper for `AllEvents` control event.
+    var allEvents: ControlEvent<Void> {
+        return controlEvent(.allEvents)
+    }
 }
 
 extension Reactive where Base: UIView {
