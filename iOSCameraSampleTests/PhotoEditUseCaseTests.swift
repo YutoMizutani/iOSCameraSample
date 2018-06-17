@@ -86,7 +86,7 @@ class iOSCameraSamplePhotoEditUseCaseTests: XCTestCase {
         XCTAssertEqual(self.useCase.getSaveStateModel().didEditFlag, state)
     }
 
-    /// コントラストを適用する。
+    /// コントラストを判定する。
     func testContrast() {
         let image = UIImage(named: "IMG_1000.JPG")
         XCTAssertNotNil(image)
