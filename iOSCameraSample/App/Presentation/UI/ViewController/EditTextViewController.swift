@@ -70,7 +70,7 @@ extension EditTextViewController {
 extension EditTextViewController {
     private func binding() {
         let observableContent = self.contentText.filter{ $0 != nil }.map{ $0! }.share(replay: 1)
-
+        // 入力をバインドする。
         observableContent
             .asObservable()
             .map{ $0.0 }
@@ -78,6 +78,7 @@ extension EditTextViewController {
             .drive(self.subview.textView.rx.text)
             .disposed(by: disposeBag)
 
+        // フォントサイズをバインドする。
         observableContent
             .asObservable()
             .map{ $0.1?.pointSize }
@@ -88,6 +89,7 @@ extension EditTextViewController {
             })
             .disposed(by: disposeBag)
 
+        // スライダーとフォントサイズをバインドする。
         self.subview.sliderView.value
             .asObservable()
             .subscribe(onNext: { [weak self] value in
@@ -98,9 +100,12 @@ extension EditTextViewController {
 }
 
 extension EditTextViewController {
+    /// 入力内容を破棄して閉じる。
     @objc private func cancel() {
         self.dismiss(animated: true, completion: nil)
     }
+
+    /// 入力内容を決定する。
     @objc private func done() {
         self.sendText.accept((self.subview.textView.text, self.subview.textView.font))
         self.dismiss(animated: true, completion: nil)
