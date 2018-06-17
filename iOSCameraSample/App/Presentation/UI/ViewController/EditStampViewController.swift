@@ -80,8 +80,9 @@ extension EditStampViewController {
         }
         navigationItem: do {
             self.navigationItem.title = "スタンプ"
-            let leftButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancel))
-            self.navigationItem.leftBarButtonItem = leftButton
+            let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancel))
+            leftItem.accessibilityIdentifier = "PhotoEditLeftBarButtonItem"
+            self.navigationItem.leftBarButtonItem = leftItem
         }
     }
 
