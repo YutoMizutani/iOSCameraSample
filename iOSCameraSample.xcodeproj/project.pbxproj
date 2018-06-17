@@ -40,6 +40,8 @@
 		995D055A20D633C3003DBE06 /* PhotoEditUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D055920D633C3003DBE06 /* PhotoEditUseCaseTests.swift */; };
 		995D055C20D633D3003DBE06 /* MenuUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D055B20D633D3003DBE06 /* MenuUseCaseTests.swift */; };
 		995D055E20D63681003DBE06 /* UnitTest+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D055D20D63681003DBE06 /* UnitTest+.swift */; };
+		995D056520D66002003DBE06 /* PhotoEditRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D056420D66002003DBE06 /* PhotoEditRepositoryTests.swift */; };
+		995D056720D6664D003DBE06 /* MenuRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D056620D6664D003DBE06 /* MenuRepositoryTests.swift */; };
 		996B5B2D20CFF12B00A8B925 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */; };
 		996B5B3120D06B5700A8B925 /* IMG_1000.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 996B5B3020D06B5700A8B925 /* IMG_1000.JPG */; };
 		996B5B3420D0902C00A8B925 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996B5B3320D0902C00A8B925 /* Assets.swift */; };
@@ -140,6 +142,8 @@
 		995D055920D633C3003DBE06 /* PhotoEditUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditUseCaseTests.swift; sourceTree = "<group>"; };
 		995D055B20D633D3003DBE06 /* MenuUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuUseCaseTests.swift; sourceTree = "<group>"; };
 		995D055D20D63681003DBE06 /* UnitTest+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UnitTest+.swift"; sourceTree = "<group>"; };
+		995D056420D66002003DBE06 /* PhotoEditRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoEditRepositoryTests.swift; path = iOSCameraSampleTests/Usecase/PhotoEditRepositoryTests.swift; sourceTree = SOURCE_ROOT; };
+		995D056620D6664D003DBE06 /* MenuRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRepositoryTests.swift; sourceTree = "<group>"; };
 		996B5B2C20CFF12B00A8B925 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		996B5B3020D06B5700A8B925 /* IMG_1000.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1000.JPG; sourceTree = "<group>"; };
 		996B5B3320D0902C00A8B925 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
@@ -270,6 +274,24 @@
 			path = stamp;
 			sourceTree = "<group>";
 		};
+		995D056220D65FC9003DBE06 /* Usecase */ = {
+			isa = PBXGroup;
+			children = (
+				995D055920D633C3003DBE06 /* PhotoEditUseCaseTests.swift */,
+				995D055B20D633D3003DBE06 /* MenuUseCaseTests.swift */,
+			);
+			path = Usecase;
+			sourceTree = "<group>";
+		};
+		995D056320D65FE5003DBE06 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				995D056420D66002003DBE06 /* PhotoEditRepositoryTests.swift */,
+				995D056620D6664D003DBE06 /* MenuRepositoryTests.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
 		996B5B2E20D06B1900A8B925 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -362,8 +384,8 @@
 				99D9B70320CE867500992A98 /* iOSCameraSampleTests.swift */,
 				995D055D20D63681003DBE06 /* UnitTest+.swift */,
 				99D9B70520CE867500992A98 /* Info.plist */,
-				995D055920D633C3003DBE06 /* PhotoEditUseCaseTests.swift */,
-				995D055B20D633D3003DBE06 /* MenuUseCaseTests.swift */,
+				995D056220D65FC9003DBE06 /* Usecase */,
+				995D056320D65FE5003DBE06 /* Repository */,
 			);
 			path = iOSCameraSampleTests;
 			sourceTree = "<group>";
@@ -920,7 +942,9 @@
 			files = (
 				995D055C20D633D3003DBE06 /* MenuUseCaseTests.swift in Sources */,
 				995D055E20D63681003DBE06 /* UnitTest+.swift in Sources */,
+				995D056720D6664D003DBE06 /* MenuRepositoryTests.swift in Sources */,
 				995D055A20D633C3003DBE06 /* PhotoEditUseCaseTests.swift in Sources */,
+				995D056520D66002003DBE06 /* PhotoEditRepositoryTests.swift in Sources */,
 				99D9B70420CE867500992A98 /* iOSCameraSampleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
