@@ -15,6 +15,7 @@ class PhotoEditView: UIView {
     var imageView: UIImageView!
     var textImageViews: BehaviorRelay<[TextImageView]>!
     var stampImageViews: BehaviorRelay<[StampImageView]>!
+    var resetFocusButton: UIButton!
     var layerView: UIView!
     var contrastView: SliderView!
 
@@ -56,6 +57,10 @@ extension PhotoEditView {
             self.layerView = UIView()
             self.addSubview(self.layerView)
         }
+        resetFocusButton: do {
+            self.resetFocusButton = UIButton()
+            self.layerView.addSubview(self.resetFocusButton)
+        }
         contrastView: do {
             self.contrastView = SliderView(type: .digit(1))
             self.contrastView.isHidden = true
@@ -75,6 +80,9 @@ extension PhotoEditView {
         }
         layerView: do {
             self.layerView.frame = self.frame
+        }
+        resetFocusButton: do {
+            self.resetFocusButton.frame = self.layerView.frame
         }
         contrastView: do {
             let height: CGFloat = 60
