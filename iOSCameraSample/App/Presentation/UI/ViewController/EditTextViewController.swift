@@ -16,8 +16,8 @@ protocol EditTextViewInput: class {
 
 class EditTextViewController: UIViewController {
     private var subview: EditTextView!
-    public var contentText: BehaviorRelay<(String, UIFont?)?> = BehaviorRelay(value: nil)
-    public var sendText: BehaviorRelay<(String, UIFont?)?> = BehaviorRelay(value: nil)
+    var contentText: BehaviorRelay<(String, UIFont?)?> = BehaviorRelay(value: nil)
+    var sendText: BehaviorRelay<(String, UIFont?)?> = BehaviorRelay(value: nil)
 
     private let disposeBag = DisposeBag()
 
@@ -108,7 +108,7 @@ extension EditTextViewController {
 }
 
 extension EditTextViewController: EditTextViewInput {
-    public func inject(_ value: (String, UIFont?)?) {
+    func inject(_ value: (String, UIFont?)?) {
         self.contentText.accept(value)
     }
 }

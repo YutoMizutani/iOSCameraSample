@@ -8,6 +8,15 @@
 
 import UIKit
 
+#if DEBUG
+extension AppAssets {
+    /// 撮影画像のスタブ
+    static var stubImage: UIImage? {
+        return UIImage(named: "IMG_1000.JPG")
+    }
+}
+#endif
+
 struct PhotoEditToolIcons {
     static var text: UIImage? {
         return UIImage(named: "text.png")?.resize(for: CGSize(width: 32, height: 44))

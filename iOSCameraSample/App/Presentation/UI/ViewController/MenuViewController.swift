@@ -91,12 +91,12 @@ extension MenuViewController {
 
 // MARK:- Public methods accessed from other classes
 extension MenuViewController: MenuViewInput, ErrorShowable {
-    public var delegate: UIViewController {
+    var delegate: UIViewController {
         return self
     }
 
     /// アラートを表示する。
-    public func throwError(_ error: Error) {
+    func throwError(_ error: Error) {
         self.showAlert(error: error)
     }
 }

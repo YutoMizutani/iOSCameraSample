@@ -15,7 +15,7 @@ private let ItemIdentifier = "ItemIdentifier"
 class EditStampViewController: UICollectionViewController {
     let flowLayout = StampFlowLayout()
 
-    public var sendImage = BehaviorRelay<UIImage?>(value: nil)
+    var sendImage = BehaviorRelay<UIImage?>(value: nil)
     private var onSelect: ((UIImage?) -> Void)? = nil
 
     convenience init(onSelect select: @escaping ((UIImage?) -> Void)) {

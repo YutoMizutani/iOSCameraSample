@@ -20,7 +20,7 @@ class SliderView: UIView {
     private var label: UILabel!
 
     private var range: (min: Float, max: Float) = (0, 1)
-    public var value = BehaviorRelay<Float>(value: 0)
+    var value = BehaviorRelay<Float>(value: 0)
     private var labelType: SliderLabelType = .integer
 
     let disposeBag = DisposeBag()
@@ -118,7 +118,7 @@ extension SliderView {
 }
 
 extension SliderView {
-    public func setRange(_ range: (min: Float, max: Float)) {
+    func setRange(_ range: (min: Float, max: Float)) {
         self.range = range
     }
 }

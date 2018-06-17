@@ -9,7 +9,7 @@
 import RxSwift
 import RxCocoa
 
-public extension Reactive {
+extension Reactive {
     /// 即時発火するObservable。
     static var immediate: Observable<Void> {
         return Observable<Void>.create { observer in
@@ -20,8 +20,8 @@ public extension Reactive {
     }
 }
 
-public extension ObserverType where E == Void {
-    public func onNext() {
+extension ObserverType where E == Void {
+    func onNext() {
         onNext(())
     }
 }
@@ -44,12 +44,12 @@ import UIKit
 extension Reactive where Base: UIButton {
 
     /// Reactive wrapper for `TouchDown` control event.
-    public var touchDown: ControlEvent<Void> {
+    var touchDown: ControlEvent<Void> {
         return controlEvent(.touchDown)
     }
 
     /// Reactive wrapper for `TouchUpInside` control event.
-    public var touchUpInside: ControlEvent<Void> {
+    var touchUpInside: ControlEvent<Void> {
         return controlEvent(.touchUpInside)
     }
 }
@@ -57,7 +57,7 @@ extension Reactive where Base: UIButton {
 extension Reactive where Base: UIView {
 
     /// Bindable sink for `backgroundColor` property.
-    public var backgroundColor: Binder<UIColor?> {
+    var backgroundColor: Binder<UIColor?> {
         return Binder(self.base) { view, color in
             view.backgroundColor = color
         }
@@ -65,7 +65,7 @@ extension Reactive where Base: UIView {
 }
 
 extension Reactive where Base: UITableView {
-    public var isEditing: Binder<Bool> {
+    var isEditing: Binder<Bool> {
         return Binder(self.base) { tableView, isEditing in
             tableView.isEditing = isEditing
         }

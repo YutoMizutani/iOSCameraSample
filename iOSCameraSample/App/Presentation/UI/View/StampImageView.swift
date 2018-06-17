@@ -114,7 +114,7 @@ extension StampImageView {
 }
 
 extension StampImageView {
-    public func binding(_ completion: (() -> Void)?) {
+    func binding(_ completion: (() -> Void)?) {
         // Focus可能なViewControllerにaddSubViewされていれば，フォーカス状態に応じた処理を行う。
         if let parentViewController = self.parent as? Focusable {
             self.compositeDisposable.append(
@@ -211,7 +211,7 @@ extension StampImageView {
 
 extension StampImageView {
     /// 自身のUILabelのコンテンツのみ複製する。
-    public var duplicatedContentView: UIView {
+    var duplicatedContentView: UIView {
         // 新しいViewを作成する。
         let view = UIView()
 
@@ -236,7 +236,7 @@ extension StampImageView {
 }
 
 extension StampImageView {
-    public func inject(_ image: UIImage?) {
+    func inject(_ image: UIImage?) {
         self.imageView.image = image
     }
 }
