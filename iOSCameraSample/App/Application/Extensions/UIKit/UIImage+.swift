@@ -23,4 +23,13 @@ extension UIImage {
 
         return resizedImage
     }
+
+    /// コントラストを適用する。
+    func contrast(value: Float) -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        let ciImage = CIImage(cgImage: cgImage)
+        let contrastCIImage = ciImage.applyColorControls([(CIColorControlsType.contrast, value)])
+        let uiImage = CIContextInstance.shared.generate(from: contrastCIImage, orientation: self.imageOrientation)
+        return uiImage
+    }
 }
