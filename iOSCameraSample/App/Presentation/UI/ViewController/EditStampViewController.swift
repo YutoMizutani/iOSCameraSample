@@ -55,7 +55,7 @@ class EditStampViewController: UICollectionViewController {
         return cell
     }
 
-    // 画面遷移先に渡すデータをここで格納する
+    // 選択された際に呼ばれる。
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = PhotoEditCollectionItems.stamp(index: indexPath.item % 9)
         self.onSelect?(image)
