@@ -13,3 +13,10 @@ protocol MenuEntity {
 
 struct MenuEntityImpl: MenuEntity {
 }
+
+extension MenuEntityImpl: Equatable {
+    static func == (lhs: MenuEntityImpl, rhs: MenuEntityImpl) -> Bool {
+        // valueがないのでtrue。
+        return true
+    }
+}
