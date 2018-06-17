@@ -164,13 +164,6 @@ extension PhotoEditViewController: Focusable {
                 })
                 .disposed(by: disposeBag)
 
-            subview.contrastView.value
-                .asObservable()
-                .subscribe(onNext: { [weak self] value in
-                    self?.presenter?.editContrast(value: value)
-                })
-                .disposed(by: disposeBag)
-
             // stampImageViewsが追加されたらaddSubViewする。
             subview.stampImageViews.asObservable()
                 .map{ $0.filter{ !$0.isDescendant(of: self.view) } }
@@ -187,6 +180,14 @@ extension PhotoEditViewController: Focusable {
                 })
                 .disposed(by: disposeBag)
 
+            // コントラストバーの値の変更を元にコントラストを変更する。
+            subview.contrastView.value
+                .asObservable()
+                .subscribe(onNext: { [weak self] value in
+                    self?.presenter?.editContrast(value: value)
+                })
+                .disposed(by: disposeBag)
+
             // コンテンツ以外のフィールドへのタップによりフォーカスを解除する。
             subview.resetFocusButton.rx.tap
                 .asObservable()
@@ -198,30 +199,32 @@ extension PhotoEditViewController: Focusable {
     }
 }
 
-// >>> TODO:- rxで書き直す?
 extension PhotoEditViewController {
     @objc private func dismissView() {
         self.presenter?.dismiss()
     }
     @objc private func showActivity() {
         if let image = self.translate() {
+            // 変換したイメージを元にActivityを表示する。
             self.presenter?.presentActivity(image: image)
         }
     }
     @objc private func addText() {
+        // テキストを追加する。
         self.presenter?.addText()
     }
     @objc private func editContrast(_ sender: UIBarButtonItem) {
         guard let subview = self.subview else { return }
 
+        // コントラストViewの表示を切り換える。
         subview.contrastView.isHidden = !subview.contrastView.isHidden
         sender.tintColor = subview.contrastView.isHidden ? .white : self.view.tintColor
     }
     @objc private func addStamp() {
+        // スタンプを表示する。
         self.presenter?.addStamp()
     }
 }
-// <<< rxで書き直す? MARK:-
 
 extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     /// アラートを表示する。
@@ -296,11 +299,13 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
 }
 
 extension PhotoEditViewController {
+    /// imageViewから画像を作成する。
     private func translate() -> UIImage? {
         guard let subview = self.subview else { return nil }
 
         // focusViewを初期化
         self.focusView.accept(nil)
+
         // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
         for view in subview.textImageViews.value {
             // textImageViewsのViewから，Labelのみの情報を取得する。
@@ -318,7 +323,8 @@ extension PhotoEditViewController {
 
             subview.imageView.addSubview(myview)
         }
-        
+
+        // stampImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
         for view in subview.stampImageViews.value {
             // textImageViewsのViewから，Labelのみの情報を取得する。
             let myview = view.duplicatedContentView
@@ -336,8 +342,10 @@ extension PhotoEditViewController {
             subview.imageView.addSubview(myview)
         }
 
-        let image = subview.imageView.layerImage
+        // imageView内の表示を元にUIImageを作成する。
+        let image: UIImage = subview.imageView.layerImage
 
+        // imageView内に作成したviewを開放する。
         self.subview?.imageView.subviews.forEach { $0.removeFromSuperview() }
 
         return image

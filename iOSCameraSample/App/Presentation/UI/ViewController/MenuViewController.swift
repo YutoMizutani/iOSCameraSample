@@ -76,6 +76,7 @@ extension MenuViewController {
                 .asObservable()
                 .delay(0.1, scheduler: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] _ in
+                    // Indicatorを表示する。
                     self?.view.hud.show()
                 })
                 .disposed(by: disposeBag)
@@ -83,7 +84,9 @@ extension MenuViewController {
             rx.tap
                 .asObservable()
                 .subscribe(onNext: { [weak self] _ in
+                    // Indicatorを非表示にする。
                     self?.view.hud.hidden()
+                    // カメラを起動する。
                     self?.presenter?.launchCamera(self)
                 })
                 .disposed(by: disposeBag)
@@ -93,6 +96,7 @@ extension MenuViewController {
                 .merge()
                 .delay(0.15, scheduler: MainScheduler.instance)
                 .subscribe(onNext: { [weak self] _ in
+                    // Indicatorを非表示にする。
                     self?.view.hud.hidden()
                 })
                 .disposed(by: disposeBag)
@@ -102,6 +106,7 @@ extension MenuViewController {
         self.subview?.stubCameraButton.rx.tap
             .asObservable()
             .subscribe(onNext: { [weak self] _ in
+                // カメラのスタブを起動する。
                 self?.presenter?.stubCamera()
             })
             .disposed(by: disposeBag)
