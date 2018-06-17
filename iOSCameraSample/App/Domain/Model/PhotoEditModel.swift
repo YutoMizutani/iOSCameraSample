@@ -19,9 +19,9 @@ protocol PhotoEditSaveStateModel {
 /// 画像の編集状態を管理するstruct。
 struct PhotoEditSaveStateModelImpl: PhotoEditSaveStateModel {
     /// 保存フラグ。これまで保存されたかの状態を保持する。
-    private(set) var didSaveFlag: Bool
+    let didSaveFlag: Bool
     /// 編集フラグ。前回保存した状態からの変化を保持する。
-    private(set) var didEditFlag: Bool
+    let didEditFlag: Bool
 }
 
 protocol PhotoEditAlertModel {
