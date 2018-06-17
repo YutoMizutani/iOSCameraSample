@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum CIFilterType: String {
+enum CIFilterType: String {
     case sepiaTone = "CISepiaTone"
     case colorControls = "CIColorControls"
 }
@@ -16,11 +16,11 @@ public enum CIFilterType: String {
 protocol CIFiltable {
 }
 
-public enum CISepiaToneType: String, CIFiltable {
+enum CISepiaToneType: String, CIFiltable {
     case intensity = "inputIntensity"
 }
 
-public enum CIColorControlsType: String, CIFiltable {
+enum CIColorControlsType: String, CIFiltable {
     case saturation = "inputSaturation"
     case brightness = "inputBrightness"
     case contrast = "inputContrast"
@@ -59,7 +59,7 @@ class CIContextInstance {
     }
 
     /// CIImageからUIImageに変換する。
-    public func generate(from image: CIImage, orientation: UIImageOrientation) -> UIImage? {
+    func generate(from image: CIImage, orientation: UIImageOrientation) -> UIImage? {
         guard let cgImage: CGImage = self.ciContext.createCGImage(image, from: image.extent) else { return nil }
 
         return UIImage(cgImage: cgImage, scale: 0, orientation: orientation)

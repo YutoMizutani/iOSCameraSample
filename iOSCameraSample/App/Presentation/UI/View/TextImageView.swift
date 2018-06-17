@@ -122,7 +122,7 @@ extension TextImageView {
 }
 
 extension TextImageView {
-    public func binding(_ completion: (() -> Void)?) {
+    func binding(_ completion: (() -> Void)?) {
         // Focus可能なViewControllerにaddSubViewされていれば，フォーカス状態に応じた処理を行う。
         if let parentViewController = self.parent as? Focusable {
             self.compositeDisposable.append(
@@ -255,7 +255,7 @@ extension TextImageView {
 
 extension TextImageView {
     /// 自身のUILabelのコンテンツのみ複製する。
-    public var duplicatedContentView: UIView {
+    var duplicatedContentView: UIView {
         // 新しいViewを作成する。
         let view = UIView()
 

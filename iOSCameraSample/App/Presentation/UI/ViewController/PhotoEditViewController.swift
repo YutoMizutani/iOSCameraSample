@@ -34,7 +34,7 @@ class PhotoEditViewController: UIViewController {
     private var subview: PhotoEditView?
 
     // フォーカスされているViewを保持する。
-    public var focusView: BehaviorRelay<UIView?> = BehaviorRelay(value: nil)
+    var focusView: BehaviorRelay<UIView?> = BehaviorRelay(value: nil)
 
     private let disposeBag = DisposeBag()
 
@@ -127,7 +127,7 @@ extension PhotoEditViewController {
 }
 
 extension PhotoEditViewController: Focusable {
-    public var focusLayerView: UIView? {
+    var focusLayerView: UIView? {
         return self.subview?.layerView
     }
 
@@ -216,17 +216,17 @@ extension PhotoEditViewController {
 
 extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     /// アラートを表示する。
-    public func presentAlert(title: String, message: String) {
+    func presentAlert(title: String, message: String) {
         self.presentAlert(title, message: message)
     }
 
     /// エラーアラートを表示する。
-    public func throwError(_ error: Error) {
+    func throwError(_ error: Error) {
         self.showAlert(error: error)
     }
 
     /// 選択可能なアラートを表示する。
-    public func presentSelect(_ model: PhotoEditAlertModel) {
+    func presentSelect(_ model: PhotoEditAlertModel) {
         let alert = UIAlertController(
             title: model.title,
             message: model.message,
@@ -244,7 +244,7 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     }
 
     /// TextImageViewを追加する。
-    public func addTextImageView(_ view: TextImageView) {
+    func addTextImageView(_ view: TextImageView) {
         guard let textImageViews = self.subview?.textImageViews else { return }
         var views = textImageViews.value
         views.append(view)
@@ -265,7 +265,7 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     }
 
     /// StampImageViewを追加する。
-    public func addStampImageView(_ view: StampImageView) {
+    func addStampImageView(_ view: StampImageView) {
         guard let stampImageViews = self.subview?.stampImageViews else { return }
         var views = stampImageViews.value
         views.append(view)
