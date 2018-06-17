@@ -171,7 +171,7 @@ extension PhotoEditViewController: Focusable {
                             view.center = _self.view.center
                             _self.subview?.layerView.addSubview(view)
                             view.binding({
-                                _self.removStampImageView(view)
+                                _self.removeStampImageView(view)
                             })
                         }
                     }
@@ -283,7 +283,7 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
     }
 
     /// TextImageViewを削除する。
-    private func removStampImageView(_ view: StampImageView) {
+    private func removeStampImageView(_ view: StampImageView) {
         guard let stampImageViews = self.subview?.stampImageViews else { return }
         // textImageViews保持の破棄
         let views = stampImageViews.value.filter{ $0 != view }
