@@ -217,7 +217,6 @@ extension TextImageView {
                     .asObservable()
                     .subscribe(onNext: { [weak self] _ in
                         let viewController = EditTextViewController()
-                        viewController.navigationItem.title = "Edit text"
                         let text = self?.label.text, font = self?.label.font
                         if let content = text != nil ? (text!, font) : nil {
                             viewController.contentText.accept(content)

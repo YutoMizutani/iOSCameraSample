@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct AppAssets {
+    static var name: String {
+        return Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "iOSCameraSample"
+    }
+}
+
 enum PhotoEditBoolKeys: String {
     case didSaveFlag = "didSaveFlag"
     case didEditFlag = "didEditFlag"

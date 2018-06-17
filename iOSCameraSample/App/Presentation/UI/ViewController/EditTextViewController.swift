@@ -40,11 +40,11 @@ class EditTextViewController: UIViewController {
 
 extension EditTextViewController {
     private func configureView() {
-        selfview: do {
+        view: do {
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
-            self.subview = EditTextView(frame: self.view.bounds)
+            self.subview = EditTextView()
             if self.subview != nil {
                 self.view.addSubview(self.subview!)
             }
@@ -58,6 +58,9 @@ extension EditTextViewController {
         }
     }
     private func layoutView() {
+        view: do {
+            self.navigationItem.title = "文字の編集"
+        }
         subview: do {
             self.subview?.frame = self.view.bounds
         }
