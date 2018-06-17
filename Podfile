@@ -15,6 +15,7 @@ target 'iOSCameraSample' do
     inherit! :search_paths
     # Pods for testing
     pod 'RxSwift'
+    pod 'RxCocoa'
   end
 
   target 'iOSCameraSampleUITests' do

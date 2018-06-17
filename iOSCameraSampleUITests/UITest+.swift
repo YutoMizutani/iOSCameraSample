@@ -1,5 +1,5 @@
 //
-//  XCTests+.swift
+//  UITest+.swift
 //  iOSCameraSampleUITests
 //
 //  Created by YutoMizutani on 2018/06/17.
