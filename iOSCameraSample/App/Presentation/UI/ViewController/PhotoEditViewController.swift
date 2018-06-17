@@ -177,6 +177,14 @@ extension PhotoEditViewController: Focusable {
                     }
                 })
                 .disposed(by: disposeBag)
+
+            // コンテンツ以外のフィールドへのタップによりフォーカスを解除する。
+            subview.resetFocusButton.rx.tap
+                .asObservable()
+                .subscribe(onNext: { [weak self] _ in
+                    self?.focusView.accept(nil)
+                })
+                .disposed(by: disposeBag)
         }
     }
 }
