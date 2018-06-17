@@ -88,8 +88,9 @@ class iOSCameraSamplePhotoEditUseCaseTests: XCTestCase {
 
     /// コントラストを適用する。
     func testContrast() { // (_ image: UIImage, value: Float) -> UIImage? {
-        let image = UIImage()
-        let applied = self.useCase.contrast(image, value: 1.5)
+        let image = UIImage(named: "IMG_1000.JPG")
+        XCTAssertNotNil(image)
+        let applied = self.useCase.contrast(image!, value: 1.5)
         XCTAssertNotNil(applied)
     }
 }
