@@ -43,9 +43,6 @@ class MenuPresenterImpl {
 extension MenuPresenterImpl: MenuPresenter {
     /// カメラを起動する。
     func launchCamera(_ delegate: UIViewController?) {
-        // indicatorを開始する。
-        delegate?.view.hud.show()
-
         let mediaType: AVMediaType = .video
         let status = AVCaptureDevice.authorizationStatus(for: mediaType)
         switch status {
@@ -92,9 +89,6 @@ extension MenuPresenterImpl: MenuPresenter {
 extension MenuPresenterImpl {
     /// カメラを起動する。
     func launch(_ delegate: UIViewController?) {
-        // indicatorを停止する。
-        delegate?.view.hud.hidden()
-
         var resultImage: UIImage? = nil
         let completion: (() -> Void) = {
             if let image = resultImage {
