@@ -82,27 +82,36 @@ extension PhotoEditViewController {
         }
         navigationBar: do {
             let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.dismissView))
+            leftItem.accessibilityIdentifier = "PhotoEditLeftBarButtonItem"
             self.navigationItem.leftBarButtonItem = leftItem
         }
         toolbar: do {
-            self.navigationController?.toolbar.barTintColor = .black
+            let contrastButton = UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast))
+            contrastButton.accessibilityIdentifier = "contrastButton"
+            let activityButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity))
+            activityButton.accessibilityIdentifier = "activityButton"
+            let textButton = UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText))
+            textButton.accessibilityIdentifier = "textButton"
+            let stampButton = UIBarButtonItem(image: PhotoEditToolIcons.stamp, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addStamp))
+            stampButton.accessibilityIdentifier = "stampButton"
             // Toolbarの内容を指定する。
             let items: [UIBarButtonItem] = [
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem.empty,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
+                contrastButton,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: self, action: #selector(self.showActivity)),
+                activityButton,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
+                textButton,
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem(image: PhotoEditToolIcons.stamp, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addStamp)),
+                stampButton,
                 UIBarButtonItem.flexibleSpace,
             ]
             items.filter{ $0.accessibilityIdentifier != UIBarButtonItem.empty.accessibilityIdentifier }.forEach{
                 $0.tintColor = .white
             }
+            self.navigationController?.toolbar.barTintColor = .black
             self.toolbarItems = items
             self.navigationController?.setToolbarHidden(false, animated: false)
         }
