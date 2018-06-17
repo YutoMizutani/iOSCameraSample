@@ -16,6 +16,7 @@ protocol PhotoEditSaveStateModel {
     var didEditFlag: Bool { get }
 }
 
+/// 画像の編集状態を管理するstruct。
 struct PhotoEditSaveStateModelImpl: PhotoEditSaveStateModel {
     /// 保存フラグ。これまで保存されたかの状態を保持する。
     private(set) var didSaveFlag: Bool
@@ -30,6 +31,7 @@ protocol PhotoEditAlertModel {
     var cancel: (String, (()->Void)?) { get }
 }
 
+/// 編集状態を通知するUIAlertControllerのViewModel。
 struct PhotoEditAlertModelImpl: PhotoEditAlertModel {
     let title: String
     let message: String
@@ -41,8 +43,8 @@ protocol PhotoEditImageModel {
     var image: BehaviorRelay<UIImage> { get }
 }
 
+/// UIImageViewのViewModel。
 struct PhotoEditImageModelImpl: PhotoEditImageModel {
-    /// UIImageViewのViewModel。
     var image: BehaviorRelay<UIImage>
 
     init(image: UIImage) {
