@@ -81,6 +81,7 @@ extension PhotoEditViewController {
             }
         }
         navigationBar: do {
+            self.navigationItem.title = "画像の編集"
             let leftItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.dismissView))
             leftItem.accessibilityIdentifier = "PhotoEditLeftBarButtonItem"
             self.navigationItem.leftBarButtonItem = leftItem
@@ -126,9 +127,6 @@ extension PhotoEditViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
     }
     private func layoutView() {
-        view: do {
-            self.navigationItem.title = "画像の編集"
-        }
         subview: do {
             self.subview?.frame = self.view.bounds
         }

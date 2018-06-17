@@ -26,3 +26,9 @@ struct PhotoEditSaveStateEntityImpl: PhotoEditSaveStateEntity {
         self.didEditFlag = didEditFlag ?? false
     }
 }
+
+extension PhotoEditSaveStateEntityImpl: Equatable {
+    static func == (lhs: PhotoEditSaveStateEntityImpl, rhs: PhotoEditSaveStateEntityImpl) -> Bool {
+        return lhs.didSaveFlag == rhs.didSaveFlag && lhs.didEditFlag == rhs.didEditFlag
+    }
+}

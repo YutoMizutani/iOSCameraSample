@@ -24,6 +24,12 @@ struct PhotoEditSaveStateModelImpl: PhotoEditSaveStateModel {
     let didEditFlag: Bool
 }
 
+extension PhotoEditSaveStateModelImpl: Equatable {
+    static func == (lhs: PhotoEditSaveStateModelImpl, rhs: PhotoEditSaveStateModelImpl) -> Bool {
+        return lhs.didSaveFlag == rhs.didSaveFlag && lhs.didEditFlag == rhs.didEditFlag
+    }
+}
+
 protocol PhotoEditAlertModel {
     var title: String { get }
     var message: String { get }
