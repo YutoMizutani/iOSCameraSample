@@ -9,6 +9,17 @@
 import RxSwift
 import RxCocoa
 
+public extension Reactive {
+    /// 即時発火するObservable。
+    static var immediate: Observable<Void> {
+        return Observable<Void>.create { observer in
+            observer.onNext()
+            observer.onCompleted()
+            return Disposables.create()
+        }
+    }
+}
+
 public extension ObserverType where E == Void {
     public func onNext() {
         onNext(())

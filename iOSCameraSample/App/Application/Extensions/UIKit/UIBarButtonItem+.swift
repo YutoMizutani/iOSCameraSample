@@ -31,3 +31,13 @@ extension UIBarButtonItem {
         return UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
     }
 }
+
+extension UIBarButtonItem {
+    /// tintColorが透明なUIBarButtonItem
+    static var empty: UIBarButtonItem {
+        let item = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.action, target: nil, action: nil)
+        item.accessibilityIdentifier = "UIBarButtonItem.empty"
+        item.tintColor = .clear
+        return item
+    }
+}

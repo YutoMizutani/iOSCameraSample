@@ -12,7 +12,8 @@ import RxCocoa
 import AVFoundation
 
 protocol MenuPresenter: class {
-    func launchCamera()
+    func launchCamera(_ delegate: UIViewController?)
+    func transitionEdit(with image: UIImage)
     #if DEBUG
     func stubCamera()
     #endif
@@ -42,14 +43,17 @@ class MenuPresenterImpl {
 
 extension MenuPresenterImpl: MenuPresenter {
     /// カメラを起動する。
-    func launchCamera() {
+    func launchCamera(_ delegate: UIViewController?) {
+        // indicatorを開始する。
+        delegate?.view.hud.show()
+
         let mediaType: AVMediaType = .video
         let status = AVCaptureDevice.authorizationStatus(for: mediaType)
         switch status {
         // 選択していない場合，または許可されている場合
         case .notDetermined, .authorized:
             // カメラを表示する。
-            self.launch()
+            self.launch(delegate)
         // アクセスがユーザーにより拒否されている場合
         case .denied:
             DispatchQueue.main.async {
@@ -57,7 +61,7 @@ extension MenuPresenterImpl: MenuPresenter {
                 AVCaptureDevice.requestAccess(for: mediaType, completionHandler: { bool in
                     if bool {
                         // カメラを表示する。
-                        self.launch()
+                        self.launch(delegate)
                     }else{
                         // アラートを表示する。
                         let error = ErrorCameraUsage.permissionDenied
@@ -71,6 +75,10 @@ extension MenuPresenterImpl: MenuPresenter {
             let error = ErrorCameraUsage.permissionRestricted
             self.viewInput?.throwError(error)
         }
+    }
+
+    func transitionEdit(with image: UIImage) {
+        self.wireframe.transitionPhotoEdit(image: image)
     }
 
     #if DEBUG
@@ -87,37 +95,29 @@ extension MenuPresenterImpl: MenuPresenter {
 }
 
 extension MenuPresenterImpl {
-    func launch() {
-        // 即発火するObservableを作成する。
-        let observable = Observable<Void>.create { observer in
-            observer.onNext()
-            observer.onCompleted()
-            return Disposables.create()
+    func launch(_ delegate: UIViewController?) {
+        // indicatorを停止する。
+        delegate?.view.hud.hidden()
+
+        var resultImage: UIImage? = nil
+        let completion: (() -> Void) = {
+            if let image = resultImage {
+                self.wireframe.transitionPhotoEdit(image: image)
+            }
         }
-        
-        observable
-            .observeOn(MainScheduler.instance)
-            .flatMapLatest { [weak self] _ in
-                return UIImagePickerController.rx.createWithParent(self?.viewInput?.delegate) { picker in
-                    picker.sourceType = .camera
-                    picker.allowsEditing = false
-                }
+
+        UIImagePickerController.rx.createWithParent(delegate, completion: completion) { picker in
+                picker.sourceType = .camera
+                picker.allowsEditing = false
             }
             .flatMap { $0.rx.didFinishPickingMediaWithInfo }
-            .map { return $0[UIImagePickerControllerOriginalImage] as? UIImage }
-            .catchError({ [weak self] error -> Observable<UIImage?> in
-                self?.viewInput?.throwError(error)
-                return Observable.empty()
-            })
-            .asObservable()
-            .subscribe(onNext: { [weak self] image in
-                guard let image = image else {
-                    let error = ErrorCameraUsage.failedCreateImage
-                    self?.viewInput?.throwError(error)
-                    return
-                }
-
-                self?.wireframe.transitionPhotoEdit(image: image)
+            .take(1)
+            .map{ $0[UIImagePickerControllerOriginalImage] }.filter{ $0 != nil }.map{ $0! }
+            .map { info in
+                return info as? UIImage
+            }
+            .subscribe(onNext: { image in
+                resultImage = image
             })
             .disposed(by: disposeBag)
     }

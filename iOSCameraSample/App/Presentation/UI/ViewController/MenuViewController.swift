@@ -22,6 +22,8 @@ class MenuViewController: UIViewController {
     private var presenter: presenterType?
     private var subview: MenuView?
 
+    private var image = BehaviorRelay<UIImage?>(value: nil)
+
     private let disposeBag = DisposeBag()
 
     internal func inject(
@@ -49,11 +51,12 @@ class MenuViewController: UIViewController {
 
 extension MenuViewController {
     private func configureView() {
-        selfView: do {
+        view: do {
+            self.navigationItem.title = AppAssets.name
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
-            self.subview = MenuView(frame: self.view.bounds)
+            self.subview = MenuView()
             if self.subview != nil {
                 self.view.addSubview(self.subview!)
             }
@@ -71,7 +74,7 @@ extension MenuViewController {
         self.subview?.launchCameraButton.rx.tap
             .asObservable()
             .subscribe(onNext: { [weak self] _ in
-                self?.presenter?.launchCamera()
+                self?.presenter?.launchCamera(self)
             })
             .disposed(by: disposeBag)
 

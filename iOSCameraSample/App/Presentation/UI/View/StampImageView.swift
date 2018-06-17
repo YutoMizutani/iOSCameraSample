@@ -1,8 +1,8 @@
 //
-//  TextImageView.swift
+//  StampImageView.swift
 //  iOSCameraSample
 //
-//  Created by YutoMizutani on 2018/06/14.
+//  Created by YutoMizutani on 2018/06/17.
 //  Copyright © 2018 Yuto Mizutani. All rights reserved.
 //
 
@@ -11,12 +11,13 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-class TextImageView: UIView {
-    private var label: UILabel!
-    private var contentText: BehaviorRelay<(String, UIFont?)> = BehaviorRelay(value: ("Text", nil))
+class StampImageView: UIView {
+    private var imageView: UIImageView!
     private var borderView: UIView!
-    private var editButton: UIButton!
+    private var focusButton: UIButton!
     private var deleteButton: UIButton!
+
+    private var scale = BehaviorRelay<CGFloat>(value: 1)
 
     private var compositeDisposable = CompositeDisposable()
 
@@ -40,7 +41,7 @@ class TextImageView: UIView {
     }
 }
 
-extension TextImageView {
+extension StampImageView {
     private func configureView() {
         view: do {
             self.backgroundColor = UIColor.clear
@@ -54,25 +55,19 @@ extension TextImageView {
             }()
             self.addSubview(self.borderView)
         }
-        label: do {
-            self.label = { () -> UILabel in
-                let label = UILabel()
-                label.text = ""
-                label.textColor = .white
-                label.textAlignment = .left
-                label.numberOfLines = 0
-                label.lineBreakMode = .byWordWrapping
-                label.font = UIFont.systemFont(ofSize: 44)
-                return label
+        imageView: do {
+            self.imageView = { () -> UIImageView in
+                let imageView = UIImageView()
+                return imageView
             }()
-            self.addSubview(self.label)
+            self.addSubview(self.imageView)
         }
-        editButton: do {
-            self.editButton = { () -> UIButton in
+        focusButton: do {
+            self.focusButton = { () -> UIButton in
                 let button = UIButton()
                 return button
             }()
-            self.addSubview(self.editButton)
+            self.addSubview(self.focusButton)
         }
         deleteButton: do {
             self.deleteButton = { () -> UIButton in
@@ -94,39 +89,36 @@ extension TextImageView {
             let previousTransform = self.transform
             self.transform = .identity
             // ボタンの長さ
-            let length: CGFloat = 44
-            label: do {
-                let max = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-                let size = self.label.sizeThatFits(max)
-                self.label.frame = CGRect(x: length/2, y: length/2, width: size.width, height: size.height)
-                self.label.center = CGPoint(x: self.width/2, y: self.height/2)
-            }
-            view: do {
+            let buttonLength: CGFloat = 44
+            let imageLength: CGFloat = 100 * self.scale.value
+            imageView: do {
+                self.imageView.frame = CGRect(x: 0, y: 0, width: imageLength, height: imageLength)
                 // ラベルの自動整形によって大きさを変更する。
-                self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.label.width + length, height: self.label.height + length)
+                self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.imageView.width + buttonLength, height: self.imageView.height + buttonLength)
+                self.imageView.center = CGPoint(x: self.width/2, y: self.height/2)
             }
             borderView: do {
-                self.borderView.frame = CGRect(x: length/2, y: length/2, width: self.label.width, height: self.label.height)
+                self.borderView.frame = CGRect(x: buttonLength/2, y: buttonLength/2, width: self.imageView.width, height: self.imageView.height)
             }
-            editButton: do {
-                self.editButton.frame = self.label.frame
-                self.editButton.center = self.label.center
+            focusButton: do {
+                self.focusButton.frame = self.imageView.frame
+                self.focusButton.center = self.imageView.center
             }
             deleteButton: do {
-                self.deleteButton.layer.cornerRadius = length/2
-                self.deleteButton.frame = CGRect(x: 0, y: 0, width: length, height: length)
+                self.deleteButton.layer.cornerRadius = buttonLength/2
+                self.deleteButton.frame = CGRect(x: 0, y: 0, width: buttonLength, height: buttonLength)
             }
             self.transform = previousTransform
         }
     }
 }
 
-extension TextImageView {
+extension StampImageView {
     public func binding(_ completion: (() -> Void)?) {
         // Focus可能なViewControllerにaddSubViewされていれば，フォーカス状態に応じた処理を行う。
         if let parentViewController = self.parent as? Focusable {
             self.compositeDisposable.append(
-                self.editButton.rx.touchDown
+                self.focusButton.rx.touchDown
                     .asObservable()
                     .subscribe(onNext: { [weak self] _ in
                         parentViewController.focusView.accept(self)
@@ -152,29 +144,10 @@ extension TextImageView {
             )
         }
 
-        label: do {
-            let observableText = self.contentText.share(replay: 1)
-            self.compositeDisposable.append(
-                observableText
-                    .asObservable()
-                    .map{ $0.0 }
-                    .map{ $0 == "" ? "Text" : $0 }
-                    .asDriver(onErrorJustReturn: "Text")
-                    .drive(self.label.rx.text)
-            )
-            self.compositeDisposable.append(
-                observableText
-                    .observeOn(MainScheduler.instance)
-                    .map{ $0.1 }
-                    .filter{ $0 != nil }.map{ $0! }
-                    .subscribe(onNext: { font in
-                        self.label.font = font
-                    })
-            )
-        }
         transform: do {
             let transformGestures = self.rx.transformGestures().share(replay: 1)
             var previousTransform = CGAffineTransform.identity
+            var previousScale: CGFloat = 1
 
             // 移動時に最前面に移動させる。
             self.compositeDisposable.append(
@@ -196,6 +169,7 @@ extension TextImageView {
                     .asTransform()
                     .subscribe(onNext: { [weak self] transform, _ in
                         guard let _self = self else { return }
+                        _self.scale.accept(transform.a * previousScale)
                         _self.transform = previousTransform.rotated(by: transform.b).translatedBy(x: transform.tx, y: transform.ty)
                     })
             )
@@ -207,34 +181,16 @@ extension TextImageView {
                     .asTransform()
                     .subscribe(onNext: { [weak self] _ in
                         guard let _self = self else { return }
+                        previousScale = _self.scale.value
                         previousTransform = _self.transform
                     })
             )
-        }
-        editButton: do {
+
             self.compositeDisposable.append(
-                self.editButton.rx.tap
+                self.scale
                     .asObservable()
                     .subscribe(onNext: { [weak self] _ in
-                        let viewController = EditTextViewController()
-                        let text = self?.label.text, font = self?.label.font
-                        if let content = text != nil ? (text!, font) : nil {
-                            viewController.contentText.accept(content)
-                        }
-                        binding: do {
-                            self?.compositeDisposable.append(
-                                viewController.sendText
-                                    .filter{ $0 != nil }.map{ $0! }
-                                    .asObservable()
-                                    .subscribe(onNext: { [weak self] text in
-                                        self?.contentText.accept(text)
-                                        self?.layoutView()
-                                    })
-                            )
-                        }
-                        let modalController = UINavigationController.init(rootViewController: viewController)
-                        modalController.modalPresentationStyle = .overCurrentContext
-                        self?.parent?.present(modalController, animated: true, completion: nil)
+                        self?.layoutView()
                     })
             )
         }
@@ -253,7 +209,7 @@ extension TextImageView {
     }
 }
 
-extension TextImageView {
+extension StampImageView {
     /// 自身のUILabelのコンテンツのみ複製する。
     public var duplicatedContentView: UIView {
         // 新しいViewを作成する。
@@ -265,9 +221,10 @@ extension TextImageView {
         view.frame = CGRect(x: 0, y: 0, width: self.width, height: self.height)
         view.center = self.center
 
-        // UILabelを複製する。
-        if let duplicatedLabel: UILabel = self.label.duplicated as? UILabel {
-            view.addSubview(duplicatedLabel)
+        // UIImageViewを複製する。
+        if let duplicatedImageView: UIImageView = self.imageView.duplicated as? UIImageView {
+            duplicatedImageView.image = self.imageView.image
+            view.addSubview(duplicatedImageView)
         }
 
         // transform状態を反映する。
@@ -275,5 +232,11 @@ extension TextImageView {
         view.transform = previousTransform
 
         return view
+    }
+}
+
+extension StampImageView {
+    public func inject(_ image: UIImage?) {
+        self.imageView.image = image
     }
 }

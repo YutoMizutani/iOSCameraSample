@@ -15,10 +15,12 @@ protocol PhotoEditViewInput: class {
     func throwError(_ error: Error)
     func presentSelect(_ model: PhotoEditAlertModel)
     func addTextImageView(_ view: TextImageView)
+    func addStampImageView(_ view: StampImageView)
 }
 
 protocol Focusable: class {
     var focusView: BehaviorRelay<UIView?> { get set }
+    var focusLayerView: UIView? { get }
 }
 
 class PhotoEditViewController: UIViewController {
@@ -69,11 +71,11 @@ class PhotoEditViewController: UIViewController {
 
 extension PhotoEditViewController {
     private func configureView() {
-        selfview: do {
+        view: do {
             self.view.backgroundColor = UIColor.white
         }
         subview: do {
-            self.subview = PhotoEditView(frame: self.view.bounds)
+            self.subview = PhotoEditView()
             if self.subview != nil {
                 self.view.addSubview(self.subview!)
             }
@@ -86,7 +88,8 @@ extension PhotoEditViewController {
             self.navigationController?.toolbar.barTintColor = .black
             // Toolbarの内容を指定する。
             let items: [UIBarButtonItem] = [
-                UIBarButtonItem.fixedSpace,
+                UIBarButtonItem.flexibleSpace,
+                UIBarButtonItem.empty,
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem(image: PhotoEditToolIcons.contrast, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.editContrast)),
                 UIBarButtonItem.flexibleSpace,
@@ -94,9 +97,10 @@ extension PhotoEditViewController {
                 UIBarButtonItem.flexibleSpace,
                 UIBarButtonItem(image: PhotoEditToolIcons.text, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addText)),
                 UIBarButtonItem.flexibleSpace,
-                UIBarButtonItem.fixedSpace,
+                UIBarButtonItem(image: PhotoEditToolIcons.stamp, style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addStamp)),
+                UIBarButtonItem.flexibleSpace,
             ]
-            items.forEach{
+            items.filter{ $0.accessibilityIdentifier != UIBarButtonItem.empty.accessibilityIdentifier }.forEach{
                 $0.tintColor = .white
             }
             self.toolbarItems = items
@@ -113,6 +117,9 @@ extension PhotoEditViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
     }
     private func layoutView() {
+        view: do {
+            self.navigationItem.title = "画像の編集"
+        }
         subview: do {
             self.subview?.frame = self.view.bounds
         }
@@ -120,6 +127,10 @@ extension PhotoEditViewController {
 }
 
 extension PhotoEditViewController: Focusable {
+    public var focusLayerView: UIView? {
+        return self.subview?.layerView
+    }
+
     private func binding() {
         if let subview = self.subview {
             self.image = self.presenter?.getImageDisposable(self.rawImage)
@@ -143,6 +154,29 @@ extension PhotoEditViewController: Focusable {
                     }
                 })
                 .disposed(by: disposeBag)
+
+            subview.contrastView.value
+                .asObservable()
+                .subscribe(onNext: { [weak self] value in
+                    self?.presenter?.editContrast(value: value)
+                })
+                .disposed(by: disposeBag)
+
+            // stampImageViewsが追加されたらaddSubViewする。
+            subview.stampImageViews.asObservable()
+                .map{ $0.filter{ !$0.isDescendant(of: self.view) } }
+                .subscribe(onNext: { [weak self] stampImageViews in
+                    stampImageViews.forEach { [weak self] view in
+                        if let _self = self {
+                            view.center = _self.view.center
+                            _self.subview?.layerView.addSubview(view)
+                            view.binding({
+                                _self.removStampImageView(view)
+                            })
+                        }
+                    }
+                })
+                .disposed(by: disposeBag)
         }
     }
 }
@@ -160,8 +194,14 @@ extension PhotoEditViewController {
     @objc private func addText() {
         self.presenter?.addText()
     }
-    @objc private func editContrast() {
+    @objc private func editContrast(_ sender: UIBarButtonItem) {
+        guard let subview = self.subview else { return }
 
+        subview.contrastView.isHidden = !subview.contrastView.isHidden
+        sender.tintColor = subview.contrastView.isHidden ? .white : self.view.tintColor
+    }
+    @objc private func addStamp() {
+        self.presenter?.addStamp()
     }
 }
 // <<< rxで書き直す? MARK:-
@@ -215,6 +255,27 @@ extension PhotoEditViewController: PhotoEditViewInput, ErrorShowable {
             self.focusView.accept(nil)
         }
     }
+
+    /// StampImageViewを追加する。
+    public func addStampImageView(_ view: StampImageView) {
+        guard let stampImageViews = self.subview?.stampImageViews else { return }
+        var views = stampImageViews.value
+        views.append(view)
+        stampImageViews.accept(views)
+    }
+
+    /// TextImageViewを削除する。
+    private func removStampImageView(_ view: StampImageView) {
+        guard let stampImageViews = self.subview?.stampImageViews else { return }
+        // textImageViews保持の破棄
+        let views = stampImageViews.value.filter{ $0 != view }
+        stampImageViews.accept(views)
+
+        // フォーカスの破棄
+        if self.focusView.value == view {
+            self.focusView.accept(nil)
+        }
+    }
 }
 
 extension PhotoEditViewController {
@@ -225,6 +286,23 @@ extension PhotoEditViewController {
         self.focusView.accept(nil)
         // textImageViewsのViewのレイヤーをself.viewからimageViewに切り換える。
         for view in subview.textImageViews.value {
+            // textImageViewsのViewから，Labelのみの情報を取得する。
+            let myview = view.duplicatedContentView
+
+            // transform前の状態からサイズを変更する。
+            let previousTransform = myview.transform
+            myview.transform = .identity
+
+            // imageViewのサイズに調整する。
+            myview.frame = CGRect(x: myview.frame.minX - subview.imageView.frame.minX, y: myview.frame.minY - subview.imageView.frame.minY, width: myview.frame.width, height: myview.frame.height)
+
+            // transform状態を戻す。
+            myview.transform = previousTransform
+
+            subview.imageView.addSubview(myview)
+        }
+        
+        for view in subview.stampImageViews.value {
             // textImageViewsのViewから，Labelのみの情報を取得する。
             let myview = view.duplicatedContentView
 
