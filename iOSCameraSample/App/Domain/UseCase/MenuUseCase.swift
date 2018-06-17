@@ -36,8 +36,9 @@ struct MenuUseCaseImpl {
 
 extension MenuUseCaseImpl: MenuUseCase {
     #if DEBUG
+    /// 撮影画像のスタブを返す。
     func getStubImage() throws -> UIImage {
-        guard let image = UIImage(named: "IMG_1000.JPG") else {
+        guard let image = AppAssets.stubImage else {
             throw ErrorWhenDebug.pictureNotFound
         }
         return image

@@ -13,7 +13,6 @@ import AVFoundation
 
 protocol MenuPresenter: class {
     func launchCamera(_ delegate: UIViewController?)
-    func transitionEdit(with image: UIImage)
     #if DEBUG
     func stubCamera()
     #endif
@@ -44,9 +43,6 @@ class MenuPresenterImpl {
 extension MenuPresenterImpl: MenuPresenter {
     /// カメラを起動する。
     func launchCamera(_ delegate: UIViewController?) {
-        // indicatorを開始する。
-        delegate?.view.hud.show()
-
         let mediaType: AVMediaType = .video
         let status = AVCaptureDevice.authorizationStatus(for: mediaType)
         switch status {
@@ -77,10 +73,6 @@ extension MenuPresenterImpl: MenuPresenter {
         }
     }
 
-    func transitionEdit(with image: UIImage) {
-        self.wireframe.transitionPhotoEdit(image: image)
-    }
-
     #if DEBUG
     /// カメラの起動時間やシャッター音防止のためのスタブ画像経由で遷移する。
     func stubCamera() {
@@ -95,10 +87,8 @@ extension MenuPresenterImpl: MenuPresenter {
 }
 
 extension MenuPresenterImpl {
+    /// カメラを起動する。
     func launch(_ delegate: UIViewController?) {
-        // indicatorを停止する。
-        delegate?.view.hud.hidden()
-
         var resultImage: UIImage? = nil
         let completion: (() -> Void) = {
             if let image = resultImage {

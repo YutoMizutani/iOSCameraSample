@@ -71,12 +71,32 @@ extension MenuViewController {
 
 extension MenuViewController {
     private func binding() {
-        self.subview?.launchCameraButton.rx.tap
-            .asObservable()
-            .subscribe(onNext: { [weak self] _ in
-                self?.presenter?.launchCamera(self)
-            })
-            .disposed(by: disposeBag)
+        if let rx = self.subview?.launchCameraButton.rx {
+            rx.touchDown
+                .asObservable()
+                .delay(0.1, scheduler: MainScheduler.instance)
+                .subscribe(onNext: { [weak self] _ in
+                    self?.view.hud.show()
+                })
+                .disposed(by: disposeBag)
+
+            rx.tap
+                .asObservable()
+                .subscribe(onNext: { [weak self] _ in
+                    self?.view.hud.hidden()
+                    self?.presenter?.launchCamera(self)
+                })
+                .disposed(by: disposeBag)
+
+            Observable
+                .of(rx.touchCancel, rx.touchDragExit, rx.touchUpOutside, rx.touchDragOutside, rx.touchUpInside)
+                .merge()
+                .delay(0.15, scheduler: MainScheduler.instance)
+                .subscribe(onNext: { [weak self] _ in
+                    self?.view.hud.hidden()
+                })
+                .disposed(by: disposeBag)
+        }
 
         #if DEBUG
         self.subview?.stubCameraButton.rx.tap
@@ -91,12 +111,12 @@ extension MenuViewController {
 
 // MARK:- Public methods accessed from other classes
 extension MenuViewController: MenuViewInput, ErrorShowable {
-    public var delegate: UIViewController {
+    var delegate: UIViewController {
         return self
     }
 
     /// アラートを表示する。
-    public func throwError(_ error: Error) {
+    func throwError(_ error: Error) {
         self.showAlert(error: error)
     }
 }
